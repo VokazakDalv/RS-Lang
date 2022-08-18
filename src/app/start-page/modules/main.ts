@@ -1,10 +1,10 @@
 export class MainStartPage {
-  mainBlok: HTMLElement;
+  mainBloсk: HTMLElement;
 
   constructor() {
-    this.mainBlok = document.createElement('main');
-    this.mainBlok.classList.add('main');
-    this.mainBlok.innerHTML = `
+    this.mainBloсk = document.createElement('main');
+    this.mainBloсk.classList.add('main');
+    this.mainBloсk.innerHTML = `
     <section class="section greeting">
     <div class="greeting__container container">
       <h2 class="greeting__title">RS-Lang</h2>
@@ -20,21 +20,24 @@ export class MainStartPage {
           <img class="advantages__icon" src="./assets/icons/book-icon.svg" alt="">
         </div>
         <h3 class="advantages__title">Изучай слова</h3>
-        <p class="advantages__text">В учебнике представлены 3600 часто употребляемых английских слов, начиная с самых простых и популярных</p>
+        <p class="advantages__text">В учебнике представлены 3600 часто употребляемых
+        английских слов, начиная с самых простых и популярных</p>
       </div>
       <div class="advantages__item">
         <div class="advantages__img">
           <img class="advantages__icon" src="./assets/icons/game-icon.svg" alt="">
         </div>
         <h3 class="advantages__title">Повторяй, играя</h3>
-        <p class="advantages__text">Мини-игры "Спринт" и "Аудиовызов" помогут быстрее запомнить перевод слов и воспринимать их на слух</p>
+        <p class="advantages__text">Мини-игры "Спринт" и "Аудиовызов" помогут быстрее
+        запомнить перевод слов и воспринимать их на слух</p>
       </div>
       <div class="advantages__item">
         <div class="advantages__img">
           <img class="advantages__icon" src="./assets/icons/hand-icon.svg" alt="">
         </div>
         <h3 class="advantages__title">Акцент на сложные слова</h3>
-        <p class="advantages__text">Ты можешь отметить сложные для тебя слова, чтобы знать, на что чаще обращать внимание</p>
+        <p class="advantages__text">Ты можешь отметить сложные для тебя слова, чтобы знать,
+        на что чаще обращать внимание</p>
       </div>
       <div class="advantages__item">
         <div class="advantages__img">
@@ -51,7 +54,9 @@ export class MainStartPage {
       <div class="developers__card">
         <img class="developers__photo" src="./assets/images/maxim.jpg" alt="">
         <h5 class="developers__name">Максим</h5>
-        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
+        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+        galley of type and scrambled it to make a type specimen book. It</p>
         <a class="developers__link" href="https://github.com/VokazakDalv">
           <img src="./assets/icons/github-logo.svg" alt="">
         </a>
@@ -59,7 +64,9 @@ export class MainStartPage {
       <div class="developers__card">
         <img class="developers__photo" src="./assets/images/yura.jpg" alt="">
         <h5 class="developers__name">Юрий</h5>
-        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
+        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+        galley of type and scrambled it to make a type specimen book. It</p>
         <a class="developers__link" href="https://github.com/Kasitsyn">
           <img src="./assets/icons/github-logo.svg" alt="">
         </a>
@@ -67,13 +74,15 @@ export class MainStartPage {
       <div class="developers__card">
         <img class="developers__photo" src="./assets/images/dasha.jpg" alt="">
         <h5 class="developers__name">Дарья</h5>
-        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
+        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+        galley of type and scrambled it to make a type specimen book. It</p>
         <a class="developers__link" href="https://github.com/VokazakDalv">
           <img src="./assets/icons/github-logo.svg" alt="">
         </a>
       </div>
     </div>
   </section>
-`
+`;
   }
 }

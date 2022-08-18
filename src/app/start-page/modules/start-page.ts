@@ -1,10 +1,12 @@
-import { Footer } from "./footer";
-import { Header } from "./header";
-import { MainStartPage } from "./main"
+import { Footer } from './footer';
+import { Header } from './header';
+import { MainStartPage } from './main';
 
 export class StartPage {
   header: Header;
+
   main: MainStartPage;
+
   footer: Footer;
 
   constructor() {
@@ -13,8 +15,8 @@ export class StartPage {
     this.footer = new Footer();
 
     document.body.append(this.header.headerBlock,
-      this.main.mainBlok,
-      this.footer.footerBlok)
+      this.main.mainBloсk,
+      this.footer.footerBloсk);
   }
 }
 

@@ -1,22 +1,35 @@
 export class Header {
-  _headerBlock: HTMLElement;
+  headerBlock: HTMLElement;
+
   wrapper: HTMLDivElement;
+
   logo: HTMLElement;
+
   menu: HTMLElement;
+
   menuList: HTMLUListElement;
+
   menuMain: HTMLLIElement;
+
   linkMain: HTMLAnchorElement;
+
   menuBook: HTMLLIElement;
+
   linkBook: HTMLAnchorElement;
+
   menuGames: HTMLLIElement;
+
   linkGames: HTMLAnchorElement;
+
   menuStatistic: HTMLLIElement;
+
   linkStatistic: HTMLAnchorElement;
+
   loginBtn: HTMLButtonElement;
 
   constructor() {
-    this._headerBlock = document.createElement('header');
-    this._headerBlock.classList.add('header', 'container');
+    this.headerBlock = document.createElement('header');
+    this.headerBlock.classList.add('header', 'container');
 
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('header__wrapper');
@@ -71,8 +84,8 @@ export class Header {
       this.menuMain,
       this.menuBook,
       this.menuGames,
-      this.menuStatistic
-    )
+      this.menuStatistic,
+    );
 
     this.menu.append(this.menuList);
 
@@ -81,10 +94,6 @@ export class Header {
     this.loginBtn.textContent = 'Войти';
 
     this.wrapper.append(this.logo, this.menu, this.loginBtn);
-    this._headerBlock.append(this.wrapper);
-  }
-
-  get headerBlock() {
-    return this._headerBlock;
+    this.headerBlock.append(this.wrapper);
   }
 }
