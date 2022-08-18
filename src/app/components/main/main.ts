@@ -1,10 +1,10 @@
 export class MainStartPage {
-  mainBloсk: HTMLElement;
+  mainBlock: HTMLElement;
 
   constructor() {
-    this.mainBloсk = document.createElement('main');
-    this.mainBloсk.classList.add('main');
-    this.mainBloсk.innerHTML = `
+    this.mainBlock = document.createElement('main');
+    this.mainBlock.classList.add('main');
+    this.mainBlock.innerHTML = `
     <section class="section greeting">
     <div class="greeting__container container">
       <h2 class="greeting__title">RS-Lang</h2>

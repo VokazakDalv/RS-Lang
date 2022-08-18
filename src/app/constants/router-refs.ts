@@ -5,5 +5,4 @@ export const enum Href {
   AUDIO = 'games/audio',
   TEXTBOOK = 'textbook',
   STATS = 'statistics',
-  TEAM = 'team',
 }

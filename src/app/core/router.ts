@@ -1,15 +1,18 @@
 import { Href } from '../constants/router-refs';
 import { Component } from '../components/component';
 import { IRoute } from '../types/interface';
+import { Header } from '../components/header/header';
+import { Footer } from '../components/footer/footer';
+import { MainStartPage } from '../components/main/main';
 
 export const routing: IRoute[] = [
   {
     name: Href.TEXTBOOK,
     component: (): void => {
       document.body.append(
-        new Component(null, 'header', 'header', 'header').node,
+        new Header().headerBlock,
         new Component(null, 'div', 'textbook', 'textbook').node,
-        new Component(null, 'footer', 'footer', 'footer').node,
+        new Footer().footerBlock,
       );
     },
   },
@@ -35,19 +38,9 @@ export const routing: IRoute[] = [
     name: Href.STATS,
     component: (): void => {
       document.body.append(
-        new Component(null, 'header', 'header', 'header').node,
+        new Header().headerBlock,
         new Component(null, 'div', 'statistics', 'statistics').node,
-        new Component(null, 'footer', 'footer', 'footer').node,
-      );
-    },
-  },
-  {
-    name: Href.TEAM,
-    component: (): void => {
-      document.body.append(
-        new Component(null, 'header', 'header', 'header').node,
-        new Component(null, 'div', 'team', 'team').node,
-        new Component(null, 'footer', 'footer', 'footer').node,
+        new Footer().footerBlock,
       );
     },
   },
@@ -57,9 +50,9 @@ export const defaultRoute = {
   name: Href.MAIN,
   component: (): void => {
     document.body.append(
-      new Component(null, 'header', 'header', 'header').node,
-      new Component(null, 'div', 'start', 'start').node,
-      new Component(null, 'footer', 'footer', 'footer').node,
+      new Header().headerBlock,
+      new MainStartPage().mainBlock,
+      new Footer().footerBlock,
     );
   },
 };
