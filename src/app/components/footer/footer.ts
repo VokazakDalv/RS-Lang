@@ -1,5 +1,5 @@
 export class Footer {
-  footerBloсk: HTMLElement;
+  footerBlock: HTMLElement;
 
   container: HTMLDivElement;
 
@@ -10,8 +10,8 @@ export class Footer {
   rssLink: HTMLAnchorElement;
 
   constructor() {
-    this.footerBloсk = document.createElement('footer');
-    this.footerBloсk.classList.add('footer');
+    this.footerBlock = document.createElement('footer');
+    this.footerBlock.classList.add('footer');
 
     this.container = document.createElement('div');
     this.container.classList.add('footer__container', 'container');
@@ -35,6 +35,6 @@ export class Footer {
 
     this.container.append(this.year, this.developers, this.rssLink);
 
-    this.footerBloсk.append(this.container);
+    this.footerBlock.append(this.container);
   }
 }
