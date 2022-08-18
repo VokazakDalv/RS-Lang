@@ -1,0 +1,36 @@
+.header {
+  background: transparent;
+  
+  &__wrapper {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;  
+  }
+
+  &__logo {
+  font-weight: 700;
+  font-size: 24px;
+}
+}
+
+.menu {
+  &__list {
+    display: flex;
+    flex-direction: row;
+    column-gap: 21px;
+  }
+
+  &__link {
+    font-weight: 700;
+    font-size: 14px;
+    color: $light-text-color;
+    transition: 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      color: $secondary-color;
+    }
+  }
+}
