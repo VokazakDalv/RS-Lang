@@ -76,7 +76,7 @@ export class Header {
 
     this.linkStatistic = document.createElement('a');
     this.linkStatistic.classList.add('menu__link');
-    this.linkStatistic.textContent = 'Мини-игры';
+    this.linkStatistic.textContent = 'Статистика';
 
     this.menuStatistic.append(this.linkStatistic);
 

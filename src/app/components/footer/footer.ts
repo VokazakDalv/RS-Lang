@@ -1,5 +1,3 @@
-import './footer.scss';
-
 export class Footer {
   footerBloсk: HTMLElement;
 
