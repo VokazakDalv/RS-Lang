@@ -52,7 +52,7 @@ export class MainStartPage {
     <h2 class="section-title">О команде</h2>
     <div class="developers__row">
       <div class="developers__card">
-        <img class="developers__photo" src="./assets/images/maxim.jpg" alt="">
+        <img class="developers__photo" src="./assets/image/maxim.jpg" alt="">
         <h5 class="developers__name">Максим</h5>
         <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
         Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
@@ -62,7 +62,7 @@ export class MainStartPage {
         </a>
       </div>
       <div class="developers__card">
-        <img class="developers__photo" src="./assets/images/yura.jpg" alt="">
+        <img class="developers__photo" src="./assets/image/yura.jpg" alt="">
         <h5 class="developers__name">Юрий</h5>
         <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
         Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
@@ -72,7 +72,7 @@ export class MainStartPage {
         </a>
       </div>
       <div class="developers__card">
-        <img class="developers__photo" src="./assets/images/dasha.jpg" alt="">
+        <img class="developers__photo" src="./assets/image/dasha.jpg" alt="">
         <h5 class="developers__name">Дарья</h5>
         <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
         Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
