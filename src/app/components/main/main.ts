@@ -5,6 +5,7 @@ export class MainStartPage {
     this.mainBlock = document.createElement('main');
     this.mainBlock.classList.add('main');
     this.mainBlock.innerHTML = `
+
     <section class="greeting">
     <div class="greeting__container container">
       <h2 class="greeting__title">RS-Lang</h2>
