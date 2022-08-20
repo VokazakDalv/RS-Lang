@@ -29,12 +29,16 @@ export class Header {
 
   loginBtn: HTMLButtonElement;
 
+  menuBurger: HTMLDivElement;
+
+  overlay: HTMLDivElement;
+
   constructor() {
     this.headerBlock = document.createElement('header');
-    this.headerBlock.classList.add('header', 'container');
+    this.headerBlock.classList.add('header');
 
     this.wrapper = document.createElement('div');
-    this.wrapper.classList.add('header__wrapper');
+    this.wrapper.classList.add('header__wrapper', 'container');
 
     this.logo = document.createElement('h1');
     this.logo.classList.add('header__logo');
@@ -93,13 +97,47 @@ export class Header {
       this.menuStatistic,
     );
 
-    this.menu.append(this.menuList);
+    this.overlay = document.createElement('div');
+    this.overlay.classList.add('menu__overlay');
+
+    this.menu.append(this.overlay, this.menuList);
+
+    this.menuBurger = document.createElement('div');
+    this.menuBurger.classList.add('header__burger');
+    this.menuBurger.innerHTML = '<span></span>';
 
     this.loginBtn = document.createElement('button');
     this.loginBtn.classList.add('header__btn', 'btn', 'login-btn');
     this.loginBtn.textContent = 'Войти';
 
-    this.wrapper.append(this.logo, this.menu, this.loginBtn);
+    this.wrapper.append(this.logo, this.menu, this.loginBtn, this.menuBurger);
     this.headerBlock.append(this.wrapper);
   }
 }
+
+// const iconMenu = document.querySelector('.header__burger');
+// const menuList = document.querySelector('.menu__list');
+// const nav = document.querySelector('.menu');
+
+// function closeMenu() {
+//   if (iconMenu!.classList.contains('open') && menuList!.classList.contains('open')) {
+//     document.body.classList.remove('lock');
+//     menuList!.classList.remove('open');
+//     iconMenu!.classList.remove('open');
+//   }
+// }
+
+// iconMenu!.addEventListener('click', () => {
+//   document.body.classList.toggle('lock');
+//   menuList!.classList.toggle('open');
+//   iconMenu!.classList.toggle('open');
+// });
+
+// nav!.addEventListener('click', (event) => {
+//   const { target } = event;
+//   if (target === iconMenu
+//         || (<HTMLElement> target).classList.contains('menu__link')
+//         || !(<HTMLElement> target).closest('.menu__list')) {
+//     closeMenu();
+//   }
+// });
