@@ -1,8 +1,15 @@
 .header {
-  background: transparent;
+  // max-width: 1080px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  // margin-left: 25%;
+
+  // background:hsla(226, 42%, 26%, 0.486);
   
   &__wrapper {
-    padding: 20px 0;
+    padding: 20px 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -12,6 +19,58 @@
   &__logo {
   font-weight: 700;
   font-size: 24px;
+
+  @media screen and (max-width: 768px) {
+    margin-left: auto;
+    flex-grow: 1;
+    flex-basis: auto;
+  }
+}
+
+&__burger {
+  position: relative;
+  display: none;
+  z-index: 3;
+  width: 30px;
+  height: 22px;
+  margin-left: 40px;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
+
+  &::before, &::after {
+      content: '';
+  }
+  &::before, &::after, span {
+      position: absolute;
+      width: 30px;
+      height: 2px;
+      background-color: $light-text-color;
+      transition: all 0.3s ease 0s;
+  }
+
+  &::before {
+      top: 0;
+  }
+  &::after {
+      bottom: 0;
+  }
+  span {
+      top: 10px;
+  }
+
+  &.open {
+      &::before {
+          transform: rotate(90deg) translate(10px, 11px);
+      }
+      &::after {
+          transform: rotate(90deg) translate(-10px, -9px);
+      }
+      span {
+          transform: rotate(90deg) translate(0px, 1px);
+      }
+  }
 }
 }
 
@@ -20,6 +79,23 @@
     display: flex;
     flex-direction: row;
     column-gap: 21px;
+
+    @media screen and (max-width: 768px) {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 320px;
+      padding: 80px 15px 80px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: $dark-background-color;
+      transition: all 0.5s ease 0s;
+      z-index: 2;
+  }
+  &.open {
+      right: 0;
+  }
   }
 
   &__link {
@@ -32,5 +108,32 @@
       cursor: pointer;
       color: $secondary-color;
     }
+
+    @media screen and (max-width: 768px) {
+      display: block;
+      line-height: 40px;
+      width: 100%;
+    }
+  }
+
+  &__overlay {
+    position: fixed;
+    top: 0px;
+    right: -100vw;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(248, 248, 248);
+    opacity: 0.6;
+    z-index: 1;
+    transition: all 0.3s ease 0s;
+}
+}
+
+body.lock {
+  overflow: hidden;
+
+  .menu__overlay {
+      display: block;
+      right: 0;
   }
 }

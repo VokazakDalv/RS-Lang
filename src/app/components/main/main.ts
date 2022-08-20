@@ -1,11 +1,11 @@
 export class MainStartPage {
-  mainBloсk: HTMLElement;
+  mainBlock: HTMLElement;
 
   constructor() {
-    this.mainBloсk = document.createElement('main');
-    this.mainBloсk.classList.add('main');
-    this.mainBloсk.innerHTML = `
-    <section class="section greeting">
+    this.mainBlock = document.createElement('main');
+    this.mainBlock.classList.add('main');
+    this.mainBlock.innerHTML = `
+    <section class="greeting">
     <div class="greeting__container container">
       <h2 class="greeting__title">RS-Lang</h2>
       <p class="greeting__text">Открой для себя быстрый и интересный способ выучить английский язык!</p>
@@ -13,6 +13,7 @@ export class MainStartPage {
     </div>
   </section>
   <section class="section advantages container">
+  <div class="container">
     <h2 class="section-title">Как изучать английский вместе с RS-Lang?</h2>
     <div class="advantages__row">
       <div class="advantages__item">
@@ -47,8 +48,10 @@ export class MainStartPage {
         <p class="advantages__text">Твои успехи за день / все время в статистике не дадут сдаться на пол пути!</p>
       </div>
     </div>
+    </div>
   </section>
-  <section class="section developers container">
+  <section class="section developers">
+    <div class="container">
     <h2 class="section-title">О команде</h2>
     <div class="developers__row">
       <div class="developers__card">
@@ -59,6 +62,7 @@ export class MainStartPage {
         galley of type and scrambled it to make a type specimen book. It</p>
         <a class="developers__link" href="https://github.com/VokazakDalv">
           <img src="./assets/icons/github-logo.svg" alt="">
+          VokazakDalv
         </a>
       </div>
       <div class="developers__card">
@@ -69,6 +73,7 @@ export class MainStartPage {
         galley of type and scrambled it to make a type specimen book. It</p>
         <a class="developers__link" href="https://github.com/Kasitsyn">
           <img src="./assets/icons/github-logo.svg" alt="">
+          Kasitsyn
         </a>
       </div>
       <div class="developers__card">
@@ -77,9 +82,11 @@ export class MainStartPage {
         <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
         Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
         galley of type and scrambled it to make a type specimen book. It</p>
-        <a class="developers__link" href="https://github.com/VokazakDalv">
+        <a class="developers__link" href="https://github.com/daanikeeva">
           <img src="./assets/icons/github-logo.svg" alt="">
+          daanikeeva
         </a>
+      </div>
       </div>
     </div>
   </section>
