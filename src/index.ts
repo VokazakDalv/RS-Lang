@@ -1,4 +1,5 @@
-import auth from './app/auth';
-import './scss/style.scss';
+import { App } from './app/core/app';
+import './style.scss';
 
-auth();
+const app = new App();
+app.enableRouteChange();

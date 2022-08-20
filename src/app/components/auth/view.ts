@@ -1,11 +1,10 @@
-const showForm = ():void => {
-  const mainContainer = document.querySelector('.main-container') as HTMLElement;
-  mainContainer.innerHTML = '';
+const showForm = (): void => {
+  const mainContainer = document.querySelector('body') as HTMLElement;
 
   const form = document.createElement('form');
   form.id = 'authorization';
   form.className = 'authorization-form';
-  mainContainer.append(form);
+  mainContainer.prepend(form);
 
   const inputSignIn = document.createElement('input') as HTMLInputElement;
   inputSignIn.checked = true;
@@ -18,7 +17,7 @@ const showForm = ():void => {
   const labelSignIn = document.createElement('label');
   labelSignIn.className = 'authorization-form__label';
   labelSignIn.htmlFor = 'signin';
-  labelSignIn.innerText = 'Sign in';
+  labelSignIn.innerText = 'Войти';
   form.append(labelSignIn);
 
   const inputSignUp = document.createElement('input');
@@ -31,7 +30,7 @@ const showForm = ():void => {
   const labelSignUp = document.createElement('label');
   labelSignUp.className = 'authorization-form__label';
   labelSignUp.htmlFor = 'signup';
-  labelSignUp.innerText = 'Sign up';
+  labelSignUp.innerText = 'Регистрация';
   form.append(labelSignUp);
 
   const wrapper = document.createElement('div');
@@ -46,7 +45,7 @@ const showForm = ():void => {
   inputEmail.className = 'authorization-form__input';
   inputEmail.type = 'email';
   inputEmail.id = 'email';
-  inputEmail.placeholder = 'Enter email';
+  inputEmail.placeholder = 'Введите email';
   inputEmail.pattern = '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$';
   inputEmail.required = true;
   wrapper.append(inputEmail);
@@ -55,10 +54,9 @@ const showForm = ():void => {
   inputPassword.className = 'authorization-form__input';
   inputPassword.type = 'password';
   inputPassword.id = 'password';
-  inputPassword.placeholder = 'Enter password';
+  inputPassword.placeholder = 'Введите password';
   inputPassword.pattern = '(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}';
-  // eslint-disable-next-line max-len
-  inputPassword.title = 'A form with a password field that must contain 8 or more characters that are of at least one number, and one uppercase and lowercase letter,one special character from: +-_@$!%*?&#.,;:[]{}';
+  inputPassword.title = 'Минимум 8 символов, 1 цифра, 1 буква в обоих регистрах, 1 спецсимвол';
   inputPassword.required = true;
   wrapper.append(inputPassword);
 
@@ -77,8 +75,9 @@ const showForm = ():void => {
   button.append(spanUp);
   form.append(button);
 
-  document.querySelector('body')?.classList.add('authorization-form__body__background');
-  document.querySelector('.main-container')?.classList.add('main-container__form');
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'authorization-form__close-btn';
+  form.append(closeBtn);
 };
 
 export default showForm;
