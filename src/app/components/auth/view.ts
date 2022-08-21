@@ -1,5 +1,5 @@
 const showForm = (): void => {
-  const mainContainer = document.querySelector('body') as HTMLElement;
+  const mainContainer = document.body as HTMLElement;
 
   const form = document.createElement('form');
   form.id = 'authorization';
