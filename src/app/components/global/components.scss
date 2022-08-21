@@ -5,14 +5,25 @@
 }
 
 .section {
-  padding: 112px 0;
+  padding: 112px 0 50px;
+
+  @media screen and (max-width: 575px) {
+    padding: 70px 0 30px;
+  }
 }
 
 .section-title {
+  padding: 0 8%;
   font-weight: 700;
   font-size: 40px;
   line-height: 50px;
   margin-bottom: 80px;
+  text-align: center;
+
+  @media screen and (max-width: 575px) {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
 }
 
 .btn {
