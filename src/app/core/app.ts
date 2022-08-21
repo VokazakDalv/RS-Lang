@@ -1,19 +1,25 @@
+import { Footer } from '../components/footer/footer';
+import { Header } from '../components/header/header';
 import { routing, defaultRoute } from './router';
 
 export class App {
   enableRouteChange = (): void => {
+    let main: HTMLElement;
     window.onpopstate = () => {
       const currentRouteName = window.location.hash.slice(1);
       const currentRoute = routing.find((p) => p.name === currentRouteName);
-      while (document.body.children.length) {
-        document.body.children[0].remove();
+      if (!document.body.children.length) {
+        document.body.append(new Header().headerBlock, new Footer().footerBlock);
+      } else {
+        main.remove();
       }
 
       if (currentRoute) {
-        currentRoute.component();
+        main = currentRoute.component();
       } else if (defaultRoute) {
-        defaultRoute.component();
+        main = defaultRoute.component();
       }
+      document.body.lastElementChild?.before(main);
     };
 
     const popstateEvent = new Event('popstate');
