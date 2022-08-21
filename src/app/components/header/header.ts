@@ -1,4 +1,5 @@
 import { Href } from '../../constants/router-refs';
+import { isAuth, loginBtnHandler, logoutBtnHandler } from './controls';
 
 export class Header {
   headerBlock: HTMLElement;
@@ -28,6 +29,8 @@ export class Header {
   linkStatistic: HTMLAnchorElement;
 
   loginBtn: HTMLButtonElement;
+
+  logoutBtn: HTMLButtonElement;
 
   menuBurger: HTMLDivElement;
 
@@ -110,8 +113,23 @@ export class Header {
     this.loginBtn.classList.add('header__btn', 'btn', 'login-btn');
     this.loginBtn.textContent = 'Войти';
 
+    this.logoutBtn = document.createElement('button');
+    this.logoutBtn.classList.add('header__btn', 'btn', 'logout-btn');
+    this.logoutBtn.textContent = 'Выйти';
+    this.logoutBtn.hidden = true;
+    this.wrapper.append(this.logo, this.menu, this.loginBtn, this.logoutBtn);
     this.wrapper.append(this.logo, this.menu, this.loginBtn, this.menuBurger);
+
     this.headerBlock.append(this.wrapper);
+
+    window.onload = () => {
+      if (isAuth()) {
+        this.logoutBtn.hidden = false;
+        this.loginBtn.hidden = true;
+      }
+      loginBtnHandler();
+      logoutBtnHandler();
+    };
   }
 }
 
