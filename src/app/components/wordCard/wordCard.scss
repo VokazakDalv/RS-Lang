@@ -1,0 +1,98 @@
+.word-cards__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+.card {
+  position: relative;
+  background-color: #fff;
+  color: $text-color;
+  flex-basis: 30%;
+
+  @media screen and (max-width: 992px) {
+    flex-basis: 47%;
+  }
+  @media screen and (max-width: 768px) {
+    flex-basis: 85%;
+  }
+
+  &__img {
+width: 100%;
+object-fit: cover;
+  }
+
+  &__content {
+    padding: 20px;
+    flex-basis: auto;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;  
+  }
+
+&__word-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+&__word {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+&__transcr {
+  font-size: 20px;
+}
+
+&__translation {
+  color: $primary-color;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+&__audio {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+}
+
+&__meaning{
+  padding: 7px 0;
+
+  &_en {
+    margin-bottom: 5px;
+
+  }
+  &_ru {
+    color: $second-text-color;
+  }
+}
+
+&__phrase {
+  &_en {
+    margin-bottom: 5px;
+  }
+  &_ru {
+    color: $second-text-color;
+  }
+}
+
+&__btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  background-color: $light-text-color;
+  color: $text-color;
+  border-radius: 50%;
+  font-size: 24px;
+
+  &_difficult-btn {
+    left: 55px;
+  }
+}
+}
