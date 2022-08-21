@@ -8,6 +8,8 @@
 @import "./app/components/main/main.scss";
 @import "./app/components/footer/footer.scss";
 
+@import "./app/components/auth/style.scss";
+
 body {
   background: $dark-background-color;
   font-family: Montserrat;
