@@ -117,8 +117,7 @@ export class Header {
     this.logoutBtn.classList.add('header__btn', 'btn', 'logout-btn');
     this.logoutBtn.textContent = 'Выйти';
     this.logoutBtn.hidden = true;
-    this.wrapper.append(this.logo, this.menu, this.loginBtn, this.logoutBtn);
-    this.wrapper.append(this.logo, this.menu, this.loginBtn, this.menuBurger);
+    this.wrapper.append(this.logo, this.menu, this.loginBtn, this.logoutBtn, this.menuBurger);
 
     this.headerBlock.append(this.wrapper);
 
