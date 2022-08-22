@@ -35,11 +35,9 @@ export class WordCard extends Component {
 
   phraseRu: HTMLElement;
 
-  btnDifficultWord: HTMLButtonElement;
+  btnDifficultWord?: HTMLButtonElement;
 
-  btnStudiedWord: HTMLButtonElement;
-
-  audioToPlay?: HTMLAudioElement;
+  btnStudiedWord?: HTMLButtonElement;
 
   audioArr?: HTMLAudioElement[];
 
@@ -85,15 +83,17 @@ export class WordCard extends Component {
 
     this.phraseRu = new Component(this.phrase, 'div', 'card__phrase_ru', data.textExampleTranslate).node;
 
-    this.btnDifficultWord = document.createElement('button');
-    this.btnDifficultWord.classList.add('card__btn', 'card__btn_difficult-btn');
-    this.btnDifficultWord.innerHTML = '!';
-    this.node.append(this.btnDifficultWord);
+    if (localStorage.length) {
+      this.btnDifficultWord = document.createElement('button');
+      this.btnDifficultWord.classList.add('card__btn', 'card__btn_difficult-btn');
+      this.btnDifficultWord.innerHTML = '!';
+      this.imgContainer.append(this.btnDifficultWord);
 
-    this.btnStudiedWord = document.createElement('button');
-    this.btnStudiedWord.classList.add('card__btn', 'card__btn_studied-btn');
-    this.btnStudiedWord.innerHTML = '&#10003;';
-    this.node.append(this.btnStudiedWord);
+      this.btnStudiedWord = document.createElement('button');
+      this.btnStudiedWord.classList.add('card__btn', 'card__btn_studied-btn');
+      this.btnStudiedWord.innerHTML = '&#10003;';
+      this.imgContainer.append(this.btnStudiedWord);
+    }
 
     this.audio.addEventListener('click', () => {
       this.playAudio([data.audio, data.audioMeaning, data.audioExample]);

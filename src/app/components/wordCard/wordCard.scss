@@ -89,8 +89,7 @@
 
 &__btn {
   position: absolute;
-  top: 15px;
-  left: 15px;
+  bottom: 15px;
   width: 35px;
   height: 35px;
   line-height: 35px;
@@ -99,9 +98,20 @@
   color: $text-color;
   border-radius: 50%;
   font-size: 24px;
+  font-weight: 700;
+  transition: 0.3s;
 
   &_difficult-btn {
-    left: 55px;
+    left: calc(50% - 40px);
+    &:hover {
+      background-color: $secondary-color;
+    }
+  }
+  &_studied-btn {
+    right: calc(50% - 40px);
+    &:hover {
+      background-color: $primary-color;
+    }
   }
 }
 }
