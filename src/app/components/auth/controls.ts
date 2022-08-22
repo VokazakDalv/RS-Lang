@@ -53,7 +53,7 @@ export function closeAuth(): void {
 export async function formHandler(): Promise<void> {
   const loginBtn = document.querySelector('.login-btn') as HTMLButtonElement;
   const logoutBtn = document.querySelector('.logout-btn') as HTMLButtonElement;
-
+  const submitBtn = document.querySelector('.authorization-form__button') as HTMLButtonElement;
   document.querySelector('.authorization-form__close-btn')?.addEventListener('click', () => {
     closeAuth();
     loginBtn.removeAttribute('disabled');
@@ -65,9 +65,11 @@ export async function formHandler(): Promise<void> {
   } else {
     document.getElementById('authorization')?.addEventListener('submit', async (event) => {
       event.preventDefault();
+      submitBtn.setAttribute('disabled', 'true');
       const email = (<HTMLInputElement>document.getElementById('email'))?.value;
       const password = (<HTMLInputElement>document.getElementById('password'))?.value;
       authResponse = await getSign(email, password);
+      if (authResponse) submitBtn.removeAttribute('disabled');
       if (authResponse?.message) {
         closeAuth();
         loginBtn.hidden = true;
