@@ -1,8 +1,11 @@
 import { Component } from '../component';
 import { wordData } from '../../types/types';
+import { baseURL } from '../../constants/api';
 
 export class WordCard extends Component {
   node: HTMLElement;
+
+  imgContainer: HTMLElement;
 
   img: HTMLImageElement;
 
@@ -36,18 +39,24 @@ export class WordCard extends Component {
 
   btnStudiedWord: HTMLButtonElement;
 
+  audioToPlay?: HTMLAudioElement;
+
+  audioArr?: HTMLAudioElement[];
+
   constructor(data: wordData) {
     super(null);
     this.node = new Component(null, 'div', 'word-cards__item card').node;
 
-    this.img = new Component(this.node, 'img', 'card__img').node as HTMLImageElement;
-    this.img.src = data.image;
+    this.imgContainer = new Component(this.node, 'div', 'card__img-container').node;
+
+    this.img = new Component(this.imgContainer, 'img', 'card__img').node as HTMLImageElement;
+    this.img.src = `${baseURL}/${data.image}`;
 
     this.content = new Component(this.node, 'div', 'card__content').node;
 
-    this.wordRow = new Component(this.content, 'div', 'card__word-row').node;
+    this.word = new Component(this.content, 'p', 'card__word', data.word).node;
 
-    this.word = new Component(this.wordRow, 'p', 'card__word', data.word).node;
+    this.wordRow = new Component(this.content, 'div', 'card__word-row').node;
 
     this.transcr = new Component(this.wordRow, 'p', 'card__transcr', data.transcription).node;
 
@@ -85,5 +94,30 @@ export class WordCard extends Component {
     this.btnStudiedWord.classList.add('card__btn', 'card__btn_studied-btn');
     this.btnStudiedWord.innerHTML = '&#10003;';
     this.node.append(this.btnStudiedWord);
+
+    this.audio.addEventListener('click', () => {
+      this.playAudio([data.audio, data.audioMeaning, data.audioExample]);
+    });
+  }
+
+  playAudio(urls: string[]): void {
+    this.audioArr = [];
+
+    for (let i = 0; i < urls.length; i += 1) {
+      const audio = new Audio(`${baseURL}/${urls[i]}`);
+      this.audioArr?.push(audio);
+    }
+
+    for (let i = 0; i < urls.length; i += 1) {
+      if (i === 0) {
+        this.audioArr[i].play();
+      } else {
+        this.audioArr[i - 1].addEventListener('ended', () => {
+          if (this.audioArr) {
+            this.audioArr[i].play();
+          }
+        });
+      }
+    }
   }
 }

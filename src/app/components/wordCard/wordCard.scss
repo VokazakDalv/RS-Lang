@@ -9,24 +9,33 @@
   background-color: #fff;
   color: $text-color;
   flex-basis: 30%;
-
+  
   @media screen and (max-width: 992px) {
     flex-basis: 47%;
   }
   @media screen and (max-width: 768px) {
     flex-basis: 85%;
   }
+  
+  &__img-container {
+    position: relative;
+    padding-top: 56.25%;
+    overflow: hidden;
+  }
 
   &__img {
-width: 100%;
-object-fit: cover;
-  }
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    }
 
   &__content {
     padding: 20px;
     flex-basis: auto;
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-direction: column;  
   }
 
@@ -37,12 +46,12 @@ object-fit: cover;
 }
 
 &__word {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
 }
 
 &__transcr {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 &__translation {
