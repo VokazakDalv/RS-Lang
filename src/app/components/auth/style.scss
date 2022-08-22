@@ -17,7 +17,7 @@
 .authorization-form__radio__input__signin:checked
   ~ .authorization-form__button
   .authorization-form__button__item {
-  transform: translate3d(0, -72px, 0);
+  transform: translate3d(0, -90px, 0);
 }
 
 .authorization-form__radio__input__signup:checked
@@ -28,7 +28,7 @@
 .authorization-form__radio__input__signup:checked
   ~ .authorization-form__button
   .authorization-form__button__item {
-  transform: translate3d(0, -144px, 0);
+  transform: translate3d(0, -160px, 0);
 }
 
 .authorization-form {
@@ -157,12 +157,12 @@ input[type='radio']:checked + .authorization-form__label {
   .authorization-form__radio__input__signin:checked
     ~ .authorization-form__button
     .authorization-form__button__item {
-    transform: translate3d(0, -85px, 0);
+    transform: translate3d(0, -100px, 0);
   }
   .authorization-form__radio__input__signup:checked
     ~ .authorization-form__button
     .authorization-form__button__item {
-    transform: translate3d(0, -157px, 0);
+    transform: translate3d(0, -170px, 0);
   }
 }
 
