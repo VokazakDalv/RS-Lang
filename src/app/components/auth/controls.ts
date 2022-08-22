@@ -51,8 +51,12 @@ export function closeAuth(): void {
 }
 
 export async function formHandler(): Promise<void> {
+  const loginBtn = document.querySelector('.login-btn') as HTMLButtonElement;
+  const logoutBtn = document.querySelector('.logout-btn') as HTMLButtonElement;
+
   document.querySelector('.authorization-form__close-btn')?.addEventListener('click', () => {
     closeAuth();
+    loginBtn.removeAttribute('disabled');
   });
   localStorage.clear();
   let authResponse = null;
@@ -66,8 +70,6 @@ export async function formHandler(): Promise<void> {
       authResponse = await getSign(email, password);
       if (authResponse?.message) {
         closeAuth();
-        const loginBtn = document.querySelector('.login-btn') as HTMLButtonElement;
-        const logoutBtn = document.querySelector('.logout-btn') as HTMLButtonElement;
         loginBtn.hidden = true;
         logoutBtn.hidden = false;
       }
