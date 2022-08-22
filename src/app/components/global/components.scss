@@ -41,11 +41,18 @@
     border: 1px solid $light-text-color;
     background-color: transparent;
   }
+
+  &:disabled,
+  &:hover:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: default;
+  }
 }
 
 .games {
   position: absolute;
-  background: #26335D;
+  background: #26335d;
   height: calc(100vh - 91px);
   width: 100vw;
   background-color: grey;
