@@ -2,6 +2,7 @@ import { Href } from '../constants/router-refs';
 import { Component } from '../components/component';
 import { IRoute } from '../types/interface';
 import { MainStartPage } from '../components/main/main';
+import { AudioGame } from '../components/audioGame/audiogame';
 
 export const routing: IRoute[] = [
   {
@@ -18,7 +19,7 @@ export const routing: IRoute[] = [
   },
   {
     name: Href.AUDIO,
-    component: (): HTMLElement => new Component(null, 'main', 'audio', 'audio').node,
+    component: (): HTMLElement => new AudioGame().node,
   },
   {
     name: Href.STATS,
