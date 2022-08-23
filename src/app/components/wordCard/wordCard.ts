@@ -3,121 +3,84 @@ import { wordData } from '../../types/types';
 import { baseURL } from '../../constants/api';
 
 export class WordCard extends Component {
-  node: HTMLElement;
+  imgContainer = new Component(this.node, 'div', 'card__img-container');
 
-  imgContainer: HTMLElement;
+  img = new Component(this.imgContainer.node, 'img', 'card__img');
 
-  img: HTMLImageElement;
+  content = new Component(this.node, 'div', 'card__content');
 
-  content: HTMLElement;
+  word = new Component(this.content.node, 'p', 'card__word');
 
-  wordRow: HTMLElement;
+  wordRow = new Component(this.content.node, 'div', 'card__word-row');
 
-  word: HTMLElement;
+  transcr = new Component(this.wordRow.node, 'p', 'card__transcr');
 
-  transcr: HTMLElement;
+  audio = new Component(this.wordRow.node, 'button', 'card__audio');
 
-  audio: HTMLElement;
+  audioImg = new Component(this.audio.node, 'img');
 
-  audioImg: HTMLImageElement;
+  translation = new Component(this.content.node, 'p', 'card__translation');
 
-  translation: HTMLElement;
+  meaning = new Component(this.content.node, 'div', 'card__meaning');
 
-  meaning: HTMLElement;
+  meaningEn = new Component(this.meaning.node, 'div', 'card__meaning_en');
 
-  meaningEn: HTMLElement;
+  meaningRu = new Component(this.meaning.node, 'div', 'card__meaning_ru');
 
-  meaningRu: HTMLElement;
+  phrase = new Component(this.content.node, 'div', 'card__phrase');
 
-  phrase: HTMLElement;
+  phraseEn = new Component(this.phrase.node, 'div', 'card__phrase_en');
 
-  phraseEn: HTMLElement;
+  phraseRu = new Component(this.phrase.node, 'div', 'card__phrase_ru');
 
-  phraseRu: HTMLElement;
+  btnDifficultWord?: Component;
 
-  btnDifficultWord?: HTMLButtonElement;
-
-  btnStudiedWord?: HTMLButtonElement;
+  btnStudiedWord?: Component;
 
   audioArr?: HTMLAudioElement[];
 
   constructor(data: wordData) {
-    super(null);
-    this.node = new Component(null, 'div', 'word-cards__item card').node;
+    super(null, 'div', 'word-cards__item card');
 
-    this.imgContainer = new Component(this.node, 'div', 'card__img-container').node;
+    (this.img.node as HTMLImageElement).src = `${baseURL}/${data.image}`;
 
-    this.img = new Component(this.imgContainer, 'img', 'card__img').node as HTMLImageElement;
-    this.img.src = `${baseURL}/${data.image}`;
+    this.word.node.textContent = data.word;
 
-    this.content = new Component(this.node, 'div', 'card__content').node;
+    this.transcr.node.textContent = data.transcription;
 
-    this.word = new Component(this.content, 'p', 'card__word', data.word).node;
+    (this.audioImg.node as HTMLImageElement).src = './assets/icons/audio.svg';
 
-    this.wordRow = new Component(this.content, 'div', 'card__word-row').node;
+    this.translation.node.textContent = data.wordTranslate;
 
-    this.transcr = new Component(this.wordRow, 'p', 'card__transcr', data.transcription).node;
+    this.meaningEn.node.innerHTML = data.textMeaning;
 
-    this.audio = new Component(this.wordRow, 'button', 'card__audio').node;
+    this.meaningRu.node.innerHTML = data.textMeaningTranslate;
 
-    this.audioImg = new Component(this.audio, 'img').node as HTMLImageElement;
-    this.audioImg.src = './assets/icons/audio.svg';
-
-    this.translation = new Component(this.content, 'p', 'card__translation', data.wordTranslate).node;
-
-    this.meaning = new Component(this.content, 'div', 'card__meaning').node;
-
-    this.meaningEn = document.createElement('div');
-    this.meaningEn.classList.add('card__meaning_en');
-    this.meaningEn.innerHTML = data.textMeaning;
-    this.meaning.append(this.meaningEn);
-
-    this.meaningRu = new Component(this.meaning, 'div', 'card__meaning_ru', data.textMeaningTranslate).node;
-
-    this.phrase = new Component(this.content, 'div', 'card__phrase').node;
-
-    this.phraseEn = document.createElement('div');
-    this.phraseEn.classList.add('card__phrase_en');
-    this.phraseEn.innerHTML = data.textExample;
-    this.phrase.append(this.phraseEn);
-
-    this.phraseRu = new Component(this.phrase, 'div', 'card__phrase_ru', data.textExampleTranslate).node;
+    this.phraseEn.node.innerHTML = data.textExample;
+    this.phraseRu.node.innerHTML = data.textExampleTranslate;
 
     if (localStorage.length) {
-      this.btnDifficultWord = document.createElement('button');
-      this.btnDifficultWord.classList.add('card__btn', 'card__btn_difficult-btn');
-      this.btnDifficultWord.innerHTML = '!';
-      this.imgContainer.append(this.btnDifficultWord);
-
-      this.btnStudiedWord = document.createElement('button');
-      this.btnStudiedWord.classList.add('card__btn', 'card__btn_studied-btn');
-      this.btnStudiedWord.innerHTML = '&#10003;';
-      this.imgContainer.append(this.btnStudiedWord);
+      this.btnDifficultWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_difficult-btn', '!');
+      this.btnStudiedWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_studied-btn');
+      this.btnStudiedWord.node.innerHTML = '&#10003;';
     }
 
-    this.audio.addEventListener('click', () => {
+    this.audio.node.addEventListener('click', () => {
       this.playAudio([data.audio, data.audioMeaning, data.audioExample]);
     });
   }
 
   playAudio(urls: string[]): void {
-    this.audioArr = [];
+    this.audioArr = urls.map((url) => new Audio(`${baseURL}/${url}`));
 
-    for (let i = 0; i < urls.length; i += 1) {
-      const audio = new Audio(`${baseURL}/${urls[i]}`);
-      this.audioArr?.push(audio);
-    }
-
-    for (let i = 0; i < urls.length; i += 1) {
-      if (i === 0) {
-        this.audioArr[i].play();
+    this.audioArr.forEach((audio, index, arr) => {
+      if (index === 0) {
+        audio.play();
       } else {
-        this.audioArr[i - 1].addEventListener('ended', () => {
-          if (this.audioArr) {
-            this.audioArr[i].play();
-          }
+        arr[index - 1].addEventListener('ended', () => {
+          audio.play();
         });
       }
-    }
+    });
   }
 }
