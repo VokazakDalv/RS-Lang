@@ -62,7 +62,7 @@ const showForm = (): void => {
 
   const button = document.createElement('button');
   button.type = 'submit';
-  button.className = 'authorization-form__button';
+  button.className = 'authorization-form__button btn';
 
   const spanIn = document.createElement('span');
   spanIn.className = 'authorization-form__button__item';

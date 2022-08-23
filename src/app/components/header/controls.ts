@@ -8,6 +8,7 @@ export function isAuth(): boolean {
 export function loginBtnHandler(): void {
   const loginBtn = document.querySelector('.login-btn');
   loginBtn?.addEventListener('click', () => {
+    loginBtn.setAttribute('disabled', 'true');
     auth();
   });
 }
@@ -19,5 +20,6 @@ export function logoutBtnHandler(): void {
     const loginBtn = document.querySelector('.login-btn') as HTMLButtonElement;
     loginBtn.hidden = false;
     logoutBtn.hidden = true;
+    loginBtn.removeAttribute('disabled');
   });
 }
