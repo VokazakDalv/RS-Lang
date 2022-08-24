@@ -7,23 +7,23 @@ import { AudioGame } from '../components/audioGame/audiogame';
 export const routing: IRoute[] = [
   {
     name: Href.TEXTBOOK,
-    component: (): HTMLElement => new Component(null, 'main', 'textbook', 'textbook').node,
+    component: (): Component => new Component(null, 'main', 'textbook', 'textbook'),
   },
   {
     name: Href.GAMES,
-    component: (): HTMLElement => new Component(null, 'main', 'games', 'games').node,
+    component: (): Component => new Component(null, 'main', 'games', 'games'),
   },
   {
     name: Href.SPRINT,
-    component: (): HTMLElement => new Component(null, 'main', 'spring', 'spring').node,
+    component: (): Component => new Component(null, 'main', 'spring', 'spring'),
   },
   {
     name: Href.AUDIO,
-    component: (): HTMLElement => new AudioGame().node,
+    component: (): Component => new AudioGame(),
   },
   {
     name: Href.STATS,
-    component: (): HTMLElement => new Component(null, 'main', 'statistics', 'statistics').node,
+    component: (): Component => new Component(null, 'main', 'statistics', 'statistics'),
   },
 ];
 

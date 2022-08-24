@@ -31,10 +31,14 @@
     gap: 20px;
   }
   &__option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 120px;
     height: 30px;
     background-color: #fff;
     border-radius: 5px;
+    color: #000;
     cursor: pointer;
   } 
   &__control {
