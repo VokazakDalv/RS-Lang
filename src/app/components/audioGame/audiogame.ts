@@ -5,7 +5,7 @@ import './audioGame.scss';
 export class AudioGame extends Component {
   audioGameContainer = new Component(this.node, 'div', 'audio-game__container');
 
-  levels = new Levels(this.audioGameContainer.node, 'AUDIO');
+  levels = new Levels(this.audioGameContainer.node, 'АУДИОВЫЗОВ');
 
   audioPlayBtn = new Component(this.audioGameContainer.node, 'div', 'audio-game__play-btn');
 
@@ -23,7 +23,7 @@ export class AudioGame extends Component {
     });
   }
 
-  renderData() {
+  renderData():void {
     Array.from(this.audioOptions.node.children).forEach((el) => {
       el.innerHTML = 'СЛОВО';
     });

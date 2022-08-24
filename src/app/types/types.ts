@@ -41,4 +41,4 @@ export type wordData = {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string
-}
+};
