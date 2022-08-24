@@ -1,0 +1,115 @@
+.games {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  &__btn {
+    position: relative;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    margin: 40px;
+    transition: 1s;
+    overflow: hidden;
+    border-radius: 5px;
+  }
+  &__btn:hover {
+    background: var(--clr);
+    box-shadow: 0 0 10px var(--clr),
+    0 0 30px var(--clr),
+    0 0 60px var(--clr),
+    0 0 100px var(--clr);
+  }
+  &__btn::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 400%;
+    background: var(--clr);
+    transition: 1s;
+    animation: animateBtn 2s linear infinite;
+    animation-delay: calc(0.33s * var(--i));
+  }
+  &__btn:hover::before {
+    width: 120%;
+  }
+  &__btn::after {
+    content: '';
+    position: absolute;
+    background: #0e1538;
+    inset: 4px;
+    transition: 0.5s;
+  }
+  &__btn:hover::after {
+    background: var(--clr);
+  }
+  &__btn .games__btn-span {
+    position: relative;
+    font-size: 2em;
+    color: #fff;
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    z-index: 1;
+    transition: 0.5s;
+  }
+  &__btn:hover span {
+    opacity: 1;
+  }
+  &__card {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    overflow: hidden;
+    border-radius: 20px;
+  }
+  &__card &__card-title {
+    position: relative;
+    color: #fff;
+    font-size: 3em;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    z-index: 5;
+  }
+  &__card::before {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 140%;
+    background: linear-gradient(#00ccff, #d400d4);
+    animation: animateCard 4s linear infinite;
+    animation-direction: reverse;
+  }
+  &__card::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: #0e1538;
+    border-radius: 16px;
+  }
+}
+
+@keyframes animateBtn {
+  0% {
+    transform: rotate(0deg)
+  }
+  100%{
+    transform: rotate(360deg)
+  }
+}
+
+@keyframes animateCard {
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(360deg)
+  }
+}
