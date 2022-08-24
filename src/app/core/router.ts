@@ -3,6 +3,7 @@ import { Component } from '../components/component';
 import { IRoute } from '../types/interface';
 import { MainStartPage } from '../components/main/main';
 import { AudioGame } from '../components/audioGame/audiogame';
+import { Games } from '../components/games/games';
 
 export const routing: IRoute[] = [
   {
@@ -11,7 +12,7 @@ export const routing: IRoute[] = [
   },
   {
     name: Href.GAMES,
-    component: (): Component => new Component(null, 'main', 'games', 'games'),
+    component: (): Component => new Games(),
   },
   {
     name: Href.SPRINT,
