@@ -11,7 +11,7 @@ export class Textbook extends Component {
 
   textbookCards?: Component;
 
-  group = 0;
+  group = localStorage.group ? Number(localStorage.group) : 0;
 
   page = 0;
 
@@ -33,6 +33,8 @@ export class Textbook extends Component {
       group.node.addEventListener('click', () => {
         this.textbookCards?.destroy();
         this.group = index;
+        localStorage.setItem('group', this.group.toString());
+        console.log(localStorage);
         this.word = getWord(this.group, this.page);
         this.fillCards();
       });
