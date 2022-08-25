@@ -1,6 +1,6 @@
 import { Component } from '../component';
-import { wordData } from '../../types/types';
 import { baseURL } from '../../constants/api';
+import { IWord } from '../../types/interface';
 
 export class WordCard extends Component {
   imgContainer = new Component(this.node, 'div', 'card__img-container');
@@ -39,7 +39,7 @@ export class WordCard extends Component {
 
   audioArr?: HTMLAudioElement[];
 
-  constructor(data: wordData) {
+  constructor(data: IWord) {
     super(null, 'div', 'word-cards__item card');
 
     (this.img.node as HTMLImageElement).src = `${baseURL}/${data.image}`;
