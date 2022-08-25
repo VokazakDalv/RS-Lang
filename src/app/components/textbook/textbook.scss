@@ -8,6 +8,35 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
+  }
+
+  &__pages {
+    grid-column: 2 / 3;
+    justify-content: center;
+    align-content: center;
+    margin: 0 auto;
+    
+    .pages__control {
+      color: $light-text-color;
+      padding: 10px;
+      background: transparent;
+
+      &_current {
+        color: $secondary-color;
+        font-size: 1.1em;
+      }
+
+      &.hidden {
+        display: none;
+      }
+
     }
+    
+
+    .pages__numbers {
+      background-color: transparent;
+    }
+  }
+
 }
 
