@@ -7,13 +7,17 @@ import './audioGame.scss';
 export class AudioGame extends Component {
   audioGameContainer = new Component(this.node, 'div', 'audio-game__container');
 
-  audioGameOver = new Component(this.audioGameContainer.node, 'div', 'audio-game__game-over');
+  gameOverContainer = new Component(this.audioGameContainer.node, 'div', 'audio-game__game-over');
 
-  audioGameClose = new Component(this.audioGameOver.node, 'div', 'audio-game__game-close');
+  gameOverClose = new Component(this.gameOverContainer.node, 'div', 'audio-game__game-close');
 
-  audioGameRightAnswers = new Component(this.audioGameOver.node, 'div', 'audio-game__right');
+  gameOverRightAnswers = new Component(this.gameOverContainer.node, 'div', 'audio-game__right');
 
-  audioGameWrong = new Component(this.audioGameOver.node, 'div', 'audio-game__right');
+  rightAnswersInfo = new Component(this.gameOverRightAnswers.node, 'div', 'right-answer__info');
+
+  gameOverWrongAnswers = new Component(this.gameOverContainer.node, 'div', 'audio-game__wrong');
+
+  wrongAnswersInfo = new Component(this.gameOverWrongAnswers.node, 'div', 'wrong-answer__info');
 
   audioGameAnswerContainer = new Component(this.audioGameContainer.node, 'div', 'audio-game__answer-container');
 
@@ -45,17 +49,17 @@ export class AudioGame extends Component {
     });
   }
 
-  renderData(gameWords: string[], right: string):void {
-    (this.audio.node as HTMLAudioElement).src = `${baseURL}/${right}`;
-    Array.from(this.audioOptions.node.children).forEach((el, i) => {
-      if (el.getAttribute('disabled')) {
-        el.removeAttribute('disabled');
+  renderData(gameWords: string[], audioSrc: string):void {
+    (this.audio.node as HTMLAudioElement).src = `${baseURL}/${audioSrc}`;
+    Array.from(this.audioOptions.node.children).forEach((option, i) => {
+      if (option.getAttribute('disabled')) {
+        option.removeAttribute('disabled');
       }
-      (el as HTMLElement).style.backgroundColor = '#fff';
+      (option as HTMLElement).style.backgroundColor = '#fff';
       this.audioControl.node.innerText = 'НЕ ЗНАЮ';
       (this.audioImg.node as HTMLImageElement).src = '';
       this.audioWord.node.innerText = '';
-      el.innerHTML = gameWords[i];
+      option.innerHTML = gameWords[i];
     });
   }
 
@@ -70,25 +74,26 @@ export class AudioGame extends Component {
       this.audioControl.node.innerText = 'следующий';
       (this.audioImg.node as HTMLImageElement).src = `${baseURL}/${right.image}`;
       this.audioWord.node.innerText = right.word;
-
       el.setAttribute('disabled', 'disabled');
     });
   }
 
   renderResults(gameResults: IResult[]):void {
     gameResults.forEach((el) => {
-      if (el.isRightAnswer === true) {
-        if (!this.audioGameRightAnswers.node.innerText) this.audioGameRightAnswers.node.innerText = 'ВЕРНО';
-        this.renderAnswerWord(el);
-      } else {
-        if (!this.audioGameWrong.node.innerText) this.audioGameWrong.node.innerText = 'НЕ ВЕРНО';
-        this.renderAnswerWord(el);
-      }
+      this.renderAnswerWord(el);
     });
+    const right = this.gameOverRightAnswers.node;
+    if (right.children.length > 1) {
+      this.rightAnswersInfo.node.innerText = `ВЕРНО (${right.children.length - 1})`;
+    }
+    const wrong = this.gameOverWrongAnswers.node;
+    if (wrong.children.length > 1) {
+      this.wrongAnswersInfo.node.innerText = `НЕ ВЕРНО (${wrong.children.length - 1})`;
+    }
   }
 
   renderAnswerWord(word: IResult):void {
-    const parent = (word.isRightAnswer) ? this.audioGameRightAnswers.node : this.audioGameWrong.node;
+    const parent = (word.isRightAnswer) ? this.gameOverRightAnswers.node : this.gameOverWrongAnswers.node;
     const container = new Component(parent, 'div', 'audio-game__result-container');
     const audioBtn = new Component(null, 'button', 'audio-game__answer-btn');
     const audioPlay = new Component(audioBtn.node, 'audio');

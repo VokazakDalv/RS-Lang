@@ -57,7 +57,11 @@
   &__answer-btn {
     width: 20px;
     height: 20px;
+    border-radius: 50%;
     background: url(../../../assets/icons/audio.svg) no-repeat center;
+    &:hover {
+      background-color: rgb(55, 105, 55);
+    }
   }
   &__answer-word {
     color: #26335D;
@@ -69,10 +73,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  &__right {
-    text-align: center;
-    font-size: 1.3rem;
   }
   &__control {
     width: 140px;
@@ -140,6 +140,11 @@
       background-color: #26335D;
     }
   }
+}
+.right-answer__info,
+.wrong-answer__info {
+    text-align: center;
+    font-size: 1.3rem;
 }
 .audio-img {
   max-width: 200px;
