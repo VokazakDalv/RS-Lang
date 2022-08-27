@@ -42,3 +42,8 @@ export type wordData = {
   textMeaningTranslate: string;
   textExampleTranslate: string
 };
+
+export type IResult = {
+  isRightAnswer: boolean;
+  word: wordData | null;
+};
