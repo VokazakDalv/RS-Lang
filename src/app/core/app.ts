@@ -45,9 +45,9 @@ export class App {
           if (this.audioGame) {
             this.audioGame.levels.destroy();
             this.audioGame.gameLevel = level;
-            this.addListenersAudio(this.audioGame);
+            this.addListenersAudio();
             this.level = level - 1;
-            this.startAudioGameRound(this.audioGame, this.level);
+            this.startAudioGameRound();
           }
           return level;
         };
@@ -58,47 +58,49 @@ export class App {
     window.dispatchEvent(popstateEvent);
   };
 
-  addListenersAudio(audioGame: AudioGame):void {
+  addListenersAudio():void {
     document.onkeydown = (e) => this.handleKeyboard(e);
-    Array.from(audioGame.audioOptions.node.children).forEach((el) => {
-      (el as HTMLElement).onclick = () => {
-        if (this.right && (el as HTMLElement).innerHTML.slice(2) === this.right.wordTranslate) {
-          audioGame.renderAnswer(this.right, '');
-          this.gameResults.push({
-            isRightAnswer: true,
-            word: this.right,
-          });
-          if (this.gameResults.length === 20) {
-            this.stopGame('audio');
-            this.gameResults = [];
+    if (this.audioGame) {
+      Array.from(this.audioGame.audioOptions.node.children).forEach((el) => {
+        (el as HTMLElement).onclick = () => {
+          if (this.right && (el as HTMLElement).innerHTML.slice(2) === this.right.wordTranslate) {
+            this.audioGame?.renderAnswer(this.right, '');
+            this.gameResults.push({
+              isRightAnswer: true,
+              word: this.right,
+            });
+            if (this.gameResults.length === 20) {
+              this.stopGame('audio');
+              this.gameResults = [];
+            }
+          } else if (this.right && (el as HTMLElement).innerHTML.slice(2) !== this.right.wordTranslate) {
+            this.audioGame?.renderAnswer(this.right, (el as HTMLElement).innerHTML.slice(2));
+            this.gameResults.push({
+              isRightAnswer: false,
+              word: this.right,
+            });
+            if (this.gameResults.length === 20) {
+              this.stopGame('audio');
+              this.gameResults = [];
+            }
           }
-        } else if (this.right && (el as HTMLElement).innerHTML.slice(2) !== this.right.wordTranslate) {
-          audioGame.renderAnswer(this.right, (el as HTMLElement).innerHTML.slice(2));
-          this.gameResults.push({
-            isRightAnswer: false,
-            word: this.right,
-          });
-          if (this.gameResults.length === 20) {
-            this.stopGame('audio');
-            this.gameResults = [];
-          }
-        }
+        };
+      });
+      this.audioGame.audioPlayBtn.node.onclick = () => {
+        (this.audioGame?.audio.node as HTMLAudioElement).play();
       };
-    });
-    audioGame.audioPlayBtn.node.onclick = () => {
-      (audioGame.audio.node as HTMLAudioElement).play();
-    };
 
-    audioGame.audioControl.node.onclick = () => this.handleControl(audioGame);
+      this.audioGame.audioControl.node.onclick = () => this.handleControl();
 
-    audioGame.gameResult.resultClose.node.onclick = () => {
-      window.location.hash = '#games';
-    };
+      this.audioGame.gameResult.resultClose.node.onclick = () => {
+        window.location.hash = '#games';
+      };
+    }
   }
 
   handleKeyboard(e: KeyboardEvent): void {
     if (e.code === 'Enter' && this.audioGame) {
-      this.handleControl(this.audioGame);
+      this.handleControl();
     } else if (Number(e.key) >= 1 && Number(e.key) <= 5) {
       if (this.audioGame) {
         const answerBtn = Array.from(this.audioGame.audioOptions.node.children)
@@ -112,8 +114,8 @@ export class App {
     }
   }
 
-  handleControl(audioGame: AudioGame):void {
-    if (audioGame.audioControl.node.innerText === 'НЕ ЗНАЮ') {
+  handleControl():void {
+    if (this.audioGame?.audioControl.node.innerText === 'НЕ ЗНАЮ') {
       this.gameResults.push({
         isRightAnswer: false,
         word: this.right,
@@ -123,29 +125,31 @@ export class App {
         this.gameResults = [];
       }
     }
-    if (this.right && audioGame.audioControl.node.innerText === 'НЕ ЗНАЮ') {
-      audioGame.renderAnswer(this.right, '');
+    if (this.right && this.audioGame?.audioControl.node.innerText === 'НЕ ЗНАЮ') {
+      this.audioGame.renderAnswer(this.right, '');
     } else if (this.audioGame) {
-      this.startAudioGameRound(this.audioGame, this.level);
+      this.startAudioGameRound();
     }
   }
 
-  startAudioGameRound(audioGame: AudioGame, group: number):void {
+  startAudioGameRound():void {
     this.roundWords = [];
-    getWords(`${group}`, `${getRandomIntInclusive(0, 5)}`).then((gameWords) => {
-      Array.from(audioGame.audioOptions.node.children)
-        .forEach((el, i: number) => {
-          let roundWord: wordData;
-          do {
-            roundWord = gameWords[getRandomIntInclusive(0, 19)];
-          } while (this.roundWords.indexOf(roundWord.wordTranslate) >= 0 || this.checkAnswerBelong(roundWord));
-          this.roundWords.push(roundWord.wordTranslate);
-          if (i === 4) {
-            this.right = roundWord;
-          }
-        });
-      if (this.right) audioGame.renderData(shuffle(this.roundWords), this.right.audio);
-      (audioGame.audio.node as HTMLAudioElement).play();
+    getWords(`${this.level}`, `${getRandomIntInclusive(0, 5)}`).then((gameWords) => {
+      if (this.audioGame) {
+        Array.from(this.audioGame.audioOptions.node.children)
+          .forEach((el, i: number) => {
+            let roundWord: wordData;
+            do {
+              roundWord = gameWords[getRandomIntInclusive(0, 19)];
+            } while (this.roundWords.indexOf(roundWord.wordTranslate) >= 0 || this.checkAnswerBelong(roundWord));
+            this.roundWords.push(roundWord.wordTranslate);
+            if (i === 4) {
+              this.right = roundWord;
+            }
+          });
+        if (this.right) this.audioGame.renderData(shuffle(this.roundWords), this.right.audio);
+        (this.audioGame.audio.node as HTMLAudioElement).play();
+      }
     });
   }
 
