@@ -9,7 +9,7 @@ import { routing, defaultRoute } from './router';
 export class App {
   roundWords: string[] = [];
 
-  right: null | wordData = null;
+  rightAnswer: null | wordData = null;
 
   audioGame: AudioGame | null = null;
 
@@ -63,21 +63,21 @@ export class App {
     if (this.audioGame) {
       Array.from(this.audioGame.audioOptions.node.children).forEach((el) => {
         (el as HTMLElement).onclick = () => {
-          if (this.right && (el as HTMLElement).innerHTML.slice(2) === this.right.wordTranslate) {
-            this.audioGame?.renderAnswer(this.right, '');
+          if (this.rightAnswer && (el as HTMLElement).innerHTML.slice(2) === this.rightAnswer.wordTranslate) {
+            this.audioGame?.renderAnswer(this.rightAnswer, '');
             this.gameResults.push({
               isRightAnswer: true,
-              word: this.right,
+              word: this.rightAnswer,
             });
             if (this.gameResults.length === 20) {
               this.stopGame('audio');
               this.gameResults = [];
             }
-          } else if (this.right && (el as HTMLElement).innerHTML.slice(2) !== this.right.wordTranslate) {
-            this.audioGame?.renderAnswer(this.right, (el as HTMLElement).innerHTML.slice(2));
+          } else if (this.rightAnswer && (el as HTMLElement).innerHTML.slice(2) !== this.rightAnswer.wordTranslate) {
+            this.audioGame?.renderAnswer(this.rightAnswer, (el as HTMLElement).innerHTML.slice(2));
             this.gameResults.push({
               isRightAnswer: false,
-              word: this.right,
+              word: this.rightAnswer,
             });
             if (this.gameResults.length === 20) {
               this.stopGame('audio');
@@ -118,15 +118,15 @@ export class App {
     if (this.audioGame?.audioControl.node.innerText === 'НЕ ЗНАЮ') {
       this.gameResults.push({
         isRightAnswer: false,
-        word: this.right,
+        word: this.rightAnswer,
       });
       if (this.gameResults.length === 20) {
         this.stopGame('audio');
         this.gameResults = [];
       }
     }
-    if (this.right && this.audioGame?.audioControl.node.innerText === 'НЕ ЗНАЮ') {
-      this.audioGame.renderAnswer(this.right, '');
+    if (this.rightAnswer && this.audioGame?.audioControl.node.innerText === 'НЕ ЗНАЮ') {
+      this.audioGame.renderAnswer(this.rightAnswer, '');
     } else if (this.audioGame) {
       this.startAudioGameRound();
     }
@@ -144,10 +144,10 @@ export class App {
             } while (this.roundWords.indexOf(roundWord.wordTranslate) >= 0 || this.checkAnswerBelong(roundWord));
             this.roundWords.push(roundWord.wordTranslate);
             if (i === 4) {
-              this.right = roundWord;
+              this.rightAnswer = roundWord;
             }
           });
-        if (this.right) this.audioGame.renderData(shuffle(this.roundWords), this.right.audio);
+        if (this.rightAnswer) this.audioGame.renderData(shuffle(this.roundWords), this.rightAnswer.audio);
         (this.audioGame.audio.node as HTMLAudioElement).play();
       }
     });
