@@ -57,9 +57,10 @@ export class App {
   };
 
   addListenersAudio(audioGame: AudioGame):void {
+    document.onkeydown = (e) => this.handleKeyboard(e);
     Array.from(audioGame.audioOptions.node.children).forEach((el) => {
       (el as HTMLElement).onclick = () => {
-        if (this.right && (el as HTMLElement).innerHTML === this.right.wordTranslate) {
+        if (this.right && (el as HTMLElement).innerHTML.slice(2) === this.right.wordTranslate) {
           audioGame.renderAnswer(this.right, '');
           this.gameResults.push({
             isRightAnswer: true,
@@ -69,8 +70,8 @@ export class App {
             this.stopAudioGame();
             this.gameResults = [];
           }
-        } else if (this.right && (el as HTMLElement).innerHTML !== this.right.wordTranslate) {
-          audioGame.renderAnswer(this.right, (el as HTMLElement).innerHTML);
+        } else if (this.right && (el as HTMLElement).innerHTML.slice(2) !== this.right.wordTranslate) {
+          audioGame.renderAnswer(this.right, (el as HTMLElement).innerHTML.slice(2));
           this.gameResults.push({
             isRightAnswer: false,
             word: this.right,
@@ -85,26 +86,46 @@ export class App {
     audioGame.audioPlayBtn.node.onclick = () => {
       (audioGame.audio.node as HTMLAudioElement).play();
     };
-    audioGame.audioControl.node.onclick = () => {
-      if (audioGame.audioControl.node.innerText === 'НЕ ЗНАЮ') {
-        this.gameResults.push({
-          isRightAnswer: false,
-          word: this.right,
-        });
-        if (this.gameResults.length === 20) {
-          this.stopAudioGame();
-          this.gameResults = [];
-        }
-      }
-      if (this.right && audioGame.audioControl.node.innerText === 'НЕ ЗНАЮ') {
-        audioGame.renderAnswer(this.right, '');
-      } else if (this.audioGame) {
-        this.startAudioGameRound(this.audioGame, this.level);
-      }
-    };
+
+    audioGame.audioControl.node.onclick = () => this.handleControl(audioGame);
+
     audioGame.gameResult.resultClose.node.onclick = () => {
       window.location.hash = '#games';
     };
+  }
+
+  handleKeyboard(e: KeyboardEvent): void {
+    if (e.code === 'Enter' && this.audioGame) {
+      this.handleControl(this.audioGame);
+    } else if (Number(e.key) >= 1 && Number(e.key) <= 5) {
+      if (this.audioGame) {
+        const answerBtn = Array.from(this.audioGame.audioOptions.node.children)
+          .filter((btn) => Number(btn.textContent?.slice(0, 1)) === Number(e.key))[0];
+        const event = new Event('click', { bubbles: true });
+        (answerBtn as HTMLButtonElement).dispatchEvent(event);
+      }
+    }
+    if (e.code === 'Space') {
+      (this.audioGame?.audio.node as HTMLAudioElement).play();
+    }
+  }
+
+  handleControl(audioGame: AudioGame):void {
+    if (audioGame.audioControl.node.innerText === 'НЕ ЗНАЮ') {
+      this.gameResults.push({
+        isRightAnswer: false,
+        word: this.right,
+      });
+      if (this.gameResults.length === 20) {
+        this.stopAudioGame();
+        this.gameResults = [];
+      }
+    }
+    if (this.right && audioGame.audioControl.node.innerText === 'НЕ ЗНАЮ') {
+      audioGame.renderAnswer(this.right, '');
+    } else if (this.audioGame) {
+      this.startAudioGameRound(this.audioGame, this.level);
+    }
   }
 
   startAudioGameRound(audioGame: AudioGame, group: number):void {
@@ -131,6 +152,7 @@ export class App {
   }
 
   stopAudioGame():void {
+    document.onkeydown = () => null;
     this.audioGame?.gameResult.node.classList.add('result__container_active');
     this.audioGame?.gameResult.renderResults(this.gameResults);
     this.gameResults = [];
