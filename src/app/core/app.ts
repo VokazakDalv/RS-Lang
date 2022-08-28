@@ -1,3 +1,4 @@
+import { SprintGame } from '../components/sprintGame/sprintGame';
 import { getRandomIntInclusive, getWords, shuffle } from '../api/textbook';
 import { AudioGame } from '../components/audioGame/audiogame';
 import { Component } from '../components/component';
@@ -12,6 +13,8 @@ export class App {
   right: null | wordData = null;
 
   audioGame: AudioGame | null = null;
+
+  sprintGame: SprintGame | null = null;
 
   gameResults: IResult[] = [];
 
@@ -50,13 +53,25 @@ export class App {
           return level;
         };
       }
+      if (currentRouteName === 'games/sprint') {
+        this.sprintGame = game as SprintGame;
+        this.sprintGame.levels.onLevel = (level) => {
+          if (this.sprintGame) {
+            this.sprintGame.levels.destroy();
+            this.sprintGame.gameLevel = level;
+            this.level = level - 1;
+            this.sprintGame.render();
+          }
+          return level;
+        };
+      }
     };
 
     const popstateEvent = new Event('popstate');
     window.dispatchEvent(popstateEvent);
   };
 
-  addListenersAudio(audioGame: AudioGame):void {
+  addListenersAudio(audioGame: AudioGame): void {
     Array.from(audioGame.audioOptions.node.children).forEach((el) => {
       (el as HTMLElement).onclick = () => {
         if (this.right && (el as HTMLElement).innerHTML === this.right.wordTranslate) {
@@ -107,30 +122,34 @@ export class App {
     };
   }
 
-  startAudioGameRound(audioGame: AudioGame, group: number):void {
+  startAudioGameRound(audioGame: AudioGame, group: number): void {
     this.roundWords = [];
     getWords(`${group}`, `${getRandomIntInclusive(0, 5)}`).then((gameWords) => {
-      Array.from(audioGame.audioOptions.node.children)
-        .forEach((el, i: number) => {
-          let roundWord: wordData;
-          do {
-            roundWord = gameWords[getRandomIntInclusive(0, 19)];
-          } while (this.roundWords.indexOf(roundWord.wordTranslate) >= 0 || this.checkAnswerBelong(roundWord));
-          this.roundWords.push(roundWord.wordTranslate);
-          if (i === 4) {
-            this.right = roundWord;
-          }
-        });
+      Array.from(audioGame.audioOptions.node.children).forEach((el, i: number) => {
+        let roundWord: wordData;
+        do {
+          roundWord = gameWords[getRandomIntInclusive(0, 19)];
+        } while (
+          this.roundWords.indexOf(roundWord.wordTranslate) >= 0
+          || this.checkAnswerBelong(roundWord)
+        );
+        this.roundWords.push(roundWord.wordTranslate);
+        if (i === 4) {
+          this.right = roundWord;
+        }
+      });
       if (this.right) audioGame.renderData(shuffle(this.roundWords), this.right.audio);
       (audioGame.audio.node as HTMLAudioElement).play();
     });
   }
 
-  checkAnswerBelong(roundWord: wordData):boolean {
-    return this.gameResults.filter((el) => el.word?.wordTranslate === roundWord.wordTranslate).length > 0;
+  checkAnswerBelong(roundWord: wordData): boolean {
+    return (
+      this.gameResults.filter((el) => el.word?.wordTranslate === roundWord.wordTranslate).length > 0
+    );
   }
 
-  stopAudioGame():void {
+  stopAudioGame(): void {
     this.audioGame?.gameResult.node.classList.add('result__container_active');
     this.audioGame?.gameResult.renderResults(this.gameResults);
     this.gameResults = [];
