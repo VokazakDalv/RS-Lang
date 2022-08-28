@@ -8,6 +8,12 @@ import { TextbookPages } from './pages';
 export class Textbook extends Component {
   textbookGroups = new TextbookGroups();
 
+  textbookGameLinks: Component<HTMLElement>;
+
+  sprintGameBtn: Component<HTMLElement>;
+
+  audioGameBtn: Component<HTMLElement>;
+
   textbookCards?: Component;
 
   textbookPages = new TextbookPages();
@@ -23,9 +29,22 @@ export class Textbook extends Component {
     this.word = getWord(this.group, this.page);
     this.node.append(this.textbookGroups.node);
     if (!localStorage.authData) {
-      this.textbookGroups.group[6].node.setAttribute('disabled', 'disabled');
+      this.textbookGroups.group[6].node.style.visibility = 'hidden';
     }
     this.handlerGroupButtons();
+    this.textbookGroups.selectCurrentGroup(this.group);
+
+    this.textbookGameLinks = new Component(this.node, 'div', 'textbook__game-links');
+
+    this.sprintGameBtn = new Component(
+      this.textbookGameLinks.node,
+      'button',
+      'textbook__sprint-game btn',
+      'Sprint-game',
+    );
+
+    this.audioGameBtn = new Component(this.textbookGameLinks.node, 'button', 'textbook__audio-game btn', 'Audio-game');
+
     this.textbookCards = new Component(this.node, 'div', 'textbook__cards');
     this.fillCards();
     this.node.append(this.textbookPages.node);
@@ -42,6 +61,7 @@ export class Textbook extends Component {
         this.page = 0;
         localStorage.setItem('group', this.group.toString());
         localStorage.setItem('page', this.page.toString());
+        this.textbookGroups.selectCurrentGroup(this.group);
         this.refreshTextbookPage();
       });
     });

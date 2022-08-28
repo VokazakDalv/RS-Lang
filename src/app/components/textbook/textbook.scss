@@ -1,7 +1,53 @@
 .textbook {
   min-height: calc(100vh - 170px);
-  display: grid;
-  grid-template-columns: 200px 1fr;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+
+  &__groups {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  &__group {
+    background-color: $secondary-color;
+    border: 1px solid $secondary-color;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: $light-text-color;
+    transition: 0.3s;
+
+    &_2 {
+      background-color: #da7188;
+      border: 1px solid #da7188;
+    }
+    &_3 {
+      background-color: #bd69b1;
+      border: 1px solid #bd69b1;
+    }
+    &_4 {
+      background-color: #ad65c8;
+      border: 1px solid #ad65c8;
+    }
+    &_5 {
+      background-color: #985fe6;
+      border: 1px solid #985fe6;
+    }
+    &_6 {
+      background-color: $primary-color;
+      border: 1px solid $primary-color;
+    }
+
+    &_current {
+      background-color: transparent;
+    }
+  
+    &:hover {
+      background-color: transparent;
+    }
+  }
 
   &__cards {
     display: flex;
@@ -11,7 +57,6 @@
   }
 
   &__pages {
-    grid-column: 2 / 3;
     justify-content: center;
     align-content: center;
     margin: 0 auto;
@@ -20,6 +65,11 @@
       color: $light-text-color;
       padding: 10px;
       background: transparent;
+      transition: 0.3s;
+
+      &:hover {
+        color: $secondary-color;
+      }
 
       &_current {
         color: $secondary-color;
@@ -29,9 +79,7 @@
       &.hidden {
         display: none;
       }
-
     }
-    
 
     .pages__numbers {
       background-color: transparent;
