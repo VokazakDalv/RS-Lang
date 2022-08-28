@@ -30,7 +30,9 @@ export class Textbook extends Component {
     this.fillCards();
     this.node.append(this.textbookPages.node);
     this.handlerPageControls();
-    this.textbookPages.hiddenControls(this.page);
+    this.handlerFirstPageControl();
+    this.handlerLastPageControl();
+    this.textbookPages.switchPageControls(this.page);
   }
 
   handlerGroupButtons(): void {
@@ -38,11 +40,9 @@ export class Textbook extends Component {
       group.node.addEventListener('click', () => {
         this.group = index;
         this.page = 0;
-        this.textbookPages.hiddenControls(this.page);
         localStorage.setItem('group', this.group.toString());
         localStorage.setItem('page', this.page.toString());
-        this.word = getWord(this.group, this.page);
-        this.fillCards();
+        this.refreshTextbookPage();
       });
     });
   }
@@ -52,10 +52,24 @@ export class Textbook extends Component {
       page.node.addEventListener('click', () => {
         this.page = index;
         localStorage.setItem('page', this.page.toString());
-        this.textbookPages.hiddenControls(this.page);
-        this.word = getWord(this.group, this.page);
-        this.fillCards();
+        this.refreshTextbookPage();
       });
+    });
+  }
+
+  handlerFirstPageControl(): void {
+    this.textbookPages.firstPageBtn.node.addEventListener('click', () => {
+      this.page = 0;
+      localStorage.setItem('page', this.page.toString());
+      this.refreshTextbookPage();
+    });
+  }
+
+  handlerLastPageControl(): void {
+    this.textbookPages.lastPageBtn.node.addEventListener('click', () => {
+      this.page = 29;
+      localStorage.setItem('page', this.page.toString());
+      this.refreshTextbookPage();
     });
   }
 
@@ -69,5 +83,11 @@ export class Textbook extends Component {
       });
     })
       .catch((er) => console.log(er));
+  }
+
+  refreshTextbookPage(): void {
+    this.textbookPages.switchPageControls(this.page);
+    this.word = getWord(this.group, this.page);
+    this.fillCards();
   }
 }

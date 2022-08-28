@@ -3,11 +3,11 @@ import { Component } from '../component';
 export class TextbookPages extends Component {
   firstPageBtn = new Component(this.node, 'button', 'pages__control', '<<');
 
-  previousPageBtn = new Component(this.node, 'button', 'pages__control', '<');
+  // previousPageBtn = new Component(this.node, 'button', 'pages__control', '<');
 
   pageNumbers = new Component(this.node, 'button', 'pages__numbers');
 
-  nextPageBtn = new Component(this.node, 'button', 'pages__control', '>');
+  // nextPageBtn = new Component(this.node, 'button', 'pages__control', '>');
 
   lastPageBtn = new Component(this.node, 'button', 'pages__control', '>>');
 
@@ -25,22 +25,22 @@ export class TextbookPages extends Component {
       this.pageNumbers.node.append(page.node);
     });
 
-    this.hiddenControls(0);
+    this.switchPageControls(0);
   }
 
-  hiddenControls(currentPage: number): void {
+  switchPageControls(currentPage: number): void {
     if (currentPage === 0) {
-      this.previousPageBtn.node.classList.add('hidden');
+      // this.previousPageBtn.node.classList.add('hidden');
       this.firstPageBtn.node.classList.add('hidden');
     } else {
-      this.previousPageBtn.node.classList.remove('hidden');
+      // this.previousPageBtn.node.classList.remove('hidden');
       this.firstPageBtn.node.classList.remove('hidden');
     }
     if (currentPage === 29) {
-      this.nextPageBtn.node.classList.add('hidden');
+      // this.nextPageBtn.node.classList.add('hidden');
       this.lastPageBtn.node.classList.add('hidden');
     } else {
-      this.nextPageBtn.node.classList.remove('hidden');
+      // this.nextPageBtn.node.classList.remove('hidden');
       this.lastPageBtn.node.classList.remove('hidden');
     }
     this.pages.forEach((page, index) => {
