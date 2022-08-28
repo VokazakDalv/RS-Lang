@@ -13,6 +13,8 @@ export class App {
 
   audioGame: AudioGame | null = null;
 
+  sprintGame: AudioGame | null = null;
+
   gameResults: IResult[] = [];
 
   level = 0;
@@ -67,7 +69,7 @@ export class App {
             word: this.right,
           });
           if (this.gameResults.length === 20) {
-            this.stopAudioGame();
+            this.stopGame('audio');
             this.gameResults = [];
           }
         } else if (this.right && (el as HTMLElement).innerHTML.slice(2) !== this.right.wordTranslate) {
@@ -77,7 +79,7 @@ export class App {
             word: this.right,
           });
           if (this.gameResults.length === 20) {
-            this.stopAudioGame();
+            this.stopGame('audio');
             this.gameResults = [];
           }
         }
@@ -117,7 +119,7 @@ export class App {
         word: this.right,
       });
       if (this.gameResults.length === 20) {
-        this.stopAudioGame();
+        this.stopGame('audio');
         this.gameResults = [];
       }
     }
@@ -151,10 +153,11 @@ export class App {
     return this.gameResults.filter((el) => el.word?.wordTranslate === roundWord.wordTranslate).length > 0;
   }
 
-  stopAudioGame():void {
+  stopGame(gameName: string):void {
     document.onkeydown = () => null;
-    this.audioGame?.gameResult.node.classList.add('result__container_active');
-    this.audioGame?.gameResult.renderResults(this.gameResults);
+    const game = (gameName === 'audio') ? this.audioGame : this.sprintGame;
+    game?.gameResult.node.classList.add('result__container_active');
+    game?.gameResult.renderResults(this.gameResults);
     this.gameResults = [];
   }
 }
