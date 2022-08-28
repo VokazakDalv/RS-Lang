@@ -1,23 +1,14 @@
 import { baseURL } from '../../constants/api';
-import { IResult, wordData } from '../../types/types';
+import { wordData } from '../../types/types';
 import { Component } from '../component';
+import { GameResult } from '../gameResult/gameResult';
 import { Levels } from '../levels/levels';
 import './audioGame.scss';
 
 export class AudioGame extends Component {
   audioGameContainer = new Component(this.node, 'div', 'audio-game__container');
 
-  gameOverContainer = new Component(this.audioGameContainer.node, 'div', 'audio-game__game-over');
-
-  gameOverClose = new Component(this.gameOverContainer.node, 'div', 'audio-game__game-close');
-
-  gameOverRightAnswers = new Component(this.gameOverContainer.node, 'div', 'audio-game__right');
-
-  rightAnswersInfo = new Component(this.gameOverRightAnswers.node, 'div', 'right-answer__info');
-
-  gameOverWrongAnswers = new Component(this.gameOverContainer.node, 'div', 'audio-game__wrong');
-
-  wrongAnswersInfo = new Component(this.gameOverWrongAnswers.node, 'div', 'wrong-answer__info');
+  gameResult = new GameResult(this.audioGameContainer.node, 'div', 'result__container');
 
   audioGameAnswerContainer = new Component(this.audioGameContainer.node, 'div', 'audio-game__answer-container');
 
@@ -76,32 +67,5 @@ export class AudioGame extends Component {
       this.audioWord.node.innerText = right.word;
       el.setAttribute('disabled', 'disabled');
     });
-  }
-
-  renderResults(gameResults: IResult[]):void {
-    gameResults.forEach((el) => {
-      this.renderAnswerWord(el);
-    });
-    const right = this.gameOverRightAnswers.node;
-    if (right.children.length > 1) {
-      this.rightAnswersInfo.node.innerText = `ВЕРНО (${right.children.length - 1})`;
-    }
-    const wrong = this.gameOverWrongAnswers.node;
-    if (wrong.children.length > 1) {
-      this.wrongAnswersInfo.node.innerText = `НЕ ВЕРНО (${wrong.children.length - 1})`;
-    }
-  }
-
-  renderAnswerWord(word: IResult):void {
-    const parent = (word.isRightAnswer) ? this.gameOverRightAnswers.node : this.gameOverWrongAnswers.node;
-    const container = new Component(parent, 'div', 'audio-game__result-container');
-    const audioBtn = new Component(null, 'button', 'audio-game__answer-btn');
-    const audioPlay = new Component(audioBtn.node, 'audio');
-    (audioPlay.node as HTMLAudioElement).src = `${baseURL}/${word.word?.audio}`;
-    audioBtn.node.onclick = () => {
-      (audioPlay.node as HTMLAudioElement).play();
-    };
-    container.node.append(audioBtn.node,
-      new Component(null, 'div', 'audio-game__answer-word', `${word.word?.word} - ${word.word?.wordTranslate}`).node);
   }
 }

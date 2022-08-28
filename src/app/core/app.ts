@@ -102,7 +102,7 @@ export class App {
         this.startAudioGameRound(this.audioGame, this.level);
       }
     };
-    audioGame.gameOverClose.node.onclick = () => {
+    audioGame.gameResult.resultClose.node.onclick = () => {
       window.location.hash = '#games';
     };
   }
@@ -131,8 +131,8 @@ export class App {
   }
 
   stopAudioGame():void {
-    this.audioGame?.gameOverContainer.node.classList.add('audio-game__game-over_active');
-    this.audioGame?.renderResults(this.gameResults);
+    this.audioGame?.gameResult.node.classList.add('result__container_active');
+    this.audioGame?.gameResult.renderResults(this.gameResults);
     this.gameResults = [];
   }
 }
