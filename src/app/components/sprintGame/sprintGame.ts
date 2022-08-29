@@ -41,10 +41,11 @@ export class SprintGame extends Component {
 
   buttonsWrapper: HTMLElement;
 
+  correctAnswer: boolean;
+
   constructor() {
     super(null, 'main', 'sprint-game');
-
-    // this.timer = new Timer(this.sprintGameContainer);
+    this.correctAnswer = false;
     this.timerContainer = new Component(this.sprintGameContainer, 'div', 'timer-container').node;
     this.wordsWrapper = new Component(
       this.sprintGameContainer,
@@ -59,7 +60,7 @@ export class SprintGame extends Component {
       'div',
       'sprint-game__btn-wrapper',
     ).node;
-    this.wordsData = getWords('0', '0');
+    this.wordsData = getWords();
     this.rightBtn = new Component(
       this.buttonsWrapper,
       'button',
@@ -72,9 +73,12 @@ export class SprintGame extends Component {
       'sprint-game__wrongBtn btn',
       'НЕТ',
     ).node;
+
+    this.controlsHandlers();
   }
 
   async render() {
+    this.wordsData = getWords(this.gameLevel.toString(), '0');
     const words = (await this.wordsData).map((el) => el);
     const answers = (await this.wordsData).map((el) => el.wordTranslate);
     if (document.querySelector('.timer')) {
@@ -87,15 +91,21 @@ export class SprintGame extends Component {
       const word = words.pop();
       this.word.innerHTML = `${word?.word}`;
       this.wordAnswer.innerHTML = `${answers[0]}`;
+      this.correctAnswer = word?.word === answers[0];
     }
-    this.controlsHandlers();
   }
 
   controlsHandlers() {
-    [this.rightBtn, this.wrongBtn].forEach((el) => {
-      el.addEventListener('click', () => {
+    this.rightBtn.addEventListener('click', () => {
+      if (this.correctAnswer) {
         this.render();
-      });
+      }
+    });
+
+    this.wrongBtn.addEventListener('click', () => {
+      if (!this.correctAnswer) {
+        this.render();
+      }
     });
   }
 }
