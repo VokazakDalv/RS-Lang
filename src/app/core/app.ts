@@ -3,6 +3,7 @@ import { AudioGame } from '../components/audioGame/audiogame';
 import { Component } from '../components/component';
 import { Footer } from '../components/footer/footer';
 import { Header } from '../components/header/header';
+import { audioSrc } from '../constants/gamesSounds';
 import { IResult, wordData } from '../types/types';
 import { routing, defaultRoute } from './router';
 
@@ -67,6 +68,7 @@ export class App {
         (el as HTMLElement).onclick = () => {
           if (this.rightAnswer && (el as HTMLElement).innerHTML.slice(2) === this.rightAnswer.wordTranslate) {
             this.audioGame?.renderAnswer(this.rightAnswer, '');
+            this.playAudio(audioSrc.right);
             this.gameResults.push({
               isRightAnswer: true,
               word: this.rightAnswer,
@@ -77,6 +79,7 @@ export class App {
             }
           } else if (this.rightAnswer && (el as HTMLElement).innerHTML.slice(2) !== this.rightAnswer.wordTranslate) {
             this.audioGame?.renderAnswer(this.rightAnswer, (el as HTMLElement).innerHTML.slice(2));
+            this.playAudio(audioSrc.wrong);
             this.gameResults.push({
               isRightAnswer: false,
               word: this.rightAnswer,
@@ -101,15 +104,14 @@ export class App {
   }
 
   handleKeyboard(e: KeyboardEvent): void {
+    const control = this.audioGame?.audioControl.node.innerText;
     if (e.code === 'Enter' && this.audioGame) {
       this.handleControl();
-    } else if (Number(e.key) >= 1 && Number(e.key) <= 5) {
-      if (this.audioGame) {
-        const answerBtn = Array.from(this.audioGame.audioOptions.node.children)
-          .filter((btn) => Number(btn.textContent?.slice(0, 1)) === Number(e.key))[0];
-        const event = new Event('click', { bubbles: true });
-        (answerBtn as HTMLButtonElement).dispatchEvent(event);
-      }
+    } else if (Number(e.key) >= 1 && Number(e.key) <= 5 && this.audioGame && control === 'НЕ ЗНАЮ') {
+      const answerBtn = Array.from(this.audioGame.audioOptions.node.children)
+        .filter((btn) => Number(btn.textContent?.slice(0, 1)) === Number(e.key))[0];
+      const event = new Event('click', { bubbles: true });
+      (answerBtn as HTMLButtonElement).dispatchEvent(event);
     }
     if (e.code === 'Space') {
       (this.audioGame?.audio.node as HTMLAudioElement).play();
@@ -118,6 +120,7 @@ export class App {
 
   handleControl():void {
     if (this.audioGame?.audioControl.node.innerText === 'НЕ ЗНАЮ') {
+      this.playAudio(audioSrc.wrong);
       this.gameResults.push({
         isRightAnswer: false,
         word: this.rightAnswer,
@@ -162,6 +165,14 @@ export class App {
 
   checkAnswerBelong(roundWord: string):boolean {
     return this.gameResults.filter((el) => el.word?.wordTranslate === roundWord).length > 0;
+  }
+
+  playAudio(src: string): void {
+    const audio = (this.audioGame?.audioPlay.node as HTMLAudioElement);
+    audio.volume = 0.5;
+    audio.setAttribute('src', src);
+    audio.setAttribute('autoplay', 'true');
+    audio.setAttribute('muted', 'true');
   }
 
   stopGame(gameName: string):void {

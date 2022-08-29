@@ -32,6 +32,8 @@ export class AudioGame extends Component {
 
   audio = new Component(this.audioPlayBtn.node, 'audio', 'audio');
 
+  audioPlay = new Component(this.node, 'audio');
+
   constructor() {
     super(null, 'main', 'audio-game');
 
