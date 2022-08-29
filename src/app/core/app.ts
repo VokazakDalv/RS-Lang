@@ -19,6 +19,8 @@ export class App {
 
   level = 0;
 
+  page = 0;
+
   enableRouteChange = (): void => {
     let main: Component | HTMLElement;
     let game: Component;
@@ -134,27 +136,32 @@ export class App {
 
   startAudioGameRound():void {
     this.roundWords = [];
-    getWords(`${this.level}`, `${getRandomIntInclusive(0, 5)}`).then((gameWords) => {
-      if (this.audioGame) {
-        Array.from(this.audioGame.audioOptions.node.children)
-          .forEach((el, i: number) => {
-            let roundWord: wordData;
-            do {
-              roundWord = gameWords[getRandomIntInclusive(0, 19)];
-            } while (this.roundWords.indexOf(roundWord.wordTranslate) >= 0 || this.checkAnswerBelong(roundWord));
-            this.roundWords.push(roundWord.wordTranslate);
-            if (i === 4) {
-              this.rightAnswer = roundWord;
-            }
-          });
-        if (this.rightAnswer) this.audioGame.renderData(shuffle(this.roundWords), this.rightAnswer.audio);
-        (this.audioGame.audio.node as HTMLAudioElement).play();
-      }
-    });
+    const page = (this.page) ? String(this.page - 1) : `${getRandomIntInclusive(0, 5)}`;
+    getWords(String(this.level), page)
+      .then((gameWords) => {
+        if (this.audioGame) {
+          Array.from(this.audioGame.audioOptions.node.children)
+            .forEach((el, i: number) => {
+              let roundWord: wordData;
+              do {
+                roundWord = gameWords[getRandomIntInclusive(0, 19)];
+              } while (this.roundWords.indexOf(roundWord.wordTranslate) >= 0);
+              this.roundWords.push(roundWord.wordTranslate);
+              if (i === 4) {
+                while (this.checkAnswerBelong(this.roundWords[i])) {
+                  this.roundWords[i] = gameWords[getRandomIntInclusive(0, 19)].wordTranslate;
+                }
+                [this.rightAnswer] = gameWords.filter((word) => word.wordTranslate === this.roundWords[i]);
+              }
+            });
+          if (this.rightAnswer) this.audioGame.renderData(shuffle(this.roundWords), this.rightAnswer.audio);
+          (this.audioGame.audio.node as HTMLAudioElement).play();
+        }
+      });
   }
 
-  checkAnswerBelong(roundWord: wordData):boolean {
-    return this.gameResults.filter((el) => el.word?.wordTranslate === roundWord.wordTranslate).length > 0;
+  checkAnswerBelong(roundWord: string):boolean {
+    return this.gameResults.filter((el) => el.word?.wordTranslate === roundWord).length > 0;
   }
 
   stopGame(gameName: string):void {
