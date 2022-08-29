@@ -64,6 +64,10 @@
   width: 30px;
   height: 30px;
   background-color: transparent;
+
+  &:disabled {
+    cursor: auto;
+  }
 }
 
 &__meaning{

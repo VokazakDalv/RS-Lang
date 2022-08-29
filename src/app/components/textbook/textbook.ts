@@ -24,6 +24,8 @@ export class Textbook extends Component {
 
   word: Promise<IWord[]>;
 
+  textbookCardsEl?: WordCard[];
+
   constructor() {
     super(null, 'main', 'textbook container');
     this.word = getWord(this.group, this.page);
@@ -47,6 +49,8 @@ export class Textbook extends Component {
 
     this.textbookCards = new Component(this.node, 'div', 'textbook__cards');
     this.fillCards();
+    console.log(this.word);
+    console.log(this.textbookCardsEl);
     this.node.append(this.textbookPages.node);
     this.handlerPageControls();
     this.handlerFirstPageControl();
@@ -98,8 +102,10 @@ export class Textbook extends Component {
       this.textbookCards.node.innerHTML = '';
     }
     this.word.then((resp) => {
-      resp.forEach((el: IWord) => {
-        this.textbookCards?.node.append(new WordCard(el).node);
+      this.textbookCardsEl = resp.map((el: IWord) => new WordCard(el));
+      console.log(this.textbookCardsEl, 'in fillCards');
+      this.textbookCardsEl.forEach((card: Component) => {
+        this.textbookCards?.node.append(card.node);
       });
     })
       .catch((er) => console.log(er));
@@ -110,4 +116,7 @@ export class Textbook extends Component {
     this.word = getWord(this.group, this.page);
     this.fillCards();
   }
+
+  // handlerAudio(): void {
+  // }
 }
