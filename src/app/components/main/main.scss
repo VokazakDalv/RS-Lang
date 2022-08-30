@@ -1,6 +1,5 @@
 .greeting {
-  height: 100vh;
-  // padding-top: 200px;
+  height: calc(100vh - 91px);
   background: #fd6d29;
   background-image: url('./assets/image/background.png');
   background-size: cover;
@@ -11,8 +10,12 @@
   align-items: flex-start;
   justify-content: center;
 
-  @media screen and (max-width: 768px) {
+  @media (orientation: landscape) and (max-width: 768px) {
     background-position: right 55% bottom 0;
+  }
+
+  @media (orientation: portrait) {
+    background-position: right 30% bottom 0;
   }
 
   &__container {
@@ -42,6 +45,10 @@
       max-width: 60%;
     }
 
+    @media (orientation: portrait) {
+      font-weight: 500;
+      text-shadow: 2px 2px 3px $text-color;
+    }
   }
 }
 
