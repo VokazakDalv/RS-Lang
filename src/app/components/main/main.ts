@@ -10,7 +10,6 @@ export class MainStartPage {
     <div class="greeting__container container">
       <h2 class="greeting__title">RS-Lang</h2>
       <p class="greeting__text">Открой для себя быстрый и интересный способ выучить английский язык!</p>
-      <button class="greeting__btn btn login-btn">Войти</button>
     </div>
   </section>
   <section class="section advantages container">
