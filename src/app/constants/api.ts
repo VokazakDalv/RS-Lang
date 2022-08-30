@@ -1,4 +1,4 @@
-const baseURL = 'https://for-mongo-db-example.herokuapp.com';
+const baseURL = 'https://react-learnwords-example.herokuapp.com';
 
 const words = `${baseURL}/words`;
 
