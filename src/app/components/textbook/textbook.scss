@@ -20,6 +20,7 @@
     padding: 10px;
     border-radius: 5px;
     font-size: 14px;
+    font-weight: 700;
     color: $light-text-color;
     transition: 0.3s;
 
@@ -55,6 +56,30 @@
   
     &:hover {
       background-color: transparent;
+    }
+  }
+
+  &__game-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+
+  &__game-descr {
+    font-size: 20px;
+
+    @media screen and (max-width: 768px) {
+      order: -2;
+      text-align: center;
+      margin-bottom: 20px;
+      flex-basis: 90%;
     }
   }
 

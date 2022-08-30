@@ -26,6 +26,8 @@ export class Textbook extends Component {
 
   textbookCardsEl?: WordCard[];
 
+  descriptionGameLinks: Component<HTMLElement>;
+
   constructor() {
     super(null, 'main', 'textbook container');
     this.word = getWord(this.group, this.page);
@@ -43,6 +45,13 @@ export class Textbook extends Component {
       'button',
       'textbook__sprint-game btn',
       'Sprint-game',
+    );
+
+    this.descriptionGameLinks = new Component(
+      this.textbookGameLinks.node,
+      'p',
+      'textbook__game-descr',
+      'Проверить знания',
     );
 
     this.audioGameBtn = new Component(this.textbookGameLinks.node, 'button', 'textbook__audio-game btn', 'Audio-game');
