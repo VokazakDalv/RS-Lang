@@ -1,4 +1,4 @@
-import { getRandomIntInclusive, getWords, shuffle } from '../api/textbook';
+import { getRandomIntInclusive, getWords, shuffle } from '../helpers/textbook';
 import { AudioGame } from '../components/audioGame/audiogame';
 import { Component } from '../components/component';
 import { Footer } from '../components/footer/footer';

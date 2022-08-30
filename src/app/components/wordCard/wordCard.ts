@@ -1,6 +1,6 @@
 import { Component } from '../component';
-import { wordData } from '../../types/types';
 import { baseURL } from '../../constants/api';
+import { IWord } from '../../types/interface';
 
 export class WordCard extends Component {
   imgContainer = new Component(this.node, 'div', 'card__img-container');
@@ -37,9 +37,13 @@ export class WordCard extends Component {
 
   btnStudiedWord?: Component;
 
+  audioUrls: string[];
+
   audioArr?: HTMLAudioElement[];
 
-  constructor(data: wordData) {
+  boundHandler: () => void;
+
+  constructor(data: IWord) {
     super(null, 'div', 'word-cards__item card');
 
     (this.img.node as HTMLImageElement).src = `${baseURL}/${data.image}`;
@@ -65,20 +69,37 @@ export class WordCard extends Component {
       this.btnStudiedWord.node.innerHTML = '&#10003;';
     }
 
-    this.audio.node.addEventListener('click', () => {
-      this.playAudio([data.audio, data.audioMeaning, data.audioExample]);
-    });
+    this.audioUrls = [data.audio, data.audioMeaning, data.audioExample];
+
+    this.boundHandler = this.playAudio.bind(this, this.audioUrls);
+
+    this.handlerAudioBtn();
+  }
+
+  handlerAudioBtn(): void {
+    (this.audio.node as HTMLButtonElement).disabled = false;
+    this.audio.node.addEventListener('click', this.boundHandler);
+  }
+
+  removeHandlerAudioBtn(): void {
+    (this.audio.node as HTMLButtonElement).disabled = true;
+    this.audio.node.removeEventListener('click', this.boundHandler);
   }
 
   playAudio(urls: string[]): void {
     this.audioArr = urls.map((url) => new Audio(`${baseURL}/${url}`));
-
+    this.removeHandlerAudioBtn();
     this.audioArr.forEach((audio, index, arr) => {
       if (index === 0) {
         audio.play();
       } else {
         arr[index - 1].addEventListener('ended', () => {
           audio.play();
+        });
+      }
+      if (index === 2) {
+        arr[2].addEventListener('ended', () => {
+          this.handlerAudioBtn();
         });
       }
     });
