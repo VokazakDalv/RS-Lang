@@ -1,3 +1,4 @@
+import { colors } from '../../constants/textbook-style-colors';
 import { Component } from '../component';
 
 export class TextbookGroups extends Component {
@@ -20,6 +21,7 @@ export class TextbookGroups extends Component {
     this.group.forEach((group, ind) => {
       if (index === ind) {
         group.node.classList.add('textbook__group_current');
+        document.documentElement.style.setProperty('--group-color', colors[index]);
       } else {
         group.node.classList.remove('textbook__group_current');
       }

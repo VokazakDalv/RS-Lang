@@ -1,3 +1,5 @@
+
+
 .word-cards__row {
   display: flex;
   flex-wrap: wrap;
@@ -55,7 +57,7 @@
 }
 
 &__translation {
-  color: $primary-color;
+  color: var(--group-color);
   font-weight: 700;
   font-size: 18px;
 }
@@ -114,7 +116,7 @@
   &_studied-btn {
     right: calc(50% - 40px);
     &:hover {
-      background-color: $primary-color;
+      background-color: var(--group-color);
     }
   }
 }

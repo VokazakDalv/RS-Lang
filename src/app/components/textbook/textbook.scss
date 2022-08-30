@@ -1,3 +1,7 @@
+:root {
+  --group-color: #5A94F5;
+}
+
 .textbook {
   min-height: calc(100vh - 170px);
   display: flex;
@@ -19,25 +23,30 @@
     color: $light-text-color;
     transition: 0.3s;
 
+    &_1 {
+      background-color: #5A94F5;
+      border: 1px solid #5A94F5;
+    }
+
     &_2 {
-      background-color: #da7188;
-      border: 1px solid #da7188;
+      background-color: #84B0FA;
+      border: 1px solid #84B0FA;
     }
     &_3 {
-      background-color: #bd69b1;
-      border: 1px solid #bd69b1;
+      background-color: #FA77F4;
+      border: 1px solid #FA77F4;
     }
     &_4 {
-      background-color: #ad65c8;
-      border: 1px solid #ad65c8;
+      background-color: #F54AEE;
+      border: 1px solid #F54AEE;
     }
     &_5 {
-      background-color: #985fe6;
-      border: 1px solid #985fe6;
+      background-color: #AA85FB;
+      border: 1px solid #AA85FB;
     }
     &_6 {
-      background-color: $primary-color;
-      border: 1px solid $primary-color;
+      background-color: #8D5CF6;
+      border: 1px solid #8D5CF6;
     }
 
     &_current {
