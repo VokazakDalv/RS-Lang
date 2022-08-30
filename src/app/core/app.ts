@@ -1,4 +1,5 @@
-import { getRandomIntInclusive, getWords, shuffle } from '../helpers/textbook';
+import { getRandomIntInclusive, shuffle } from '../helpers/textbook';
+import { getWord } from '../api/textbook';
 import { AudioGame } from '../components/audioGame/audiogame';
 import { Component } from '../components/component';
 import { Footer } from '../components/footer/footer';
@@ -140,7 +141,7 @@ export class App {
   startAudioGameRound():void {
     this.roundWords = [];
     const page = (this.page) ? String(this.page - 1) : `${getRandomIntInclusive(0, 5)}`;
-    getWords(String(this.level), page)
+    getWord(this.level, Number(page))
       .then((gameWords) => {
         if (this.audioGame) {
           Array.from(this.audioGame.audioOptions.node.children)
