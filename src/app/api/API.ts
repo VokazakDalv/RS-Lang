@@ -4,7 +4,8 @@ import { fetchUrl } from './utils';
 
 export const getWords = async (group = '0', page = '0'): Promise<wordData[]> => {
   const response = await fetch(`${words}?group=${group}&page=${page}`);
-  return response.json();
+  const data = await response.json();
+  return data;
 };
 
 export async function createUser(user: User): Promise<LoginResponse | null | string> {

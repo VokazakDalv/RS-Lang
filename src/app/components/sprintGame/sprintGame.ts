@@ -25,11 +25,11 @@ export class SprintGame extends Component {
 
   wordsData: Promise<wordData[]>;
 
-  wordsWrapper: Component<HTMLElement>;
+  wordsWrapper: HTMLElement;
 
   word: HTMLElement;
 
-  wordAnswer: HTMLElement;
+  comparedWord: HTMLElement;
 
   gap: HTMLElement;
 
@@ -43,24 +43,34 @@ export class SprintGame extends Component {
 
   correctAnswer: boolean;
 
+  rightAnswers: Array<wordData | undefined | null>;
+
+  wrongAnswers: Array<wordData | undefined | null>;
+
+  currentWord: wordData | undefined | null;
+
   constructor() {
     super(null, 'main', 'sprint-game');
     this.correctAnswer = false;
+    this.rightAnswers = [];
+    this.wrongAnswers = [];
+    this.currentWord = null;
     this.timerContainer = new Component(this.sprintGameContainer, 'div', 'timer-container').node;
     this.wordsWrapper = new Component(
       this.sprintGameContainer,
       'div',
       'sprint-game__words-wrapper',
-    );
-    this.word = new Component(this.wordsWrapper.node, 'p', 'sprint-game__word').node;
-    this.gap = new Component(this.wordsWrapper.node, 'p', 'sprint-game__word', '=').node;
-    this.wordAnswer = new Component(this.wordsWrapper.node, 'p', 'sprint-game__word').node;
+    ).node;
+
+    this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
+    this.gap = new Component(this.wordsWrapper, 'p', 'sprint-game__word', '=').node;
+    this.comparedWord = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
     this.buttonsWrapper = new Component(
       this.sprintGameContainer,
       'div',
       'sprint-game__btn-wrapper',
     ).node;
-    this.wordsData = getWords();
+    this.wordsData = getWords(this.gameLevel.toString(), '0');
     this.rightBtn = new Component(
       this.buttonsWrapper,
       'button',
@@ -77,35 +87,70 @@ export class SprintGame extends Component {
     this.controlsHandlers();
   }
 
-  async render() {
-    this.wordsData = getWords(this.gameLevel.toString(), '0');
-    const words = (await this.wordsData).map((el) => el);
-    const answers = (await this.wordsData).map((el) => el.wordTranslate);
-    if (document.querySelector('.timer')) {
-      document.querySelector('.timer')?.remove();
+  run() {
+    const timer = document.querySelector('.timer__container');
+    if (timer?.innerHTML === '25') {
+      this.renderResults();
     }
-    const timer = new Timer(this.timerContainer);
-    shuffle(words);
-    shuffle(answers);
-    if (words) {
-      const word = words.pop();
-      this.word.innerHTML = `${word?.word}`;
-      this.wordAnswer.innerHTML = `${answers[0]}`;
-      this.correctAnswer = word?.word === answers[0];
-    }
+
+    this.compareWords();
   }
 
-  controlsHandlers() {
+  controlsHandlers(): void {
     this.rightBtn.addEventListener('click', () => {
       if (this.correctAnswer) {
-        this.render();
-      }
+        this.rightAnswers?.push(this.currentWord);
+      } else this.wrongAnswers?.push(this.currentWord);
+      this.run();
     });
 
     this.wrongBtn.addEventListener('click', () => {
       if (!this.correctAnswer) {
-        this.render();
-      }
+        this.rightAnswers?.push(this.currentWord);
+      } else this.wrongAnswers?.push(this.currentWord);
+      this.run();
     });
+  }
+
+  startTimer(): void {
+    const timer = new Timer(this.timerContainer);
+  }
+
+  renderResults(): void {
+    this.sprintGameContainer.innerHTML = '';
+    this.wordsWrapper = new Component(
+      this.sprintGameContainer,
+      'div',
+      'sprint-game__words-wrapper',
+      'ВЫ ЗНАЕТЕ ЭТИ СЛОВА:',
+    ).node;
+    this.rightAnswers.forEach((answer) => {
+      this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
+      if (answer?.word) this.word.append(answer.word);
+    });
+    this.wordsWrapper = new Component(
+      this.sprintGameContainer,
+      'div',
+      'sprint-game__words-wrapper',
+      'ЭТИ СЛОВА НУЖНО ПОДУЧИТЬ:',
+    ).node;
+    this.wrongAnswers.forEach((answer) => {
+      this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
+      if (answer?.word) this.word.append(answer.word, ' ', answer.transcription, ' - ', answer.wordTranslate);
+    });
+  }
+
+  async compareWords() {
+    this.wordsData = getWords(this.gameLevel.toString(), '0');
+    const words = (await this.wordsData).map((el) => el);
+    const wordTranslations = (await this.wordsData).map((el) => el.wordTranslate);
+    shuffle(words);
+    shuffle(wordTranslations);
+    if (words) {
+      this.currentWord = words.pop();
+      this.word.innerHTML = `${this.currentWord?.word}`;
+      this.comparedWord.innerHTML = `${wordTranslations[0]}`;
+      this.correctAnswer = this.currentWord?.word === wordTranslations[0];
+    }
   }
 }

@@ -58,9 +58,10 @@ export class App {
         this.sprintGame.levels.onLevel = (level) => {
           if (this.sprintGame) {
             this.sprintGame.levels.destroy();
-            this.sprintGame.gameLevel = level;
+            this.sprintGame.gameLevel = level - 1;
             this.level = level - 1;
-            this.sprintGame.render();
+            this.sprintGame.run();
+            this.sprintGame.startTimer();
           }
           return level;
         };
