@@ -6,6 +6,7 @@ import { Timer } from '../timer/timer';
 import './sprint.scss';
 import { getWords } from '../../api/API';
 import { shuffle } from '../../api/utils';
+import { baseURL } from '../../constants/api';
 
 export class SprintGame extends Component {
   sprintGameContainer = new Component(
@@ -47,7 +48,11 @@ export class SprintGame extends Component {
 
   wrongAnswers: Array<wordData | undefined | null>;
 
-  currentWord: wordData | undefined | null;
+  currentWord!: wordData | undefined | null;
+
+  audio!: Component<HTMLElement>;
+
+  audioPlayBtn!: Component<HTMLElement>;
 
   constructor() {
     super(null, 'main', 'sprint-game');
@@ -89,8 +94,10 @@ export class SprintGame extends Component {
 
   run() {
     const timer = document.querySelector('.timer__container');
-    if (timer?.innerHTML === '25') {
-      this.renderResults();
+    if (timer) {
+      if (timer?.innerHTML < '25') {
+        this.renderResults();
+      }
     }
 
     this.compareWords();
@@ -135,8 +142,14 @@ export class SprintGame extends Component {
       'ЭТИ СЛОВА НУЖНО ПОДУЧИТЬ:',
     ).node;
     this.wrongAnswers.forEach((answer) => {
-      this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
-      if (answer?.word) this.word.append(answer.word, ' ', answer.transcription, ' - ', answer.wordTranslate);
+      const word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
+      if (answer?.word) {
+        const audioPlayBtn = new Component(word, 'div', 'result__answer-btn');
+        const audio = new Component(audioPlayBtn.node, 'audio', 'audio');
+        (audio.node as HTMLAudioElement).src = `${baseURL}/${answer.audio}`;
+        word.append(answer.word, ' ', answer.transcription, ' - ', answer.wordTranslate);
+        audioPlayBtn.node.onclick = () => (audio.node as HTMLAudioElement).play();
+      }
     });
   }
 
