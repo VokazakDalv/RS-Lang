@@ -99,7 +99,7 @@ export class SprintGame extends Component {
   run() {
     const timer = document.querySelector('.timer__container');
     if (timer) {
-      if (timer?.innerHTML < '25') {
+      if (timer?.innerHTML <= '0') {
         this.renderResults();
       }
     }
