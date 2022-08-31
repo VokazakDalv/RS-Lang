@@ -1,5 +1,5 @@
 import { Component } from '../component';
-import { getWord } from '../../API/textbook';
+import { getWord } from '../../api/textbook';
 import { WordCard } from '../wordCard/wordCard';
 import { IWord } from '../../types/interface';
 import { TextbookGroups } from './groups';
@@ -45,7 +45,8 @@ export class Textbook extends Component {
       'Sprint-game',
     );
 
-    this.audioGameBtn = new Component(this.textbookGameLinks.node, 'button', 'textbook__audio-game btn', 'Audio-game');
+    this.audioGameBtn = new Component(this.textbookGameLinks.node, 'a', 'textbook__audio-game btn', 'Audio-game');
+    this.audioGameBtn.node.setAttribute('href', '#games/audio');
 
     this.textbookCards = new Component(this.node, 'div', 'textbook__cards');
     this.fillCards();

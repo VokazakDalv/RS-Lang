@@ -1,6 +1,8 @@
+import { Component } from '../components/component';
+
 export interface IRoute {
   name: string;
-  component: () => HTMLElement;
+  component: () => Component;
 }
 
 export interface IWord {
