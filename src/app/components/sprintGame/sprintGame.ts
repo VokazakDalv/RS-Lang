@@ -22,10 +22,6 @@ export class SprintGame extends Component {
 
   gameLevel = 0;
 
-  // timer: Timer;
-
-  wordsData: Promise<wordData[]>;
-
   wordsWrapper: HTMLElement;
 
   word: HTMLElement;
@@ -54,6 +50,14 @@ export class SprintGame extends Component {
 
   audioPlayBtn!: Component<HTMLElement>;
 
+  wordsData = getWords(this.gameLevel, 0);
+
+  page = 0;
+
+  resultsContainer!: HTMLElement;
+
+  resultsTitle!: HTMLElement;
+
   constructor() {
     super(null, 'main', 'sprint-game');
     this.correctAnswer = false;
@@ -68,14 +72,14 @@ export class SprintGame extends Component {
     ).node;
 
     this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
-    this.gap = new Component(this.wordsWrapper, 'p', 'sprint-game__word', '=').node;
+    this.gap = new Component(this.wordsWrapper, 'p', 'sprint-game__word', ' ?? ').node;
     this.comparedWord = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
     this.buttonsWrapper = new Component(
       this.sprintGameContainer,
       'div',
       'sprint-game__btn-wrapper',
     ).node;
-    this.wordsData = getWords(this.gameLevel.toString(), '0');
+
     this.rightBtn = new Component(
       this.buttonsWrapper,
       'button',
@@ -104,6 +108,31 @@ export class SprintGame extends Component {
   }
 
   controlsHandlers(): void {
+    document.onkeydown = (e) => {
+      // eslint-disable-next-line default-case
+      switch (e.key) {
+        case 'ArrowLeft':
+          if (this.correctAnswer) {
+            this.rightAnswers?.push(this.currentWord);
+          } else this.wrongAnswers?.push(this.currentWord);
+          this.rightBtn.classList.toggle('sprint-game__rightBtn--active');
+          setTimeout(() => {
+            this.rightBtn.classList.toggle('sprint-game__rightBtn--active');
+          }, 200);
+          this.run();
+          break;
+        case 'ArrowRight':
+          if (!this.correctAnswer) {
+            this.rightAnswers?.push(this.currentWord);
+          } else this.wrongAnswers?.push(this.currentWord);
+          this.wrongBtn.classList.toggle('sprint-game__wrongBtn--active');
+          setTimeout(() => {
+            this.wrongBtn.classList.toggle('sprint-game__wrongBtn--active');
+          }, 200);
+          this.run();
+          break;
+      }
+    };
     this.rightBtn.addEventListener('click', () => {
       if (this.correctAnswer) {
         this.rightAnswers?.push(this.currentWord);
@@ -125,24 +154,45 @@ export class SprintGame extends Component {
 
   renderResults(): void {
     this.sprintGameContainer.innerHTML = '';
-    this.wordsWrapper = new Component(
+    this.resultsContainer = new Component(
       this.sprintGameContainer,
       'div',
-      'sprint-game__words-wrapper',
+      'sprint-game__results-container',
+    ).node;
+
+    this.wordsWrapper = new Component(
+      this.resultsContainer,
+      'div',
+      'sprint-game__results-wrapper',
+    ).node;
+
+    this.resultsTitle = new Component(
+      this.wordsWrapper,
+      'p',
+      'sprint-game__results-title',
       'ВЫ ЗНАЕТЕ ЭТИ СЛОВА:',
     ).node;
+
     this.rightAnswers.forEach((answer) => {
-      this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
+      this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__results-word').node;
       if (answer?.word) this.word.append(answer.word);
     });
+
     this.wordsWrapper = new Component(
-      this.sprintGameContainer,
+      this.resultsContainer,
       'div',
-      'sprint-game__words-wrapper',
-      'ЭТИ СЛОВА НУЖНО ПОДУЧИТЬ:',
+      'sprint-game__results-wrapper',
     ).node;
+
+    this.resultsTitle = new Component(
+      this.wordsWrapper,
+      'p',
+      'sprint-game__results-title',
+      'ЭТИ СЛОВА НУЖНО ПОВТОРИТЬ:',
+    ).node;
+
     this.wrongAnswers.forEach((answer) => {
-      const word = new Component(this.wordsWrapper, 'p', 'sprint-game__word').node;
+      const word = new Component(this.wordsWrapper, 'p', 'sprint-game__results-word').node;
       if (answer?.word) {
         const audioPlayBtn = new Component(word, 'div', 'result__answer-btn');
         const audio = new Component(audioPlayBtn.node, 'audio', 'audio');
@@ -154,16 +204,18 @@ export class SprintGame extends Component {
   }
 
   async compareWords() {
-    this.wordsData = getWords(this.gameLevel.toString(), '0');
-    const words = (await this.wordsData).map((el) => el);
-    const wordTranslations = (await this.wordsData).map((el) => el.wordTranslate);
-    shuffle(words);
-    shuffle(wordTranslations);
-    if (words) {
-      this.currentWord = words.pop();
-      this.word.innerHTML = `${this.currentWord?.word}`;
-      this.comparedWord.innerHTML = `${wordTranslations[0]}`;
-      this.correctAnswer = this.currentWord?.word === wordTranslations[0];
+    if (!(await this.wordsData).length) {
+      this.page++;
+      this.wordsData = getWords(this.gameLevel, this.page);
     }
+
+    const wordTranslations = (await this.wordsData).map((el) => el.wordTranslate);
+    shuffle(wordTranslations);
+    this.currentWord = (await this.wordsData).pop();
+    this.word.innerHTML = `${this.currentWord?.word}`;
+
+    const randomNumber = Math.floor(Math.random() * (wordTranslations.length - 1));
+    this.comparedWord.innerHTML = `${wordTranslations[randomNumber]}`;
+    this.correctAnswer = this.currentWord?.wordTranslate === wordTranslations[randomNumber];
   }
 }
