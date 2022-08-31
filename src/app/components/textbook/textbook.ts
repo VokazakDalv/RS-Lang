@@ -4,6 +4,7 @@ import { WordCard } from '../wordCard/wordCard';
 import { IWord } from '../../types/interface';
 import { TextbookGroups } from './groups';
 import { TextbookPages } from './pages';
+import { SprintGame } from '../sprintGame/sprintGame';
 
 export class Textbook extends Component {
   textbookGroups = new TextbookGroups();
@@ -40,13 +41,19 @@ export class Textbook extends Component {
 
     this.sprintGameBtn = new Component(
       this.textbookGameLinks.node,
-      'button',
+      'a',
       'textbook__sprint-game btn',
       'Sprint-game',
     );
 
-    this.audioGameBtn = new Component(this.textbookGameLinks.node, 'a', 'textbook__audio-game btn', 'Audio-game');
+    this.audioGameBtn = new Component(
+      this.textbookGameLinks.node,
+      'a',
+      'textbook__audio-game btn',
+      'Audio-game',
+    );
     this.audioGameBtn.node.setAttribute('href', '#games/audio');
+    this.sprintGameBtn.node.setAttribute('href', '#games/sprint');
 
     this.textbookCards = new Component(this.node, 'div', 'textbook__cards');
     this.fillCards();
@@ -98,17 +105,18 @@ export class Textbook extends Component {
     });
   }
 
-  fillCards():void {
+  fillCards(): void {
     if (this.textbookCards) {
       this.textbookCards.node.innerHTML = '';
     }
-    this.word.then((resp) => {
-      this.textbookCardsEl = resp.map((el: IWord) => new WordCard(el));
-      console.log(this.textbookCardsEl, 'in fillCards');
-      this.textbookCardsEl.forEach((card: Component) => {
-        this.textbookCards?.node.append(card.node);
-      });
-    })
+    this.word
+      .then((resp) => {
+        this.textbookCardsEl = resp.map((el: IWord) => new WordCard(el));
+        console.log(this.textbookCardsEl, 'in fillCards');
+        this.textbookCardsEl.forEach((card: Component) => {
+          this.textbookCards?.node.append(card.node);
+        });
+      })
       .catch((er) => console.log(er));
   }
 
@@ -117,7 +125,4 @@ export class Textbook extends Component {
     this.word = getWord(this.group, this.page);
     this.fillCards();
   }
-
-  // handlerAudio(): void {
-  // }
 }

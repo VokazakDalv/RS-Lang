@@ -59,6 +59,14 @@ export class App {
       }
       if (currentRouteName === 'games/sprint') {
         this.sprintGame = game as SprintGame;
+        if (localStorage.group) {
+          this.sprintGame.levels.destroy();
+          const group = localStorage.getItem('group');
+          this.sprintGame.gameLevel = group ? +group : 0;
+          this.sprintGame.run();
+          this.sprintGame.startTimer();
+          console.log(this.sprintGame.gameLevel);
+        }
         this.sprintGame.levels.onLevel = (level) => {
           if (this.sprintGame) {
             this.sprintGame.levels.destroy();
@@ -184,7 +192,9 @@ export class App {
             );
           }
         });
-        if (this.rightAnswer) { this.audioGame.renderData(shuffle(this.roundWords), this.rightAnswer.audio); }
+        if (this.rightAnswer) {
+          this.audioGame.renderData(shuffle(this.roundWords), this.rightAnswer.audio);
+        }
         (this.audioGame.audio.node as HTMLAudioElement).play();
       }
     });

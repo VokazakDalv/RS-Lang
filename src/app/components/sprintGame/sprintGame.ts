@@ -50,13 +50,13 @@ export class SprintGame extends Component {
 
   audioPlayBtn!: Component<HTMLElement>;
 
-  wordsData = getWords(this.gameLevel, 0);
-
-  page = 0;
+  page = localStorage.page ? Number(localStorage.page) : 0;
 
   resultsContainer!: HTMLElement;
 
   resultsTitle!: HTMLElement;
+
+  wordsData!: Promise<wordData[]>;
 
   constructor() {
     super(null, 'main', 'sprint-game');
@@ -96,7 +96,7 @@ export class SprintGame extends Component {
     this.controlsHandlers();
   }
 
-  run() {
+  async run() {
     const timer = document.querySelector('.timer__container');
     if (timer) {
       if (timer?.innerHTML <= '0') {
@@ -112,39 +112,39 @@ export class SprintGame extends Component {
       // eslint-disable-next-line default-case
       switch (e.key) {
         case 'ArrowLeft':
-          if (this.correctAnswer) {
+          if (this.correctAnswer && this.currentWord) {
             this.rightAnswers?.push(this.currentWord);
-          } else this.wrongAnswers?.push(this.currentWord);
+          } else if (this.currentWord) this.wrongAnswers?.push(this.currentWord);
           this.rightBtn.classList.toggle('sprint-game__rightBtn--active');
           setTimeout(() => {
             this.rightBtn.classList.toggle('sprint-game__rightBtn--active');
           }, 200);
-          this.run();
+          if (this.currentWord) this.run();
           break;
         case 'ArrowRight':
-          if (!this.correctAnswer) {
+          if (!this.correctAnswer && this.currentWord) {
             this.rightAnswers?.push(this.currentWord);
-          } else this.wrongAnswers?.push(this.currentWord);
+          } else if (this.currentWord) this.wrongAnswers?.push(this.currentWord);
           this.wrongBtn.classList.toggle('sprint-game__wrongBtn--active');
           setTimeout(() => {
             this.wrongBtn.classList.toggle('sprint-game__wrongBtn--active');
           }, 200);
-          this.run();
+          if (this.currentWord) this.run();
           break;
       }
     };
     this.rightBtn.addEventListener('click', () => {
-      if (this.correctAnswer) {
+      if (this.correctAnswer && this.currentWord) {
         this.rightAnswers?.push(this.currentWord);
-      } else this.wrongAnswers?.push(this.currentWord);
-      this.run();
+      } else if (this.currentWord) this.wrongAnswers?.push(this.currentWord);
+      if (this.currentWord) this.run();
     });
 
     this.wrongBtn.addEventListener('click', () => {
-      if (!this.correctAnswer) {
+      if (!this.correctAnswer && this.currentWord) {
         this.rightAnswers?.push(this.currentWord);
-      } else this.wrongAnswers?.push(this.currentWord);
-      this.run();
+      } else if (this.currentWord) this.wrongAnswers?.push(this.currentWord);
+      if (this.currentWord) this.run();
     });
   }
 
@@ -175,6 +175,7 @@ export class SprintGame extends Component {
 
     this.rightAnswers.forEach((answer) => {
       this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__results-word').node;
+      console.log(answer?.word);
       if (answer?.word) this.word.append(answer.word);
     });
 
@@ -204,14 +205,18 @@ export class SprintGame extends Component {
   }
 
   async compareWords() {
-    if (!(await this.wordsData).length) {
+    if (!(await this.wordsData)) this.wordsData = getWords(this.gameLevel, this.page);
+    else if (!(await this.wordsData).length) {
       this.page++;
       this.wordsData = getWords(this.gameLevel, this.page);
     }
 
     const wordTranslations = (await this.wordsData).map((el) => el.wordTranslate);
     shuffle(wordTranslations);
+    console.log(await this.wordsData);
+    if (!(await this.wordsData).length) this.renderResults();
     this.currentWord = (await this.wordsData).pop();
+    if (!this.currentWord) this.renderResults();
     this.word.innerHTML = `${this.currentWord?.word}`;
 
     const randomNumber = Math.floor(Math.random() * (wordTranslations.length - 1));
