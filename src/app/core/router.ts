@@ -3,13 +3,14 @@ import { Component } from '../components/component';
 import { IRoute } from '../types/interface';
 import { MainStartPage } from '../components/main/main';
 import { AudioGame } from '../components/audioGame/audiogame';
+import { Textbook } from '../components/textbook/textbook';
 import { Games } from '../components/games/games';
 import { SprintGame } from '../components/sprintGame/sprintGame';
 
 export const routing: IRoute[] = [
   {
     name: Href.TEXTBOOK,
-    component: (): Component => new Component(null, 'main', 'textbook', 'textbook'),
+    component: (): Component => new Textbook(),
   },
   {
     name: Href.GAMES,

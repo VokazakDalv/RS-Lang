@@ -129,32 +129,34 @@ export class Header {
       loginBtnHandler();
       logoutBtnHandler();
     };
+
+    this.menuBurger.addEventListener('click', () => {
+      if (this.menuBurger.classList.contains('open') && this.menuList.classList.contains('open')) {
+        this.closeBurgerMenu();
+      } else {
+        this.openBurgerMenu();
+      }
+    });
+
+    this.menu.addEventListener('click', (event) => {
+      const { target } = event;
+      if (target === this.menuBurger
+        || (<HTMLElement> target).classList.contains('menu__link')
+        || !(<HTMLElement> target).closest('.menu__list')) {
+        this.closeBurgerMenu();
+      }
+    });
+  }
+
+  openBurgerMenu(): void {
+    document.body.classList.add('lock');
+    this.menuList.classList.add('open');
+    this.menuBurger.classList.add('open');
+  }
+
+  closeBurgerMenu(): void {
+    document.body.classList.remove('lock');
+    this.menuList.classList.remove('open');
+    this.menuBurger.classList.remove('open');
   }
 }
-
-// const iconMenu = document.querySelector('.header__burger');
-// const menuList = document.querySelector('.menu__list');
-// const nav = document.querySelector('.menu');
-
-// function closeMenu() {
-//   if (iconMenu!.classList.contains('open') && menuList!.classList.contains('open')) {
-//     document.body.classList.remove('lock');
-//     menuList!.classList.remove('open');
-//     iconMenu!.classList.remove('open');
-//   }
-// }
-
-// iconMenu!.addEventListener('click', () => {
-//   document.body.classList.toggle('lock');
-//   menuList!.classList.toggle('open');
-//   iconMenu!.classList.toggle('open');
-// });
-
-// nav!.addEventListener('click', (event) => {
-//   const { target } = event;
-//   if (target === iconMenu
-//         || (<HTMLElement> target).classList.contains('menu__link')
-//         || !(<HTMLElement> target).closest('.menu__list')) {
-//     closeMenu();
-//   }
-// });

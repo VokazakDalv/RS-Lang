@@ -32,6 +32,8 @@ export class AudioGame extends Component {
 
   audio = new Component(this.audioPlayBtn.node, 'audio', 'audio');
 
+  audioPlay = new Component(this.node, 'audio');
+
   constructor() {
     super(null, 'main', 'audio-game');
 
@@ -50,16 +52,16 @@ export class AudioGame extends Component {
       this.audioControl.node.innerText = 'НЕ ЗНАЮ';
       (this.audioImg.node as HTMLImageElement).src = '';
       this.audioWord.node.innerText = '';
-      option.innerHTML = gameWords[i];
+      option.innerHTML = `${i + 1} ${gameWords[i]}`;
     });
   }
 
   renderAnswer(right: wordData, wrong: string):void {
     Array.from(this.audioOptions.node.children).forEach((el) => {
-      if (el.innerHTML === right.wordTranslate) {
+      if (el.innerHTML.slice(2) === right.wordTranslate) {
         (el as HTMLElement).style.backgroundColor = 'green';
       }
-      if (wrong && el.innerHTML === wrong) {
+      if (wrong && el.innerHTML.slice(2) === wrong) {
         (el as HTMLElement).style.backgroundColor = 'red';
       }
       this.audioControl.node.innerText = 'следующий';
