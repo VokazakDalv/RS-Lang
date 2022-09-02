@@ -5,7 +5,8 @@
     padding: 10px;
     border-radius: 10px;
     width: 400px;
-    height: 700px;
+    height: 500px;
+    overflow: auto;
     z-index: 12;
     visibility: hidden;
     color: #000;
@@ -30,10 +31,10 @@
       inset -3px -3px 5px rgb(0 0 0 / 50%);
     &:hover::before,
     &:hover::after {
-      background-color: rgb(255, 0, 0);
+      background-color: #ad65c8;
     }
     &:hover {
-      border-color: rgb(255, 0, 0);
+      border-color: #ad65c8;
     }
     &::before {
       content: "";
@@ -65,7 +66,7 @@
       inset 2px 2px 5px rgb(255 255 255 / 25%),
       inset -3px -3px 5px rgb(0 0 0 / 50%);
     &:hover {
-      background-color: rgb(55, 105, 55);
+      background-color: #ad65c8;
     }
   }
   &__result-container {

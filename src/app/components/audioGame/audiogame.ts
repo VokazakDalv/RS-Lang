@@ -48,7 +48,7 @@ export class AudioGame extends Component {
       if (option.getAttribute('disabled')) {
         option.removeAttribute('disabled');
       }
-      (option as HTMLElement).style.backgroundColor = '#fff';
+      (option as HTMLElement).style.backgroundColor = '#8D5CF6';
       this.audioControl.node.innerText = 'НЕ ЗНАЮ';
       (this.audioImg.node as HTMLImageElement).src = '';
       this.audioWord.node.innerText = '';
@@ -59,10 +59,10 @@ export class AudioGame extends Component {
   renderAnswer(right: wordData, wrong: string):void {
     Array.from(this.audioOptions.node.children).forEach((el) => {
       if (el.innerHTML.slice(2) === right.wordTranslate) {
-        (el as HTMLElement).style.backgroundColor = 'green';
+        (el as HTMLElement).style.backgroundColor = '#ad65c8';
       }
       if (wrong && el.innerHTML.slice(2) === wrong) {
-        (el as HTMLElement).style.backgroundColor = 'red';
+        (el as HTMLElement).style.backgroundColor = '#ff7b52';
       }
       this.audioControl.node.innerText = 'следующий';
       (this.audioImg.node as HTMLImageElement).src = `${baseURL}/${right.image}`;
