@@ -23,8 +23,8 @@ export class Games extends Component {
   constructor() {
     super(null, 'main', 'games');
     (this.audio.node as HTMLImageElement).setAttribute('href', '#games/audio');
-    (this.audio.node as HTMLImageElement).setAttribute('style', '--clr:#00ccff; --i:0;');
+    (this.audio.node as HTMLImageElement).setAttribute('style', '--clr:#8d5cf6; --i:0;');
     (this.sprint.node as HTMLImageElement).setAttribute('href', '#games/sprint');
-    (this.sprint.node as HTMLImageElement).setAttribute('style', '--clr:#00ccff; --i:0;');
+    (this.sprint.node as HTMLImageElement).setAttribute('style', '--clr:#8d5cf6; --i:0;');
   }
 }
