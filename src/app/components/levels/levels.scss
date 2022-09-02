@@ -2,7 +2,7 @@
 
 .levels {
   position: absolute;
-  height: 100vh;
+  height: calc(100vh - 171px);
   width: 100vw;
   display: flex;
   justify-content: center;

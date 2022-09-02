@@ -1,12 +1,10 @@
 .audio-game {
   position: absolute;
-  height: 100vh;
+  height: calc(100vh - 171px);
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 0;
-  left: 0;
   background-color: #26335D;
   z-index: 11;
   &__container {
