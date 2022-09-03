@@ -1,6 +1,10 @@
 import { Component } from '../component';
 import { baseURL } from '../../constants/api';
 import { IWord } from '../../types/interface';
+import {
+  createUserWord, getUserWords, deleteUserWord, getUserWord,
+} from '../../API/wordCard';
+import { IUserWord, LoginResponse, wordDifficult } from '../../types/types';
 
 export class WordCard extends Component {
   imgContainer = new Component(this.node, 'div', 'card__img-container');
@@ -43,8 +47,25 @@ export class WordCard extends Component {
 
   boundHandler: () => void;
 
+  authData = JSON.parse(localStorage.authData);
+
+  id: string;
+
+  wordDifficult: wordDifficult;
+
+  userWord: Promise<IUserWord | null>;
+
+  wordDifficulty?: IUserWord;
+
   constructor(data: IWord) {
     super(null, 'div', 'word-cards__item card');
+
+    this.id = data.id;
+
+    this.wordDifficult = {
+      difficulty: 'hard',
+      optional: {},
+    };
 
     (this.img.node as HTMLImageElement).src = `${baseURL}/${data.image}`;
 
@@ -63,8 +84,10 @@ export class WordCard extends Component {
     this.phraseEn.node.innerHTML = data.textExample;
     this.phraseRu.node.innerHTML = data.textExampleTranslate;
 
-    if (localStorage.length) {
-      this.btnDifficultWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_difficult-btn', '!');
+    if (this.authData) {
+      this.btnDifficultWord = new Component(this.imgContainer.node, 'input', 'card__btn card__btn_difficult-btn', '!');
+      (this.btnDifficultWord.node as HTMLInputElement).type = 'checkbox';
+
       this.btnStudiedWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_studied-btn');
       this.btnStudiedWord.node.innerHTML = '&#10003;';
     }
@@ -74,6 +97,16 @@ export class WordCard extends Component {
     this.boundHandler = this.playAudio.bind(this, this.audioUrls);
 
     this.handlerAudioBtn();
+    this.addWordInHard();
+
+    this.userWord = getUserWord(this.authData.userId, this.id);
+
+    this.userWord.then((resp) => {
+      if (resp) {
+        this.wordDifficulty = resp;
+        console.log(this.wordDifficulty);
+      }
+    });
   }
 
   handlerAudioBtn(): void {
@@ -101,6 +134,22 @@ export class WordCard extends Component {
         arr[2].addEventListener('ended', () => {
           this.handlerAudioBtn();
         });
+      }
+    });
+  }
+
+  addWordInHard(): void {
+    this.btnDifficultWord?.node.addEventListener('click', () => {
+      const authData: LoginResponse = JSON.parse(localStorage.authData);
+      const userWord = {
+        userId: authData.userId,
+        wordId: this.id,
+        word: this.wordDifficult,
+      };
+      if ((this.btnDifficultWord?.node as HTMLInputElement).checked) {
+        createUserWord(userWord);
+      } else {
+        deleteUserWord(this.authData.userId, this.id);
       }
     });
   }

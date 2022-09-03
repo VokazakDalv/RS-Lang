@@ -19,3 +19,4 @@ export interface IWord {
   'textMeaningTranslate': 'string',
   'textExampleTranslate': 'string'
 }
+

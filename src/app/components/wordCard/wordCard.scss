@@ -109,7 +109,8 @@
 
   &_difficult-btn {
     left: calc(50% - 40px);
-    &:hover {
+    &:hover,
+    &:checked {
       background-color: $secondary-color;
     }
   }
