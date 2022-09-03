@@ -2,9 +2,9 @@ import { Component } from '../component';
 import { baseURL } from '../../constants/api';
 import { IWord } from '../../types/interface';
 import {
-  createUserWord, getUserWords, deleteUserWord, getUserWord,
+  createUserWord, deleteUserWord, getUserWord,
 } from '../../API/wordCard';
-import { IUserWord, LoginResponse, wordDifficult } from '../../types/types';
+import { LoginResponse, wordDifficult } from '../../types/types';
 
 export class WordCard extends Component {
   imgContainer = new Component(this.node, 'div', 'card__img-container');
@@ -53,9 +53,9 @@ export class WordCard extends Component {
 
   wordDifficult: wordDifficult;
 
-  userWord: Promise<IUserWord | null>;
+  userWord: Promise<wordDifficult | null>;
 
-  wordDifficulty?: IUserWord;
+  wordDifficulty?: string;
 
   constructor(data: IWord) {
     super(null, 'div', 'word-cards__item card');
@@ -84,9 +84,21 @@ export class WordCard extends Component {
     this.phraseEn.node.innerHTML = data.textExample;
     this.phraseRu.node.innerHTML = data.textExampleTranslate;
 
+    this.userWord = getUserWord(this.authData.userId, this.id);
+
+    this.userWord.then((resp) => {
+      if (resp) {
+        this.wordDifficulty = resp.difficulty;
+        if (this.wordDifficulty === 'hard') {
+          this.btnDifficultWord?.node.classList.add('checked');
+        } else if (this.wordDifficulty === 'studied') {
+          this.btnStudiedWord?.node.classList.add('checked');
+        }
+      }
+    });
+
     if (this.authData) {
-      this.btnDifficultWord = new Component(this.imgContainer.node, 'input', 'card__btn card__btn_difficult-btn', '!');
-      (this.btnDifficultWord.node as HTMLInputElement).type = 'checkbox';
+      this.btnDifficultWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_difficult-btn', '!');
 
       this.btnStudiedWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_studied-btn');
       this.btnStudiedWord.node.innerHTML = '&#10003;';
@@ -97,16 +109,8 @@ export class WordCard extends Component {
     this.boundHandler = this.playAudio.bind(this, this.audioUrls);
 
     this.handlerAudioBtn();
-    this.addWordInHard();
-
-    this.userWord = getUserWord(this.authData.userId, this.id);
-
-    this.userWord.then((resp) => {
-      if (resp) {
-        this.wordDifficulty = resp;
-        console.log(this.wordDifficulty);
-      }
-    });
+    this.switchWordHard();
+    this.switchWordStudied();
   }
 
   handlerAudioBtn(): void {
@@ -138,7 +142,7 @@ export class WordCard extends Component {
     });
   }
 
-  addWordInHard(): void {
+  switchWordHard(): void {
     this.btnDifficultWord?.node.addEventListener('click', () => {
       const authData: LoginResponse = JSON.parse(localStorage.authData);
       const userWord = {
@@ -146,9 +150,35 @@ export class WordCard extends Component {
         wordId: this.id,
         word: this.wordDifficult,
       };
-      if ((this.btnDifficultWord?.node as HTMLInputElement).checked) {
+      if (!this.btnDifficultWord?.node.classList.contains('checked')) {
+        this.btnDifficultWord?.node.classList.add('checked');
+        this.btnStudiedWord?.node.classList.remove('checked');
         createUserWord(userWord);
       } else {
+        this.btnDifficultWord?.node.classList.remove('checked');
+        deleteUserWord(this.authData.userId, this.id);
+      }
+    });
+  }
+
+  switchWordStudied(): void {
+    this.btnStudiedWord?.node.addEventListener('click', () => {
+      const authData: LoginResponse = JSON.parse(localStorage.authData);
+      this.wordDifficult = {
+        difficulty: 'studied',
+        optional: {},
+      };
+      const userWord = {
+        userId: authData.userId,
+        wordId: this.id,
+        word: this.wordDifficult,
+      };
+      if (!this.btnStudiedWord?.node.classList.contains('checked')) {
+        this.btnStudiedWord?.node.classList.add('checked');
+        this.btnDifficultWord?.node.classList.remove('checked');
+        createUserWord(userWord);
+      } else {
+        this.btnStudiedWord?.node.classList.remove('checked');
         deleteUserWord(this.authData.userId, this.id);
       }
     });

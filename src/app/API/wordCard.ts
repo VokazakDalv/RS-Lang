@@ -1,5 +1,5 @@
 import { baseURL } from '../constants/api';
-import { IUserWord, LoginResponse } from '../types/types';
+import { IUserWord, LoginResponse, wordDifficult } from '../types/types';
 
 let authData: LoginResponse;
 if (localStorage.authData) {
@@ -29,7 +29,7 @@ export const deleteUserWord = async (userId: string, wordId: string): Promise<vo
   });
 };
 
-export const getUserWord = async (userId: string, wordId: string): Promise<IUserWord | null> => {
+export const getUserWord = async (userId: string, wordId: string): Promise<wordDifficult | null> => {
   const resp = await fetch(`${baseURL}/users/${userId}/words/${wordId}`, {
     method: 'GET',
     headers: {

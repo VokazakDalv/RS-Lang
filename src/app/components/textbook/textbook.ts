@@ -58,8 +58,6 @@ export class Textbook extends Component {
 
     this.textbookCards = new Component(this.node, 'div', 'textbook__cards');
     this.fillCards();
-    console.log(this.word);
-    console.log(this.textbookCardsEl);
     this.node.append(this.textbookPages.node);
     this.handlerPageControls();
     this.handlerFirstPageControl();
@@ -112,7 +110,6 @@ export class Textbook extends Component {
     }
     this.word.then((resp) => {
       this.textbookCardsEl = resp.map((el: IWord) => new WordCard(el));
-      console.log(this.textbookCardsEl, 'in fillCards');
       this.textbookCardsEl.forEach((card: Component) => {
         this.textbookCards?.node.append(card.node);
       });

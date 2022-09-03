@@ -110,13 +110,14 @@
   &_difficult-btn {
     left: calc(50% - 40px);
     &:hover,
-    &:checked {
+    &.checked {
       background-color: $secondary-color;
     }
   }
   &_studied-btn {
     right: calc(50% - 40px);
-    &:hover {
+    &:hover,
+    &.checked {
       background-color: var(--group-color);
     }
   }
