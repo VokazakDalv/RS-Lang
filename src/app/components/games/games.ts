@@ -26,5 +26,12 @@ export class Games extends Component {
     (this.audio.node as HTMLImageElement).setAttribute('style', '--clr:#8d5cf6; --i:0;');
     (this.sprint.node as HTMLImageElement).setAttribute('href', '#games/sprint');
     (this.sprint.node as HTMLImageElement).setAttribute('style', '--clr:#8d5cf6; --i:0;');
+    this.sprintHandler();
+  }
+
+  sprintHandler():void {
+    this.sprint.node.addEventListener('click', () => {
+      localStorage.removeItem('group');
+    });
   }
 }

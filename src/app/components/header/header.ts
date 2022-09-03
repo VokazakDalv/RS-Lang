@@ -93,12 +93,7 @@ export class Header {
 
     this.menuStatistic.append(this.linkStatistic);
 
-    this.menuList.append(
-      this.menuMain,
-      this.menuBook,
-      this.menuGames,
-      this.menuStatistic,
-    );
+    this.menuList.append(this.menuMain, this.menuBook, this.menuGames, this.menuStatistic);
 
     this.overlay = document.createElement('div');
     this.overlay.classList.add('menu__overlay');
@@ -140,9 +135,11 @@ export class Header {
 
     this.menu.addEventListener('click', (event) => {
       const { target } = event;
-      if (target === this.menuBurger
-        || (<HTMLElement> target).classList.contains('menu__link')
-        || !(<HTMLElement> target).closest('.menu__list')) {
+      if (
+        target === this.menuBurger
+        || (<HTMLElement>target).classList.contains('menu__link')
+        || !(<HTMLElement>target).closest('.menu__list')
+      ) {
         this.closeBurgerMenu();
       }
     });
@@ -160,4 +157,3 @@ export class Header {
     this.menuBurger.classList.remove('open');
   }
 }
-
