@@ -65,7 +65,6 @@ export class App {
           this.sprintGame.gameLevel = group ? +group : 0;
           this.sprintGame.run();
           this.sprintGame.startTimer();
-          console.log(this.sprintGame.gameLevel);
         }
         this.sprintGame.levels.onLevel = (level) => {
           if (this.sprintGame) {

@@ -1,12 +1,10 @@
 .sprint-game {
   position: absolute;
-  height: 100vh;
+  height: calc(100vh - 91px);
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 0;
-  left: 0;
   background-color: #26335d;
   z-index: 11;
   &__container {
