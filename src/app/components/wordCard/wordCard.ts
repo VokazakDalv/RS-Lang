@@ -39,8 +39,6 @@ export class WordCard extends Component {
 
   btnStudiedWord?: Component;
 
-  audioUrls: string[];
-
   audioArr?: HTMLAudioElement[];
 
   boundHandlerPlayAudio: () => void;
@@ -54,6 +52,12 @@ export class WordCard extends Component {
   userWord: Promise<wordDifficult | null>;
 
   wordDifficulty?: string;
+
+  audioWord: HTMLAudioElement;
+
+  audioMeaning: HTMLAudioElement;
+
+  audioExample: HTMLAudioElement;
 
   constructor(data: IWord) {
     super(null, 'div', 'word-cards__item card');
@@ -88,11 +92,14 @@ export class WordCard extends Component {
       this.btnStudiedWord.node.innerHTML = '&#10003;';
     }
 
-    this.audioUrls = [data.audio, data.audioMeaning, data.audioExample];
+    this.audioWord = new Audio(`${baseURL}/${data.audio}`);
+    this.audioMeaning = new Audio(`${baseURL}/${data.audioMeaning}`);
+    this.audioExample = new Audio(`${baseURL}/${data.audioExample}`);
 
-    this.boundHandlerPlayAudio = this.playAudio.bind(this, this.audioUrls);
+    this.boundHandlerPlayAudio = this.playAudio.bind(this);
 
     this.handlerAudioBtn();
+
     this.btnDifficultWord?.node.addEventListener('click', () => this.switchWordHard(
       this.btnDifficultWord!,
       'hard',
@@ -104,31 +111,16 @@ export class WordCard extends Component {
   }
 
   handlerAudioBtn(): void {
-    (this.audio.node as HTMLButtonElement).disabled = false;
     this.audio.node.addEventListener('click', this.boundHandlerPlayAudio);
   }
 
-  removeHandlerAudioBtn(): void {
-    (this.audio.node as HTMLButtonElement).disabled = true;
-    this.audio.node.removeEventListener('click', this.boundHandlerPlayAudio);
-  }
-
-  playAudio(urls: string[]): void {
-    this.audioArr = urls.map((url) => new Audio(`${baseURL}/${url}`));
-    this.removeHandlerAudioBtn();
-    this.audioArr.forEach((audio, index, arr) => {
-      if (index === 0) {
-        audio.play();
-      } else {
-        arr[index - 1].addEventListener('ended', () => {
-          audio.play();
-        });
-      }
-      if (index === 2) {
-        arr[2].addEventListener('ended', () => {
-          this.handlerAudioBtn();
-        });
-      }
+  playAudio(): void {
+    this.audioWord.play();
+    this.audioWord.addEventListener('ended', () => {
+      this.audioMeaning.play();
+    });
+    this.audioMeaning.addEventListener('ended', () => {
+      this.audioExample.play();
     });
   }
 

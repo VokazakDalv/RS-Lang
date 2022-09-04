@@ -67,6 +67,8 @@ export class Textbook extends Component {
     this.handlerFirstPageControl();
     this.handlerLastPageControl();
     this.textbookPages.switchPageControls(this.page);
+
+    this.deactivateAllCards();
   }
 
   handlerGroupButtons(): void {
@@ -117,6 +119,10 @@ export class Textbook extends Component {
       this.textbookCardsEl.forEach((card: Component) => {
         this.textbookCards?.node.append(card.node);
       });
+      this.textbookCardsEl.forEach((card: WordCard) => {
+        card.audioWord.addEventListener('play', this.deactivateAllCards.bind(this));
+        card.audioExample.addEventListener('ended', this.activateAllCards.bind(this));
+      });
     })
       .catch((er) => console.log(er));
   }
@@ -125,5 +131,17 @@ export class Textbook extends Component {
     this.textbookPages.switchPageControls(this.page);
     this.word = getWord(this.group, this.page);
     this.fillCards();
+  }
+
+  private deactivateAllCards() {
+    this.textbookCardsEl?.forEach((card) => {
+      (card.audio.node as HTMLButtonElement).disabled = true;
+    });
+  }
+
+  private activateAllCards() {
+    this.textbookCardsEl?.forEach((card) => {
+      (card.audio.node as HTMLButtonElement).disabled = false;
+    });
   }
 }
