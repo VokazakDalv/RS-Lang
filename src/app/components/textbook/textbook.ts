@@ -71,8 +71,6 @@ export class Textbook extends Component {
     this.handlerFirstPageControl();
     this.handlerLastPageControl();
     this.textbookPages.switchPageControls(this.page);
-
-    this.deactivateAllCards();
   }
 
   handlerGroupButtons(): void {
@@ -81,6 +79,7 @@ export class Textbook extends Component {
         if (index === 6) {
           this.word = getAllHardWords(this.authData.userId);
           this.fillCards();
+          this.handlerHardWordBtn();
         }
         this.group = index;
         this.page = 0;
@@ -131,6 +130,16 @@ export class Textbook extends Component {
         card.audioWord.addEventListener('play', this.deactivateAllCards.bind(this));
         card.audioExample.addEventListener('ended', this.activateAllCards.bind(this));
       });
+
+      if (this.group === 6) {
+        this.textbookCardsEl.forEach((card: WordCard) => {
+          card.btnDifficultWord?.node.addEventListener('click', () => {
+            if (!card.btnDifficultWord?.node.classList.contains('checked')) {
+              card.node.classList.add('hidden');
+            }
+          });
+        });
+      }
     })
       .catch((er) => console.log(er));
   }
@@ -150,6 +159,14 @@ export class Textbook extends Component {
   private activateAllCards() {
     this.textbookCardsEl?.forEach((card) => {
       (card.audio.node as HTMLButtonElement).disabled = false;
+    });
+  }
+
+  handlerHardWordBtn() {
+    this.textbookCardsEl?.forEach((card: WordCard) => {
+      card.btnDifficultWord?.node.addEventListener('click', () => {
+        console.log(card);
+      });
     });
   }
 }

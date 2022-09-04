@@ -18,6 +18,10 @@
   @media screen and (max-width: 768px) {
     flex-basis: 85%;
   }
+
+  &.hidden {
+    display: none;
+  }
   
   &__img-container {
     position: relative;
