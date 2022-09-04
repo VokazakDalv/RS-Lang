@@ -175,7 +175,6 @@ export class SprintGame extends Component {
 
     this.rightAnswers.forEach((answer) => {
       this.word = new Component(this.wordsWrapper, 'p', 'sprint-game__results-word').node;
-      console.log(answer?.word);
       if (answer?.word) this.word.append(answer.word);
     });
 
@@ -213,7 +212,6 @@ export class SprintGame extends Component {
 
     const wordTranslations = (await this.wordsData).map((el) => el.wordTranslate);
     shuffle(wordTranslations);
-    console.log(await this.wordsData);
     if (!(await this.wordsData).length) this.renderResults();
     this.currentWord = (await this.wordsData).pop();
     if (!this.currentWord) this.renderResults();
