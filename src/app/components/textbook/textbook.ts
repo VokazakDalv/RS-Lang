@@ -50,7 +50,7 @@ export class Textbook extends Component {
 
     this.sprintGameBtn = new Component(
       this.textbookGameLinks.node,
-      'button',
+      'a',
       'textbook__sprint-game btn',
       'Sprint-game',
     );
@@ -62,7 +62,14 @@ export class Textbook extends Component {
       'Проверить знания',
     );
 
-    this.audioGameBtn = new Component(this.textbookGameLinks.node, 'button', 'textbook__audio-game btn', 'Audio-game');
+    this.audioGameBtn = new Component(
+      this.textbookGameLinks.node,
+      'a',
+      'textbook__audio-game btn',
+      'Audio-game',
+    );
+    this.audioGameBtn.node.setAttribute('href', '#games/audio');
+    this.sprintGameBtn.node.setAttribute('href', '#games/sprint');
 
     this.textbookCards = new Component(this.node, 'div', 'textbook__cards');
     this.fillCards();
@@ -117,10 +124,11 @@ export class Textbook extends Component {
     });
   }
 
-  fillCards():void {
+  fillCards(): void {
     if (this.textbookCards) {
       this.textbookCards.node.innerHTML = '';
     }
+
     this.word.then((resp) => {
       this.textbookCardsEl = resp.map((el: IWord) => new WordCard(el));
       this.textbookCardsEl.forEach((card: Component) => {
@@ -150,7 +158,7 @@ export class Textbook extends Component {
     this.fillCards();
   }
 
-  private deactivateAllCards() {
+private deactivateAllCards() {
     this.textbookCardsEl?.forEach((card) => {
       (card.audio.node as HTMLButtonElement).disabled = true;
     });

@@ -2,7 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  background: #26335d;
   gap: 40px;
+  height: calc(100vh - 91px);
+  width: 100vw;
   &__btn {
     position: relative;
     padding: 20px 60px;
@@ -83,7 +87,7 @@
     position: absolute;
     width: 150px;
     height: 140%;
-    background: linear-gradient(#00ccff, #d400d4);
+    background: linear-gradient(#da7188, #8D5CF6);
     animation: animateCard 4s linear infinite;
     animation-direction: reverse;
   }

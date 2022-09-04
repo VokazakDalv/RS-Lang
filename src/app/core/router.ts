@@ -2,29 +2,31 @@ import { Href } from '../constants/router-refs';
 import { Component } from '../components/component';
 import { IRoute } from '../types/interface';
 import { MainStartPage } from '../components/main/main';
+import { AudioGame } from '../components/audioGame/audiogame';
 import { Textbook } from '../components/textbook/textbook';
 import { Games } from '../components/games/games';
+import { SprintGame } from '../components/sprintGame/sprintGame';
 
 export const routing: IRoute[] = [
   {
     name: Href.TEXTBOOK,
-    component: (): HTMLElement => new Textbook().node,
+    component: (): Component => new Textbook(),
   },
   {
     name: Href.GAMES,
-    component: (): HTMLElement => new Games().node,
+    component: (): Component => new Games(),
   },
   {
     name: Href.SPRINT,
-    component: (): HTMLElement => new Component(null, 'main', 'spring', 'spring').node,
+    component: (): Component => new SprintGame(),
   },
   {
     name: Href.AUDIO,
-    component: (): HTMLElement => new Component(null, 'main', 'audio', 'audio').node,
+    component: (): Component => new AudioGame(),
   },
   {
     name: Href.STATS,
-    component: (): HTMLElement => new Component(null, 'main', 'statistics', 'statistics').node,
+    component: (): Component => new Component(null, 'main', 'statistics', 'statistics'),
   },
 ];
 

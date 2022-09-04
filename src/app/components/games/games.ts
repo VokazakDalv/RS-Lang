@@ -10,21 +10,28 @@ export class Games extends Component {
 
   audio = new Component(this.audioBtnContainer.node, 'a', 'games__btn');
 
-  audioSpan = new Component(this.audio.node, 'span', 'games__btn-span audio', 'audio');
+  audioSpan = new Component(this.audio.node, 'span', 'games__btn-span audio', 'АУДИО');
 
   sprint = new Component(this.sprintBtnContainer.node, 'a', 'games__btn sprint');
 
-  sprintSpan = new Component(this.sprint.node, 'span', 'games__btn-span', 'sprint');
+  sprintSpan = new Component(this.sprint.node, 'span', 'games__btn-span', 'СПРИНТ');
 
   gamesCard = new Component(this.titleContainer.node, 'div', 'games__card');
 
-  gamesTitle = new Component(this.gamesCard.node, 'h3', 'games__card-title', 'games');
+  gamesTitle = new Component(this.gamesCard.node, 'h3', 'games__card-title', 'ИГРЫ');
 
   constructor() {
     super(null, 'main', 'games');
     (this.audio.node as HTMLImageElement).setAttribute('href', '#games/audio');
-    (this.audio.node as HTMLImageElement).setAttribute('style', '--clr:#00ccff; --i:0;');
+    (this.audio.node as HTMLImageElement).setAttribute('style', '--clr:#8d5cf6; --i:0;');
     (this.sprint.node as HTMLImageElement).setAttribute('href', '#games/sprint');
-    (this.sprint.node as HTMLImageElement).setAttribute('style', '--clr:#00ccff; --i:0;');
+    (this.sprint.node as HTMLImageElement).setAttribute('style', '--clr:#8d5cf6; --i:0;');
+    this.sprintHandler();
+  }
+
+  sprintHandler():void {
+    this.sprint.node.addEventListener('click', () => {
+      localStorage.removeItem('group');
+    });
   }
 }
