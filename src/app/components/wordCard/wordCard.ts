@@ -1,10 +1,8 @@
 import { Component } from '../component';
 import { baseURL } from '../../constants/api';
 import { IWord } from '../../types/interface';
-import {
-  createUserWord, deleteUserWord, getUserWord,
-} from '../../API/wordCard';
-import { LoginResponse, wordDifficult } from '../../types/types';
+import { createUserWord, deleteUserWord, getUserWord } from '../../API/wordCard';
+import { wordDifficult } from '../../types/types';
 
 export class WordCard extends Component {
   imgContainer = new Component(this.node, 'div', 'card__img-container');
@@ -45,13 +43,13 @@ export class WordCard extends Component {
 
   audioArr?: HTMLAudioElement[];
 
-  boundHandler: () => void;
+  boundHandlerPlayAudio: () => void;
 
   authData = JSON.parse(localStorage.authData);
 
   id: string;
 
-  wordDifficult: wordDifficult;
+  wordDifficult?: wordDifficult;
 
   userWord: Promise<wordDifficult | null>;
 
@@ -61,11 +59,6 @@ export class WordCard extends Component {
     super(null, 'div', 'word-cards__item card');
 
     this.id = data.id;
-
-    this.wordDifficult = {
-      difficulty: 'hard',
-      optional: {},
-    };
 
     (this.img.node as HTMLImageElement).src = `${baseURL}/${data.image}`;
 
@@ -86,16 +79,7 @@ export class WordCard extends Component {
 
     this.userWord = getUserWord(this.authData.userId, this.id);
 
-    this.userWord.then((resp) => {
-      if (resp) {
-        this.wordDifficulty = resp.difficulty;
-        if (this.wordDifficulty === 'hard') {
-          this.btnDifficultWord?.node.classList.add('checked');
-        } else if (this.wordDifficulty === 'studied') {
-          this.btnStudiedWord?.node.classList.add('checked');
-        }
-      }
-    });
+    this.switchWordDifficultyBtn();
 
     if (this.authData) {
       this.btnDifficultWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_difficult-btn', '!');
@@ -106,21 +90,27 @@ export class WordCard extends Component {
 
     this.audioUrls = [data.audio, data.audioMeaning, data.audioExample];
 
-    this.boundHandler = this.playAudio.bind(this, this.audioUrls);
+    this.boundHandlerPlayAudio = this.playAudio.bind(this, this.audioUrls);
 
     this.handlerAudioBtn();
-    this.switchWordHard();
-    this.switchWordStudied();
+    this.btnDifficultWord?.node.addEventListener('click', () => this.switchWordHard(
+      this.btnDifficultWord!,
+      'hard',
+    ));
+    this.btnStudiedWord?.node.addEventListener('click', () => this.switchWordHard(
+      this.btnStudiedWord!,
+      'studied',
+    ));
   }
 
   handlerAudioBtn(): void {
     (this.audio.node as HTMLButtonElement).disabled = false;
-    this.audio.node.addEventListener('click', this.boundHandler);
+    this.audio.node.addEventListener('click', this.boundHandlerPlayAudio);
   }
 
   removeHandlerAudioBtn(): void {
     (this.audio.node as HTMLButtonElement).disabled = true;
-    this.audio.node.removeEventListener('click', this.boundHandler);
+    this.audio.node.removeEventListener('click', this.boundHandlerPlayAudio);
   }
 
   playAudio(urls: string[]): void {
@@ -142,45 +132,39 @@ export class WordCard extends Component {
     });
   }
 
-  switchWordHard(): void {
-    this.btnDifficultWord?.node.addEventListener('click', () => {
-      const authData: LoginResponse = JSON.parse(localStorage.authData);
-      const userWord = {
-        userId: authData.userId,
-        wordId: this.id,
-        word: this.wordDifficult,
-      };
-      if (!this.btnDifficultWord?.node.classList.contains('checked')) {
-        this.btnDifficultWord?.node.classList.add('checked');
-        this.btnStudiedWord?.node.classList.remove('checked');
-        createUserWord(userWord);
-      } else {
-        this.btnDifficultWord?.node.classList.remove('checked');
-        deleteUserWord(this.authData.userId, this.id);
+  switchWordDifficultyBtn(): void {
+    this.userWord.then((resp) => {
+      if (resp) {
+        this.wordDifficulty = resp.difficulty;
+        if (this.wordDifficulty === 'hard') {
+          this.btnDifficultWord?.node.classList.add('checked');
+        } else if (this.wordDifficulty === 'studied') {
+          this.btnStudiedWord?.node.classList.add('checked');
+        }
       }
     });
   }
 
-  switchWordStudied(): void {
-    this.btnStudiedWord?.node.addEventListener('click', () => {
-      const authData: LoginResponse = JSON.parse(localStorage.authData);
-      this.wordDifficult = {
-        difficulty: 'studied',
-        optional: {},
-      };
-      const userWord = {
-        userId: authData.userId,
-        wordId: this.id,
-        word: this.wordDifficult,
-      };
-      if (!this.btnStudiedWord?.node.classList.contains('checked')) {
-        this.btnStudiedWord?.node.classList.add('checked');
-        this.btnDifficultWord?.node.classList.remove('checked');
-        createUserWord(userWord);
-      } else {
-        this.btnStudiedWord?.node.classList.remove('checked');
-        deleteUserWord(this.authData.userId, this.id);
-      }
-    });
+  switchWordHard(btn: Component, diff: string): void {
+    this.wordDifficult = {
+      difficulty: diff,
+      optional: {},
+    };
+
+    const userWord = {
+      userId: this.authData.userId,
+      wordId: this.id,
+      word: this.wordDifficult,
+    };
+
+    if (!btn.node.classList.contains('checked')) {
+      this.btnStudiedWord?.node.classList.remove('checked');
+      this.btnDifficultWord?.node.classList.remove('checked');
+      btn.node.classList.add('checked');
+      createUserWord(userWord);
+    } else {
+      btn.node.classList.remove('checked');
+      deleteUserWord(this.authData.userId, this.id);
+    }
   }
 }

@@ -28,6 +28,10 @@ export class Textbook extends Component {
 
   descriptionGameLinks: Component<HTMLElement>;
 
+  authData = JSON.parse(localStorage.authData);
+
+  difficultWords?: string[];
+
   constructor() {
     super(null, 'main', 'textbook container');
     this.word = getWord(this.group, this.page);
@@ -122,7 +126,4 @@ export class Textbook extends Component {
     this.word = getWord(this.group, this.page);
     this.fillCards();
   }
-
-  // handlerAudio(): void {
-  // }
 }

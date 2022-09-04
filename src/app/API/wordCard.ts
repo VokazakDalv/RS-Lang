@@ -16,10 +16,21 @@ export const createUserWord = async ({ userId, wordId, word }: IUserWord): Promi
     },
     body: JSON.stringify(word),
   });
+  if (resp.status === 417) {
+    await fetch(`${baseURL}/users/${userId}/words/${wordId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${authData.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(word),
+    });
+  }
 };
 
 export const deleteUserWord = async (userId: string, wordId: string): Promise<void> => {
-  const resp = await fetch(`${baseURL}/users/${userId}/words/${wordId}`, {
+  await fetch(`${baseURL}/users/${userId}/words/${wordId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${authData.token}`,
