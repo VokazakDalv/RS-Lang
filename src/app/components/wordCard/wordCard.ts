@@ -45,11 +45,11 @@ export class WordCard extends Component {
 
   authData = JSON.parse(localStorage.authData);
 
-  id: string;
+  id: string | undefined;
 
   wordDifficult?: wordDifficult;
 
-  userWord: Promise<wordDifficult | null>;
+  userWord?: Promise<wordDifficult | null>;
 
   wordDifficulty?: string;
 
@@ -62,7 +62,7 @@ export class WordCard extends Component {
   constructor(data: IWord) {
     super(null, 'div', 'word-cards__item card');
 
-    this.id = data.id;
+    this.id = data.id ? data.id : data._id;
 
     (this.img.node as HTMLImageElement).src = `${baseURL}/${data.image}`;
 
@@ -81,7 +81,9 @@ export class WordCard extends Component {
     this.phraseEn.node.innerHTML = data.textExample;
     this.phraseRu.node.innerHTML = data.textExampleTranslate;
 
-    this.userWord = getUserWord(this.authData.userId, this.id);
+    if (this.id) {
+      this.userWord = getUserWord(this.authData.userId, this.id);
+    }
 
     this.switchWordDifficultyBtn();
 
@@ -125,16 +127,18 @@ export class WordCard extends Component {
   }
 
   switchWordDifficultyBtn(): void {
-    this.userWord.then((resp) => {
-      if (resp) {
-        this.wordDifficulty = resp.difficulty;
-        if (this.wordDifficulty === 'hard') {
-          this.btnDifficultWord?.node.classList.add('checked');
-        } else if (this.wordDifficulty === 'studied') {
-          this.btnStudiedWord?.node.classList.add('checked');
+    if (this.userWord) {
+      this.userWord.then((resp) => {
+        if (resp) {
+          this.wordDifficulty = resp.difficulty;
+          if (this.wordDifficulty === 'hard') {
+            this.btnDifficultWord?.node.classList.add('checked');
+          } else if (this.wordDifficulty === 'studied') {
+            this.btnStudiedWord?.node.classList.add('checked');
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   switchWordHard(btn: Component, diff: string): void {
@@ -153,10 +157,13 @@ export class WordCard extends Component {
       this.btnStudiedWord?.node.classList.remove('checked');
       this.btnDifficultWord?.node.classList.remove('checked');
       btn.node.classList.add('checked');
+
       createUserWord(userWord);
     } else {
       btn.node.classList.remove('checked');
-      deleteUserWord(this.authData.userId, this.id);
+      if (this.id) {
+        deleteUserWord(this.authData.userId, this.id);
+      }
     }
   }
 }

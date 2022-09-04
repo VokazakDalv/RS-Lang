@@ -1,10 +1,12 @@
+import { wordDifficult } from './types';
+
 export interface IRoute {
   name: string;
   component: () => HTMLElement;
 }
 
 export interface IWord {
-  'id': 'string',
+  'id'?: 'string',
   'group': 0,
   'page': 0,
   'word': 'string',
@@ -15,8 +17,9 @@ export interface IWord {
   'textMeaning': 'string',
   'textExample': 'string',
   'transcription': 'string',
+  'userWord'?: wordDifficult,
   'wordTranslate': 'string',
   'textMeaningTranslate': 'string',
-  'textExampleTranslate': 'string'
+  'textExampleTranslate': 'string',
+  '_id'?: 'string'
 }
-

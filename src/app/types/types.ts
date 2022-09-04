@@ -28,7 +28,7 @@ export type FetchHeaders = {
 
 export type IUserWord = {
   userId?: string;
-  wordId: string;
+  wordId: string | undefined;
   word: wordDifficult;
 };
 

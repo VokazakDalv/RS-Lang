@@ -1,5 +1,5 @@
 import { Component } from '../component';
-import { getWord } from '../../API/textbook';
+import { getAllHardWords, getWord } from '../../API/textbook';
 import { WordCard } from '../wordCard/wordCard';
 import { IWord } from '../../types/interface';
 import { TextbookGroups } from './groups';
@@ -34,7 +34,11 @@ export class Textbook extends Component {
 
   constructor() {
     super(null, 'main', 'textbook container');
-    this.word = getWord(this.group, this.page);
+    if (this.group === 6) {
+      this.word = getAllHardWords(this.authData.userId);
+    } else {
+      this.word = getWord(this.group, this.page);
+    }
     this.node.append(this.textbookGroups.node);
     if (!localStorage.authData) {
       this.textbookGroups.group[6].node.style.visibility = 'hidden';
@@ -74,6 +78,10 @@ export class Textbook extends Component {
   handlerGroupButtons(): void {
     this.textbookGroups.group.forEach((group, index) => {
       group.node.addEventListener('click', () => {
+        if (index === 6) {
+          this.word = getAllHardWords(this.authData.userId);
+          this.fillCards();
+        }
         this.group = index;
         this.page = 0;
         localStorage.setItem('group', this.group.toString());
