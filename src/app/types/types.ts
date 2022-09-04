@@ -26,6 +26,16 @@ export type FetchHeaders = {
   'Content-Type': 'application/json';
 };
 
+export type IUserWord = {
+  userId?: string;
+  wordId: string | undefined;
+  word: wordDifficult;
+};
+
+export type wordDifficult = {
+  difficulty: string;
+  optional?: Record<string, unknown>;
+
 export type wordData = {
   id: string;
   group: 0;

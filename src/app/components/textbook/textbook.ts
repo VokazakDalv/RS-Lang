@@ -1,5 +1,5 @@
 import { Component } from '../component';
-import { getWord } from '../../api/textbook';
+import { getAllHardWords, getWord } from '../../API/textbook';
 import { WordCard } from '../wordCard/wordCard';
 import { IWord } from '../../types/interface';
 import { TextbookGroups } from './groups';
@@ -26,9 +26,19 @@ export class Textbook extends Component {
 
   textbookCardsEl?: WordCard[];
 
+  descriptionGameLinks: Component<HTMLElement>;
+
+  authData = JSON.parse(localStorage.authData);
+
+  difficultWords?: string[];
+
   constructor() {
     super(null, 'main', 'textbook container');
-    this.word = getWord(this.group, this.page);
+    if (this.group === 6) {
+      this.word = getAllHardWords(this.authData.userId);
+    } else {
+      this.word = getWord(this.group, this.page);
+    }
     this.node.append(this.textbookGroups.node);
     if (!localStorage.authData) {
       this.textbookGroups.group[6].node.style.visibility = 'hidden';
@@ -43,6 +53,13 @@ export class Textbook extends Component {
       'a',
       'textbook__sprint-game btn',
       'Sprint-game',
+    );
+
+    this.descriptionGameLinks = new Component(
+      this.textbookGameLinks.node,
+      'p',
+      'textbook__game-descr',
+      'Проверить знания',
     );
 
     this.audioGameBtn = new Component(
@@ -66,6 +83,11 @@ export class Textbook extends Component {
   handlerGroupButtons(): void {
     this.textbookGroups.group.forEach((group, index) => {
       group.node.addEventListener('click', () => {
+        if (index === 6) {
+          this.word = getAllHardWords(this.authData.userId);
+          this.fillCards();
+          this.handlerHardWordBtn();
+        }
         this.group = index;
         this.page = 0;
         localStorage.setItem('group', this.group.toString());
@@ -106,19 +128,53 @@ export class Textbook extends Component {
     if (this.textbookCards) {
       this.textbookCards.node.innerHTML = '';
     }
-    this.word
-      .then((resp) => {
-        this.textbookCardsEl = resp.map((el: IWord) => new WordCard(el));
-        this.textbookCardsEl.forEach((card: Component) => {
-          this.textbookCards?.node.append(card.node);
+
+    this.word.then((resp) => {
+      this.textbookCardsEl = resp.map((el: IWord) => new WordCard(el));
+      this.textbookCardsEl.forEach((card: Component) => {
+        this.textbookCards?.node.append(card.node);
+      });
+      this.textbookCardsEl.forEach((card: WordCard) => {
+        card.audioWord.addEventListener('play', this.deactivateAllCards.bind(this));
+        card.audioExample.addEventListener('ended', this.activateAllCards.bind(this));
+      });
+
+      if (this.group === 6) {
+        this.textbookCardsEl.forEach((card: WordCard) => {
+          card.btnDifficultWord?.node.addEventListener('click', () => {
+            if (!card.btnDifficultWord?.node.classList.contains('checked')) {
+              card.node.classList.add('hidden');
+            }
+          });
         });
-      })
-      .catch((er) => new Error(er));
+      }
+    })
+      .catch((er) => console.log(er));
   }
 
   refreshTextbookPage(): void {
     this.textbookPages.switchPageControls(this.page);
     this.word = getWord(this.group, this.page);
     this.fillCards();
+  }
+
+private deactivateAllCards() {
+    this.textbookCardsEl?.forEach((card) => {
+      (card.audio.node as HTMLButtonElement).disabled = true;
+    });
+  }
+
+  private activateAllCards() {
+    this.textbookCardsEl?.forEach((card) => {
+      (card.audio.node as HTMLButtonElement).disabled = false;
+    });
+  }
+
+  handlerHardWordBtn() {
+    this.textbookCardsEl?.forEach((card: WordCard) => {
+      card.btnDifficultWord?.node.addEventListener('click', () => {
+        console.log(card);
+      });
+    });
   }
 }

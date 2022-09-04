@@ -1,6 +1,8 @@
 import { Component } from '../component';
 import { baseURL } from '../../constants/api';
 import { IWord } from '../../types/interface';
+import { createUserWord, deleteUserWord, getUserWord } from '../../API/wordCard';
+import { wordDifficult } from '../../types/types';
 
 export class WordCard extends Component {
   imgContainer = new Component(this.node, 'div', 'card__img-container');
@@ -37,14 +39,30 @@ export class WordCard extends Component {
 
   btnStudiedWord?: Component;
 
-  audioUrls: string[];
-
   audioArr?: HTMLAudioElement[];
 
-  boundHandler: () => void;
+  boundHandlerPlayAudio: () => void;
+
+  authData = JSON.parse(localStorage.authData);
+
+  id: string | undefined;
+
+  wordDifficult?: wordDifficult;
+
+  userWord?: Promise<wordDifficult | null>;
+
+  wordDifficulty?: string;
+
+  audioWord: HTMLAudioElement;
+
+  audioMeaning: HTMLAudioElement;
+
+  audioExample: HTMLAudioElement;
 
   constructor(data: IWord) {
     super(null, 'div', 'word-cards__item card');
+
+    this.id = data.id ? data.id : data._id;
 
     (this.img.node as HTMLImageElement).src = `${baseURL}/${data.image}`;
 
@@ -63,45 +81,89 @@ export class WordCard extends Component {
     this.phraseEn.node.innerHTML = data.textExample;
     this.phraseRu.node.innerHTML = data.textExampleTranslate;
 
-    if (localStorage.length) {
+    if (this.id) {
+      this.userWord = getUserWord(this.authData.userId, this.id);
+    }
+
+    this.switchWordDifficultyBtn();
+
+    if (this.authData) {
       this.btnDifficultWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_difficult-btn', '!');
+
       this.btnStudiedWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_studied-btn');
       this.btnStudiedWord.node.innerHTML = '&#10003;';
     }
 
-    this.audioUrls = [data.audio, data.audioMeaning, data.audioExample];
+    this.audioWord = new Audio(`${baseURL}/${data.audio}`);
+    this.audioMeaning = new Audio(`${baseURL}/${data.audioMeaning}`);
+    this.audioExample = new Audio(`${baseURL}/${data.audioExample}`);
 
-    this.boundHandler = this.playAudio.bind(this, this.audioUrls);
+    this.boundHandlerPlayAudio = this.playAudio.bind(this);
 
     this.handlerAudioBtn();
+
+    this.btnDifficultWord?.node.addEventListener('click', () => this.switchWordHard(
+      this.btnDifficultWord!,
+      'hard',
+    ));
+    this.btnStudiedWord?.node.addEventListener('click', () => this.switchWordHard(
+      this.btnStudiedWord!,
+      'studied',
+    ));
   }
 
   handlerAudioBtn(): void {
-    (this.audio.node as HTMLButtonElement).disabled = false;
-    this.audio.node.addEventListener('click', this.boundHandler);
+    this.audio.node.addEventListener('click', this.boundHandlerPlayAudio);
   }
 
-  removeHandlerAudioBtn(): void {
-    (this.audio.node as HTMLButtonElement).disabled = true;
-    this.audio.node.removeEventListener('click', this.boundHandler);
-  }
-
-  playAudio(urls: string[]): void {
-    this.audioArr = urls.map((url) => new Audio(`${baseURL}/${url}`));
-    this.removeHandlerAudioBtn();
-    this.audioArr.forEach((audio, index, arr) => {
-      if (index === 0) {
-        audio.play();
-      } else {
-        arr[index - 1].addEventListener('ended', () => {
-          audio.play();
-        });
-      }
-      if (index === 2) {
-        arr[2].addEventListener('ended', () => {
-          this.handlerAudioBtn();
-        });
-      }
+  playAudio(): void {
+    this.audioWord.play();
+    this.audioWord.addEventListener('ended', () => {
+      this.audioMeaning.play();
     });
+    this.audioMeaning.addEventListener('ended', () => {
+      this.audioExample.play();
+    });
+  }
+
+  switchWordDifficultyBtn(): void {
+    if (this.userWord) {
+      this.userWord.then((resp) => {
+        if (resp) {
+          this.wordDifficulty = resp.difficulty;
+          if (this.wordDifficulty === 'hard') {
+            this.btnDifficultWord?.node.classList.add('checked');
+          } else if (this.wordDifficulty === 'studied') {
+            this.btnStudiedWord?.node.classList.add('checked');
+          }
+        }
+      });
+    }
+  }
+
+  switchWordHard(btn: Component, diff: string): void {
+    this.wordDifficult = {
+      difficulty: diff,
+      optional: {},
+    };
+
+    const userWord = {
+      userId: this.authData.userId,
+      wordId: this.id,
+      word: this.wordDifficult,
+    };
+
+    if (!btn.node.classList.contains('checked')) {
+      this.btnStudiedWord?.node.classList.remove('checked');
+      this.btnDifficultWord?.node.classList.remove('checked');
+      btn.node.classList.add('checked');
+
+      createUserWord(userWord);
+    } else {
+      btn.node.classList.remove('checked');
+      if (this.id) {
+        deleteUserWord(this.authData.userId, this.id);
+      }
+    }
   }
 }
