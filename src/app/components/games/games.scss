@@ -7,6 +7,7 @@
   gap: 40px;
   height: calc(100vh - 91px);
   width: 100vw;
+  flex-wrap: wrap;
   &__btn {
     position: relative;
     padding: 20px 60px;
@@ -18,6 +19,7 @@
     transition: 1s;
     overflow: hidden;
     border-radius: 5px;
+    min-width: 300px;
   }
   &__btn:hover {
     background: var(--clr);
@@ -116,4 +118,30 @@
   100% {
     transform: rotate(360deg)
   }
+}
+
+@media screen and (max-width: 1150px) {
+
+  .games {
+    gap: 10px;
+    &__btn {
+      min-width: 250px;
+    }
+    &__sprint-container,
+    &__audio-container {
+      min-width: 250px;
+    }
+    &__title-container {
+      max-width: 250px;
+    }
+    &__card {
+      height: 120px;
+      max-width: 250px;
+      &::before {
+        width: 450px;
+        height: 80%;
+      }
+    }
+  }
+
 }

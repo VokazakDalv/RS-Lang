@@ -8,6 +8,8 @@
   background-color: #26335d;
   z-index: 11;
   &__container {
+    text-align: center;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
