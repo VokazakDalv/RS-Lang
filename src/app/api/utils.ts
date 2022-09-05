@@ -1,4 +1,4 @@
-import { fetchOptions, fetchReturn, wordData } from '../types/types';
+import { IWord, fetchOptions, fetchReturn } from '../types/types';
 
 export function getRandomIntInclusive(minNum: number, maxNum: number): number {
   const min = Math.ceil(minNum);
@@ -6,7 +6,7 @@ export function getRandomIntInclusive(minNum: number, maxNum: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function shuffle(array: string[] | wordData[]): string[] | wordData[] {
+export function shuffle(array: string[] | IWord[]): string[] | IWord[] {
   array.sort(() => Math.random() - 0.5);
   return array;
 }

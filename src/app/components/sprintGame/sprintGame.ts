@@ -1,12 +1,12 @@
-import { wordData } from '../../types/types';
 import { Component } from '../component';
 import { GameResult } from '../gameResult/gameResult';
 import { Levels } from '../levels/levels';
 import { Timer } from '../timer/timer';
 import './sprint.scss';
-import { getWords } from '../../api/API';
-import { shuffle } from '../../api/utils';
+import { getWords } from '../../API/API';
+import { shuffle } from '../../API/utils';
 import { baseURL } from '../../constants/api';
+import { IWord } from '../../types/types';
 
 export class SprintGame extends Component {
   sprintGameContainer = new Component(
@@ -40,11 +40,11 @@ export class SprintGame extends Component {
 
   correctAnswer: boolean;
 
-  rightAnswers: Array<wordData | undefined | null>;
+  rightAnswers: Array<IWord | undefined | null>;
 
-  wrongAnswers: Array<wordData | undefined | null>;
+  wrongAnswers: Array<IWord | undefined | null>;
 
-  currentWord!: wordData | undefined | null;
+  currentWord!: IWord | undefined | null;
 
   audio!: Component<HTMLElement>;
 
@@ -56,7 +56,7 @@ export class SprintGame extends Component {
 
   resultsTitle!: HTMLElement;
 
-  wordsData!: Promise<wordData[]>;
+  wordsData!: Promise<IWord[]>;
 
   constructor() {
     super(null, 'main', 'sprint-game');

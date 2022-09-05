@@ -1,8 +1,7 @@
 import { Component } from '../component';
 import { baseURL } from '../../constants/api';
-import { IWord } from '../../types/interface';
+import { IWord, wordDifficult } from '../../types/types';
 import { createUserWord, deleteUserWord, getUserWord } from '../../API/wordCard';
-import { wordDifficult } from '../../types/types';
 
 export class WordCard extends Component {
   imgContainer = new Component(this.node, 'div', 'card__img-container');

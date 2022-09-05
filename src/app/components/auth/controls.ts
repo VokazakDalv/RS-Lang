@@ -1,5 +1,5 @@
 import { LoginResponse } from '../../types/types';
-import { createUser, loginUser } from '../../api/API';
+import { createUser, loginUser } from '../../API/API';
 
 function showError(message: string): void {
   const error = document.createElement('div');
