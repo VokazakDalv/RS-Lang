@@ -42,7 +42,7 @@ export class WordCard extends Component {
 
   boundHandlerPlayAudio: () => void;
 
-  authData = JSON.parse(localStorage.authData);
+  // authData = JSON.parse(localStorage.authData);
 
   id: string | undefined;
 
@@ -81,12 +81,14 @@ export class WordCard extends Component {
     this.phraseRu.node.innerHTML = data.textExampleTranslate;
 
     if (this.id) {
-      this.userWord = getUserWord(this.authData.userId, this.id);
+      if (localStorage.authData) {
+        this.userWord = getUserWord(localStorage.authData.userId, this.id);
+      }
     }
 
     this.switchWordDifficultyBtn();
 
-    if (this.authData) {
+    if (localStorage.authData) {
       this.btnDifficultWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_difficult-btn', '!');
 
       this.btnStudiedWord = new Component(this.imgContainer.node, 'button', 'card__btn card__btn_studied-btn');
@@ -147,7 +149,7 @@ export class WordCard extends Component {
     };
 
     const userWord = {
-      userId: this.authData.userId,
+      userId: localStorage.authData.userId,
       wordId: this.id,
       word: this.wordDifficult,
     };
@@ -161,7 +163,7 @@ export class WordCard extends Component {
     } else {
       btn.node.classList.remove('checked');
       if (this.id) {
-        deleteUserWord(this.authData.userId, this.id);
+        deleteUserWord(localStorage.authData.userId, this.id);
       }
     }
   }

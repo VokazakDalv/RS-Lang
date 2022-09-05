@@ -30,14 +30,12 @@ export class Textbook extends Component {
 
   LS = localStorage.getItem('authData');
 
-  authData = this.LS ? JSON.parse(this.LS) : null;
-
   difficultWords?: string[];
 
   constructor() {
     super(null, 'main', 'textbook container');
     if (this.group === 6) {
-      this.word = getAllHardWords(this.authData.userId);
+      this.word = getAllHardWords(localStorage.authData.userId);
     } else {
       this.word = getWord(this.group, this.page);
     }
@@ -87,9 +85,8 @@ export class Textbook extends Component {
     this.textbookGroups.group.forEach((group, index) => {
       group.node.addEventListener('click', () => {
         if (index === 6) {
-          this.word = getAllHardWords(this.authData.userId);
+          this.word = getAllHardWords(localStorage.authData.userId);
           this.fillCards();
-          this.handlerHardWordBtn();
         }
         this.group = index;
         this.page = 0;
@@ -176,14 +173,6 @@ export class Textbook extends Component {
   private activateAllCards() {
     this.textbookCardsEl?.forEach((card) => {
       (card.audio.node as HTMLButtonElement).disabled = false;
-    });
-  }
-
-  handlerHardWordBtn(): void {
-    this.textbookCardsEl?.forEach((card: WordCard) => {
-      card.btnDifficultWord?.node.addEventListener('click', () => {
-        console.log(card);
-      });
     });
   }
 }
