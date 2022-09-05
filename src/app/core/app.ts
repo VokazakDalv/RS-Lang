@@ -28,6 +28,7 @@ export class App {
     let main: Component | HTMLElement;
     let game: Component;
     window.onpopstate = () => {
+      document.onkeydown = () => null;
       const currentRouteName = window.location.hash.slice(1);
       const currentRoute = routing.find((p) => p.name === currentRouteName);
       if (!document.body.children.length) {
