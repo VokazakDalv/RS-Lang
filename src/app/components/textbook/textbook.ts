@@ -1,7 +1,7 @@
 import { Component } from '../component';
 import { getAllHardWords, getWord } from '../../API/textbook';
 import { WordCard } from '../wordCard/wordCard';
-import { IWord } from '../../types/interface';
+import { IWord } from '../../types/types';
 import { TextbookGroups } from './groups';
 import { TextbookPages } from './pages';
 
@@ -18,9 +18,9 @@ export class Textbook extends Component {
 
   textbookPages = new TextbookPages();
 
-  group = localStorage.group ? Number(localStorage.group) : 0;
+  group = localStorage.getItem('group') ? Number(localStorage.getItem('group')) : 0;
 
-  page = localStorage.page ? Number(localStorage.page) : 0;
+  page = localStorage.getItem('page') ? Number(localStorage.getItem('page')) : 0;
 
   word: Promise<IWord[]>;
 
@@ -28,7 +28,9 @@ export class Textbook extends Component {
 
   descriptionGameLinks: Component<HTMLElement>;
 
-  authData = JSON.parse(localStorage.authData);
+  LS = localStorage.getItem('authData');
+
+  authData = this.LS ? JSON.parse(this.LS) : null;
 
   difficultWords?: string[];
 
@@ -124,7 +126,7 @@ export class Textbook extends Component {
     });
   }
 
-  fillCards(): void {
+  async fillCards(): Promise<void> {
     if (this.textbookCards) {
       this.textbookCards.node.innerHTML = '';
     }
@@ -149,7 +151,7 @@ export class Textbook extends Component {
         });
       }
     })
-      .catch((er) => console.log(er));
+      .catch((er) => new Error(er));
   }
 
   refreshTextbookPage(): void {
@@ -158,7 +160,7 @@ export class Textbook extends Component {
     this.fillCards();
   }
 
-private deactivateAllCards() {
+  private deactivateAllCards() {
     this.textbookCardsEl?.forEach((card) => {
       (card.audio.node as HTMLButtonElement).disabled = true;
     });
@@ -170,7 +172,7 @@ private deactivateAllCards() {
     });
   }
 
-  handlerHardWordBtn() {
+  handlerHardWordBtn(): void {
     this.textbookCardsEl?.forEach((card: WordCard) => {
       card.btnDifficultWord?.node.addEventListener('click', () => {
         console.log(card);

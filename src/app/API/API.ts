@@ -1,8 +1,8 @@
 import { words } from '../constants/api';
-import { LoginResponse, User, wordData } from '../types/types';
+import { IWord, LoginResponse, User } from '../types/types';
 import { fetchUrl } from './utils';
 
-export const getWords = async (group = 0, page = 0): Promise<wordData[]> => {
+export const getWords = async (group = 0, page = 0): Promise<IWord[]> => {
   const response = await fetch(`${words}?group=${group}&page=${page}`);
   const data = await response.json();
   return data;

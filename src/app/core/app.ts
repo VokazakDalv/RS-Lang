@@ -4,15 +4,15 @@ import { AudioGame } from '../components/audioGame/audiogame';
 import { Component } from '../components/component';
 import { Footer } from '../components/footer/footer';
 import { Header } from '../components/header/header';
-import { IResult, wordData } from '../types/types';
+import { IResult, IWord } from '../types/types';
 import { routing, defaultRoute } from './router';
 import { audioSrc } from '../constants/gamesSounds';
-import { getWord } from '../api/textbook';
+import { getWord } from '../API/textbook';
 
 export class App {
   roundWords: string[] = [];
 
-  rightAnswer: null | wordData = null;
+  rightAnswer: null | IWord = null;
 
   audioGame: AudioGame | null = null;
 
@@ -177,7 +177,7 @@ export class App {
     getWord(this.level, Number(page)).then((gameWords) => {
       if (this.audioGame) {
         Array.from(this.audioGame.audioOptions.node.children).forEach((el, i: number) => {
-          let roundWord: wordData;
+          let roundWord: IWord;
           do {
             roundWord = gameWords[getRandomIntInclusive(0, 19)];
           } while (this.roundWords.indexOf(roundWord.wordTranslate) >= 0);

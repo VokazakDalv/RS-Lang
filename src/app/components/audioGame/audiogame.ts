@@ -1,5 +1,5 @@
 import { baseURL } from '../../constants/api';
-import { wordData } from '../../types/types';
+import { IWord } from '../../types/types';
 import { Component } from '../component';
 import { GameResult } from '../gameResult/gameResult';
 import { Levels } from '../levels/levels';
@@ -56,7 +56,7 @@ export class AudioGame extends Component {
     });
   }
 
-  renderAnswer(right: wordData, wrong: string):void {
+  renderAnswer(right: IWord, wrong: string):void {
     Array.from(this.audioOptions.node.children).forEach((el) => {
       if (el.innerHTML.slice(2) === right.wordTranslate) {
         (el as HTMLElement).style.backgroundColor = '#ad65c8';

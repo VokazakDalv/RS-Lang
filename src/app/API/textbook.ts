@@ -1,6 +1,5 @@
 import { baseURL } from '../constants/api';
-import { IWord } from '../types/interface';
-import { LoginResponse } from '../types/types';
+import { IWord, LoginResponse } from '../types/types';
 
 let authData: LoginResponse;
 if (localStorage.authData) {
