@@ -46,16 +46,19 @@ export class App {
 
       if (currentRouteName === 'games/audio') {
         this.audioGame = game as AudioGame;
-        this.audioGame.levels.onLevel = (level) => {
-          if (this.audioGame) {
-            this.audioGame.levels.destroy();
-            this.audioGame.gameLevel = level;
-            this.addListenersAudio();
-            this.level = level - 1;
-            this.startAudioGameRound();
-          }
-          return level;
-        };
+        if (this.audioGame.levels) {
+          this.audioGame.levels.onLevel = (level) => {
+            if (this.audioGame) {
+              this.audioGame.levels?.destroy();
+              this.audioGame.gameLevel = level;
+              this.startAudioGameRound();
+            }
+            return level;
+          };
+        } else {
+          this.startAudioGameRound();
+        }
+        this.addListenersAudio();
       }
       if (currentRouteName === 'games/sprint') {
         this.sprintGame = game as SprintGame;
@@ -173,8 +176,11 @@ export class App {
 
   startAudioGameRound(): void {
     this.roundWords = [];
-    const page = this.page ? String(this.page - 1) : `${getRandomIntInclusive(0, 5)}`;
-    getWord(this.level, Number(page)).then((gameWords) => {
+    const startPlace = localStorage.getItem('audio-start-place');
+    const pageLS = localStorage.getItem('page');
+    const groupLS = localStorage.getItem('group') ? localStorage.getItem('group') : 0;
+    const page = (startPlace === 'textbook') ? pageLS : `${getRandomIntInclusive(0, 29)}`;
+    getWord(Number(groupLS), Number(page)).then((gameWords) => {
       if (this.audioGame) {
         Array.from(this.audioGame.audioOptions.node.children).forEach((el, i: number) => {
           let roundWord: IWord;

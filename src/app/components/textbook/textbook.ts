@@ -79,6 +79,7 @@ export class Textbook extends Component {
     this.handlerPageControls();
     this.handlerFirstPageControl();
     this.handlerLastPageControl();
+    this.handleraudioGameBtn();
     this.textbookPages.switchPageControls(this.page);
   }
 
@@ -124,6 +125,12 @@ export class Textbook extends Component {
       localStorage.setItem('page', this.page.toString());
       this.refreshTextbookPage();
     });
+  }
+
+  handleraudioGameBtn() {
+    this.audioGameBtn.node.onclick = () => {
+      localStorage.setItem('audio-start-place', 'textbook');
+    };
   }
 
   async fillCards(): Promise<void> {

@@ -16,7 +16,8 @@ export class AudioGame extends Component {
 
   answerContainerRight = new Component(this.audioGameAnswerContainer.node, 'div', 'answer-container__right');
 
-  levels = new Levels(this.audioGameContainer.node, 'АУДИОВЫЗОВ');
+  levels = (localStorage.getItem('audio-start-place') === 'games')
+    ? (new Levels(this.audioGameContainer.node, 'АУДИОВЫЗОВ')) : null;
 
   audioPlayBtn = new Component(this.answerContainerLeft.node, 'div', 'audio-game__play-btn');
 
