@@ -1,0 +1,39 @@
+.footer {
+  padding: 20px 0;
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    @media screen and (max-width: 575px) {
+      flex-direction: column;
+      row-gap: 20px;
+    }
+  }
+
+  &__logo-rss {
+    height: 40px;
+    transition: 0.3s;
+
+    &:hover {
+      filter: brightness(0) invert(71%) sepia(93%) saturate(3177%) hue-rotate(326deg) brightness(102%) contrast(101%);
+    }
+  }
+
+  &__developers {
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+
+    a {
+      color: inherit;
+      transition: 0.3s;
+
+      &:hover {
+        color: $secondary-color;
+      }
+    }
+  }
+}

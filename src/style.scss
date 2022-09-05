@@ -1,0 +1,28 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+@import "./app/components/global/normalize.scss";
+@import "./app/components/global/variables.scss";
+@import "./app/components/global/components.scss";
+
+@import "./app/components/header/header.scss";
+@import "./app/components/main/main.scss";
+@import "./app/components/footer/footer.scss";
+
+@import "./app/components/auth/style.scss";
+
+@import "./app/components/wordCard/wordCard.scss";
+
+
+@import './app/components/textbook/textbook.scss';
+
+body {
+  background: $dark-background-color;
+  font-family: Montserrat;
+  color: white;
+}
+
+// temporary, till pages create 
+.statistics {
+  background-color: grey;
+  height: calc(100vh - 171px);
+}

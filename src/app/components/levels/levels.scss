@@ -1,0 +1,79 @@
+@import "../global/variables.scss";
+
+.levels {
+  position: absolute;
+  height: calc(100vh - 171px);
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  background-color: #26335D;
+  z-index: 11;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+  }
+  &__options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  &__option {
+    &:hover {
+      background-color: transparent;
+    }
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &_1 {
+      background-color: #5A94F5;
+      border: 1px solid #5A94F5;
+    }
+
+    &_2 {
+      background-color: #84B0FA;
+      border: 1px solid #84B0FA;
+    }
+    &_3 {
+      background-color: #FA77F4;
+      border: 1px solid #FA77F4;
+    }
+    &_4 {
+      background-color: #F54AEE;
+      border: 1px solid #F54AEE;
+    }
+    &_5 {
+      background-color: #AA85FB;
+      border: 1px solid #AA85FB;
+    }
+    &_6 {
+      background-color: #8D5CF6;
+      border: 1px solid #8D5CF6;
+    }
+  }
+}
+
+@media screen and (max-width: 1150px) {
+
+  .levels {
+    height: 100vh;
+    &__options {
+      max-width: 200px;
+    }
+  }
+
+}
+

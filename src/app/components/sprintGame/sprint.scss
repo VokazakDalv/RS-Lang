@@ -1,0 +1,97 @@
+.sprint-game {
+  position: absolute;
+  height: calc(100vh - 91px);
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #26335d;
+  z-index: 11;
+  &__container {
+    text-align: center;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+  }
+
+  &__play-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: url(../../../assets/icons/audio.svg) no-repeat center;
+    background-color: #fff;
+    background-size: 50%;
+
+    cursor: pointer;
+  }
+
+  &__words-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  &__word {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__btn-wrapper {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+    .sprint-game__rightBtn:hover {
+      background-color: #7fff00;
+    }
+
+    .sprint-game__rightBtn--active {
+      background-color: #7fff00;
+    }
+
+    .sprint-game__wrongBtn:hover {
+      background-color: #ff7b52;
+    }
+
+    .sprint-game__wrongBtn--active {
+      background-color: #ff7b52;
+    }
+  }
+
+  &__results-container {
+    display: flex;
+    justify-content: space-between;
+    width: 800px;
+  }
+
+  &__results-wrapper {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__results-title {
+    padding-bottom: 20px;
+  }
+
+  &__results-word {
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    gap: 10px;
+  }
+}
+.sprint-img {
+  max-width: 200px;
+  border-radius: 10px;
+}
+.sprint-container__left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}

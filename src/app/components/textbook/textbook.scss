@@ -1,0 +1,124 @@
+:root {
+  --group-color: #5A94F5;
+}
+
+.textbook {
+  min-height: calc(100vh - 170px);
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+
+  &__groups {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  &__group {
+    background-color: $secondary-color;
+    border: 1px solid $secondary-color;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    color: $light-text-color;
+    transition: 0.3s;
+
+    &_1 {
+      background-color: #5A94F5;
+      border: 1px solid #5A94F5;
+    }
+
+    &_2 {
+      background-color: #84B0FA;
+      border: 1px solid #84B0FA;
+    }
+    &_3 {
+      background-color: #FA77F4;
+      border: 1px solid #FA77F4;
+    }
+    &_4 {
+      background-color: #F54AEE;
+      border: 1px solid #F54AEE;
+    }
+    &_5 {
+      background-color: #AA85FB;
+      border: 1px solid #AA85FB;
+    }
+    &_6 {
+      background-color: #8D5CF6;
+      border: 1px solid #8D5CF6;
+    }
+
+    &_current {
+      background-color: transparent;
+    }
+  
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &__game-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+
+  &__game-descr {
+    font-size: 20px;
+
+    @media screen and (max-width: 768px) {
+      order: -2;
+      text-align: center;
+      margin-bottom: 20px;
+      flex-basis: 90%;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  &__pages {
+    justify-content: center;
+    align-content: center;
+    margin: 0 auto;
+    
+    .pages__control {
+      color: $light-text-color;
+      padding: 10px;
+      background: transparent;
+      transition: 0.3s;
+
+      &:hover {
+        color: $secondary-color;
+      }
+
+      &_current {
+        color: $secondary-color;
+        font-size: 1.1em;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .pages__numbers {
+      background-color: transparent;
+    }
+  }
+
+}
+
