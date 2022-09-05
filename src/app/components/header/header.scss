@@ -87,6 +87,7 @@
   }
   &.open {
       right: 0;
+      z-index: 13;
 
       .menu__link {
         font-size: 2em;
@@ -121,7 +122,7 @@
     height: 100vh;
     background-color: rgb(248, 248, 248);
     opacity: 0.6;
-    z-index: 1;
+    z-index: 12;
     transition: all 0.3s ease 0s;
 }
 }
