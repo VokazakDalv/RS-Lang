@@ -20,11 +20,11 @@ export class GameResult extends Component {
     });
     const right = this.resultRightAnswers.node;
     if (right.children.length > 1) {
-      this.rightAnswersAmount.node.innerText = `ВЕРНО (${right.children.length - 1})`;
+      this.rightAnswersAmount.node.innerText = `ВЕРНО УГАДАНЫ: (${right.children.length - 1})`;
     }
     const wrong = this.resultWrongAnswers.node;
     if (wrong.children.length > 1) {
-      this.wrongAnswersAmount.node.innerText = `НЕ ВЕРНО (${wrong.children.length - 1})`;
+      this.wrongAnswersAmount.node.innerText = `НУЖНО ПОВТОРИТЬ: (${wrong.children.length - 1})`;
     }
   }
 
