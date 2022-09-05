@@ -57,9 +57,7 @@ export class MainStartPage {
       <div class="developers__card">
         <img class="developers__photo" src="./assets/image/maxim.jpg" alt="">
         <h5 class="developers__name">Максим</h5>
-        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-        galley of type and scrambled it to make a type specimen book. It</p>
+        <p class="developers__text">Тимлид, подготовил сборку и бэкенд к работе, настроил роутинг страниц, собрал приложение воедино, разработал игру аудио-вызов</p>
         <a class="developers__link" href="https://github.com/VokazakDalv">
           <img src="./assets/icons/github-logo.svg" alt="">
           VokazakDalv
@@ -68,9 +66,7 @@ export class MainStartPage {
       <div class="developers__card">
         <img class="developers__photo" src="./assets/image/yura.jpg" alt="">
         <h5 class="developers__name">Юрий</h5>
-        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-        galley of type and scrambled it to make a type specimen book. It</p>
+        <p class="developers__text">Взял на себя всю работу по авторизации пользователей, разработал игру Спринт</p>
         <a class="developers__link" href="https://github.com/Kasitsyn">
           <img src="./assets/icons/github-logo.svg" alt="">
           Kasitsyn
@@ -79,9 +75,7 @@ export class MainStartPage {
       <div class="developers__card">
         <img class="developers__photo" src="./assets/image/dasha.jpg" alt="">
         <h5 class="developers__name">Дарья</h5>
-        <p class="developers__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-        galley of type and scrambled it to make a type specimen book. It</p>
+        <p class="developers__text">Реализовала и оформила главную страницу сайта, разработала раздел Учебник; идейный вдохновитель по дизайну приложения</p>
         <a class="developers__link" href="https://github.com/daanikeeva">
           <img src="./assets/icons/github-logo.svg" alt="">
           daanikeeva
